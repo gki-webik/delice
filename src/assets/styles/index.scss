@@ -48,7 +48,7 @@
     }
     img.is-1 {
       width: 80%;
-      height: max-content;
+      height: min-content;
       @media screen and (max-width: 850px) {
         width: 100%;
       }

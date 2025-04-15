@@ -59,9 +59,9 @@
 }
 .boxMainPage .block1 img.is-1 {
   width: 80%;
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
 }
 @media screen and (max-width: 850px) {
   .boxMainPage .block1 img.is-1 {
