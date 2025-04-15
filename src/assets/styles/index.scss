@@ -6,6 +6,9 @@
     gap: 20px;
     overflow: hidden;
     padding: 50px 20px;
+    @media screen and (max-width: 850px) {
+      display: block !important;
+    }
     .categoriesList {
       display: flex;
       flex-direction: column;
@@ -51,6 +54,8 @@
       height: min-content;
       @media screen and (max-width: 850px) {
         width: 100%;
+        height: auto;
+        aspect-ratio: 2/1;
       }
     }
   }

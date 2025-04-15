@@ -7,6 +7,11 @@
   overflow: hidden;
   padding: 50px 20px;
 }
+@media screen and (max-width: 850px) {
+  .boxMainPage .block1 {
+    display: block !important;
+  }
+}
 .boxMainPage .block1 .categoriesList {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -66,6 +71,8 @@
 @media screen and (max-width: 850px) {
   .boxMainPage .block1 img.is-1 {
     width: 100%;
+    height: auto;
+    aspect-ratio: 2/1;
   }
 }
 .boxMainPage .block2 {
