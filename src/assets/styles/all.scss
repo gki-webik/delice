@@ -28,3 +28,34 @@ main {
     margin-top: 200px;
   }
 }
+
+.is-cursorPointer {
+  cursor: pointer !important;
+}
+
+nav.is-kroshki {
+  display: flex;
+  gap: 5px;
+  a {
+    color: $color-3;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-decoration: none;
+    vertical-align: middle;
+    &:not(:first-child)::before {
+      color: $color-3;
+      content: "/";
+      padding-right: 5px;
+    }
+    &.is-end {
+      cursor: default;
+    }
+  }
+}
+
+.is-none {
+  display: none !important;
+}

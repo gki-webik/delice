@@ -5,9 +5,9 @@
         <div class="block1">
           <div class="categoriesList">
             <div class="listItem">
-              <a href="">
+              <router-link to="/catalog">
                 <img src="/media/images/chek__logo.svg" alt="" />
-                Все категории</a
+                Все категории</router-link
               >
             </div>
             <div class="listItem">

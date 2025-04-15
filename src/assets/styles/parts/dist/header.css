@@ -11,7 +11,7 @@
   position: fixed;
   top: 0;
   background-color: #ffebd4;
-  z-index: 8;
+  z-index: 99999;
 }
 .boxHeader .topLine {
   font-family: "Baskervville", sans-serif;
