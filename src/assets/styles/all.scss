@@ -1,0 +1,30 @@
+@import "./variables";
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 17px;
+  background-color: $color-1;
+  color: $color-3;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+.max-container {
+  max-width: 1175px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+main {
+  margin-top: 170px;
+  @media screen and (min-width: 870px) {
+    margin-top: 200px;
+  }
+}
