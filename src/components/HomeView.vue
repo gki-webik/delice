@@ -3,67 +3,7 @@
     <main class="boxMainPage">
       <div class="max-container">
         <div class="block1">
-          <div class="categoriesList">
-            <div class="listItem">
-              <router-link to="/catalog">
-                <img src="/media/images/chek__logo.svg" alt="" />
-                Все категории</router-link
-              >
-            </div>
-            <div class="listItem">
-              <a href="">
-                <img src="/media/images/dress__logo.svg" alt="" /> Женская
-                одежда</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/heels__logo.svg" alt="" />Женская
-                обувь</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/bag__logo.svg" alt="" />Женские
-                аксессуары</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/menclothes__logo.svg" alt="" />Мужская
-                одежда</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/menshoes__logo.svg" alt="" />Мужская
-                обувь</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/wallet__logo.svg" alt="" />Мужские
-                аксессуары</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/pop__logo.svg" alt="" />Популярные
-                товары</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/new__logo.svg" alt="" />Новинки</a
-              >
-            </div>
-            <div class="listItem">
-              <a href=""
-                ><img src="/media/images/sale__logo.svg" alt="" />Скидки до
-                50%</a
-              >
-            </div>
-          </div>
+          <IsHeaderCategory></IsHeaderCategory>
           <img src="/media/images/Mask_group.png" class="is-1" alt="" />
         </div>
         <div class="block2">
@@ -366,6 +306,7 @@
 </template>
 
 <script>
+import IsHeaderCategory from "./parts/IsHeaderCategory.vue";
 export default {
   data() {
     return {
@@ -384,6 +325,7 @@ export default {
       blogItemWidth: 0,
     };
   },
+  components: { IsHeaderCategory },
   computed: {
     maxSlides() {
       return this.items.length;

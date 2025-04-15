@@ -24,6 +24,78 @@
   padding: 10px;
   color: #ffebd4;
 }
+.boxHeader .categoriesList {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid #26436c;
+  position: absolute;
+  z-index: 50;
+  left: -500px;
+  top: 245px;
+  background-color: #ffebd4;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-transition: left 0.15s ease-in-out, opacity 0.15s ease-in-out;
+  transition: left 0.15s ease-in-out, opacity 0.15s ease-in-out;
+  opacity: 0;
+}
+@media screen and (max-width: 850px) {
+  .boxHeader .categoriesList {
+    top: 185px;
+  }
+}
+.boxHeader .categoriesList.active {
+  left: 8px;
+  opacity: 1;
+}
+.boxHeader .categoriesList a {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  color: #26436c;
+  white-space: nowrap;
+}
+.boxHeader .categoriesList .listItem a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 15px;
+  -webkit-transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  margin-bottom: 2px;
+}
+.boxHeader .categoriesList .listItem a:hover {
+  background-color: #c9b297;
+}
+.boxHeader .categoriesList .listItem:not(:last-child) {
+  border-bottom: 1px solid #26436c;
+}
+.boxHeader img.is-1 {
+  width: 80%;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+}
+@media screen and (max-width: 850px) {
+  .boxHeader img.is-1 {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/1;
+  }
+}
 .boxHeader header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -326,6 +398,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  position: relative;
   gap: 20px;
   -webkit-box-align: center;
       -ms-flex-align: center;

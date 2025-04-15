@@ -41,9 +41,9 @@
     </header>
     <div class="menu">
       <div class="box">
-        <div class="left">
+        <div class="left" @click="toggleHeaderCategory">
           <span class="burger"></span>
-          <a href="">ВСЕ КАТЕГОРИИ</a>
+          <a role="button">ВСЕ КАТЕГОРИИ</a>
         </div>
         <div class="center">
           <nav>
@@ -55,6 +55,7 @@
         </div>
       </div>
     </div>
+    <IsHeaderCategory :class="{ active: IsHeaderCategory }"></IsHeaderCategory>
   </div>
 </template>
 
@@ -63,25 +64,43 @@
 </style>
 
 <script>
+import IsHeaderCategory from "./IsHeaderCategory.vue";
 export default {
   data() {
     return {
       mainContentActive: false,
       searchQuery: "",
       selectedOption: "",
+      IsHeaderCategory: false,
       options: [
-        { value: "category1", label: "Категория 1" },
-        { value: "category2", label: "Категория 2" },
-        { value: "category3", label: "Категория 3" },
+        { value: "women_clothing", label: "Женская одежда" },
+        { value: "women_shoes", label: "Женская обувь" },
+        { value: "women_accessories", label: "Женские аксессуары" },
+        { value: "men_clothing", label: "Мужская одежда" },
+        { value: "men_shoes", label: "Мужская обувь" },
+        { value: "men_accessories", label: "Мужские аксессуары" },
+        { value: "popular", label: "Популярные товары" },
+        { value: "new", label: "Новинки" },
+        { value: "sale", label: "Скидки до 50%" },
       ],
     };
   },
+  components: { IsHeaderCategory },
   methods: {
     performSearch() {
       console.log("Поиск:", {
         query: this.searchQuery,
         category: this.selectedOption,
       });
+    },
+    toggleHeaderCategory() {
+      if (
+        this.$route.path === "/" &&
+        document.documentElement.clientWidth > 850
+      )
+        return;
+
+      this.IsHeaderCategory = !this.IsHeaderCategory;
     },
   },
 };

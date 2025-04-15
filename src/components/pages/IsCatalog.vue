@@ -20,7 +20,7 @@
                 src="/media/images/filter__icon.svg"
                 class="is-cursorPointer is-img-sort"
                 alt="Фильтр"
-                @click="toggleSortDropdown"
+                @click="toggleDropdown('showSortDropdown')"
               />
               <div class="dropdown-options" v-if="showSortDropdown">
                 <label class="radio-option">
@@ -62,7 +62,10 @@
               </div>
             </div>
             <div class="filter-section">
-              <h3 class="filter-title" @click="toggleCategoryDropdown">
+              <h3
+                class="filter-title"
+                @click="toggleDropdown('showCategoryDropdown')"
+              >
                 Категория
                 <img
                   src="/media/images/filter__icon__dropdown.svg"
@@ -114,7 +117,10 @@
             </div>
 
             <div class="filter-section">
-              <h3 class="filter-title" @click="toggleColorDropdown">
+              <h3
+                class="filter-title"
+                @click="toggleDropdown('showColorDropdown')"
+              >
                 Цвет
                 <img
                   src="/media/images/filter__icon__dropdown.svg"
@@ -144,7 +150,10 @@
             </div>
 
             <div class="filter-section is-sizeSection">
-              <h3 class="filter-title" @click="toggleSizesDropdown">
+              <h3
+                class="filter-title"
+                @click="toggleDropdown('showSizesDropdown')"
+              >
                 Размеры
                 <img
                   src="/media/images/filter__icon__dropdown.svg"
@@ -170,7 +179,10 @@
             </div>
 
             <div class="filter-section is-price">
-              <h3 class="filter-title" @click="togglePriceDropdown">
+              <h3
+                class="filter-title"
+                @click="toggleDropdown('showPriceDropdown')"
+              >
                 Цена
                 <img
                   src="/media/images/filter__icon__dropdown.svg"
@@ -391,27 +403,35 @@ export default {
       products: [],
       filteredProductsCache: [],
       availableColors: [
-        "Красный",
-        "Синий",
-        "Зеленый",
-        "Желтый",
-        "Черный",
         "Белый",
-        "Серый",
+        "Бежевый",
+        "Голубой",
+        "Желтый",
+        "Зеленый",
+        "Коричневый",
+        "Красный",
+        "Оранжевый",
         "Розовый",
+        "Серый",
+        "Синий",
         "Фиолетовый",
+        "Черный",
       ],
       availableSizes: ["XS", "S", "M", "L", "XL", "XXL"],
       colorCodes: {
-        Красный: "#ff0000",
-        Синий: "#0000ff",
-        Зеленый: "#008000",
-        Желтый: "#ffff00",
-        Черный: "#000000",
         Белый: "#ffffff",
-        Серый: "#808080",
+        Бежевый: "#f5f5dc",
+        Голубой: "#add8e6",
+        Желтый: "#ffff00",
+        Зеленый: "#008000",
+        Коричневый: "#a52a2a",
+        Красный: "#ff0000",
+        Оранжевый: "#ffa500",
         Розовый: "#ffc0cb",
+        Серый: "#808080",
+        Синий: "#0000ff",
         Фиолетовый: "#800080",
+        Черный: "#000000",
       },
     };
   },
@@ -485,40 +505,20 @@ export default {
     toggleFilters() {
       this.showFilters = !this.showFilters;
     },
-    toggleCategoryDropdown() {
-      this.showCategoryDropdown = !this.showCategoryDropdown;
-      this.showColorDropdown = false;
-      this.showSortDropdown = false;
-      this.showSizesDropdown = false;
-      this.showPriceDropdown = false;
-    },
-    toggleSizesDropdown() {
-      this.showSizesDropdown = !this.showSizesDropdown;
-      this.showColorDropdown = false;
-      this.showSortDropdown = false;
-      this.showCategoryDropdown = false;
-      this.showPriceDropdown = false;
-    },
-    toggleSortDropdown() {
-      this.showSortDropdown = !this.showSortDropdown;
-      this.showColorDropdown = false;
-      this.showSizesDropdown = false;
-      this.showCategoryDropdown = false;
-      this.showPriceDropdown = false;
-    },
-    toggleColorDropdown() {
-      this.showColorDropdown = !this.showColorDropdown;
-      this.showSizesDropdown = false;
-      this.showSortDropdown = false;
-      this.showCategoryDropdown = false;
-      this.showPriceDropdown = false;
-    },
-    togglePriceDropdown() {
-      this.showPriceDropdown = !this.showPriceDropdown;
-      this.showSizesDropdown = false;
-      this.showSortDropdown = false;
-      this.showCategoryDropdown = false;
-      this.showColorDropdown = false;
+    toggleDropdown(dropdownName) {
+      // Список всех возможных выпадающих меню
+      const dropdowns = [
+        "showCategoryDropdown",
+        "showSizesDropdown",
+        "showSortDropdown",
+        "showColorDropdown",
+        "showPriceDropdown",
+      ];
+
+      // Переключаем указанное меню и закрываем все остальные
+      dropdowns.forEach((name) => {
+        this[name] = name === dropdownName ? !this[name] : false;
+      });
     },
     toggleSubcategory(category) {
       if (this.openSubcategories.includes(category)) {
