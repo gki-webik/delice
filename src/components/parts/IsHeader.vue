@@ -52,7 +52,9 @@
         <div class="center">
           <nav>
             <router-link to="/promotions">АКЦИИ</router-link>
-            <a href="">ДОСТАВКА И ОПЛАТА</a>
+            <router-link to="/delivery-and-payment"
+              >ДОСТАВКА И ОПЛАТА</router-link
+            >
             <a href="">БЛОГ</a>
             <a href="">О НАС</a>
             <a href="">КОНТАКТЫ</a>
