@@ -319,6 +319,9 @@
           justify-content: center;
   gap: 10px;
 }
+.boxHeader header .right .icons img {
+  cursor: pointer;
+}
 .boxHeader header .right .data {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -245,6 +245,9 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        img {
+          cursor: pointer;
+        }
       }
       .data {
         display: flex;

@@ -22,7 +22,11 @@
         </div>
         <div class="right">
           <div class="icons">
-            <img src="/media/images/account__logo.svg" alt="" />
+            <img
+              src="/media/images/account__logo.svg"
+              @click="$router.push('/account/orders')"
+              alt=""
+            />
             <img src="/media/images/heart__logo.svg" alt="" />
             <img src="/media/images/cart__logo.svg" alt="" />
           </div>
