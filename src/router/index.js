@@ -6,6 +6,7 @@ import MyAccount from '../components/pages/MyAccount.vue'
 import IsPromotions from '../components/pages/IsPromotions.vue'
 import DeliveryAndPayment from '../components/pages/DeliveryAndPayment.vue'
 import AboutUs from '@/components/pages/AboutUs.vue'
+import IsContacts from '../components/pages/IsContacts.vue'
 
 const routes = [
     {
@@ -35,6 +36,10 @@ const routes = [
     {
         path: '/about-us',
         component: AboutUs
+    },
+    {
+        path: '/contacts',
+        component: IsContacts
     }
 ]
 

@@ -57,7 +57,7 @@
             >
             <a href="">БЛОГ</a>
             <router-link to="/about-us">О НАС</router-link>
-            <a href="">КОНТАКТЫ</a>
+            <router-link to="/contacts">КОНТАКТЫ</router-link>
           </nav>
         </div>
       </div>
