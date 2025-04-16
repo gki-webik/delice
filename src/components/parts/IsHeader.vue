@@ -51,6 +51,7 @@
         </div>
         <div class="center">
           <nav>
+            <router-link to="/promotions">АКЦИИ</router-link>
             <a href="">ДОСТАВКА И ОПЛАТА</a>
             <a href="">БЛОГ</a>
             <a href="">О НАС</a>

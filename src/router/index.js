@@ -3,6 +3,7 @@ import HomeView from '../components/HomeView.vue'
 import IsCatalog from '../components/pages/IsCatalog.vue'
 import IsProductCategory from '../components/pages/IsProductCategory.vue'
 import MyAccount from '../components/pages/MyAccount.vue'
+import IsPromotions from '../components/pages/IsPromotions.vue'
 
 const routes = [
     {
@@ -20,6 +21,10 @@ const routes = [
     {
         path: '/account/:page',
         component: MyAccount
+    },
+    {
+        path: '/promotions',
+        component: IsPromotions
     }
 ]
 

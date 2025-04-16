@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.boxMainPromotions {
+  padding: 50px 20px;
+}
+.boxMainPromotions .items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 30px;
+  margin-top: 30px;
+}
+.boxMainPromotions .items .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 30px;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+@media screen and (max-width: 635px) {
+  .boxMainPromotions .items .item {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+.boxMainPromotions .items .item img {
+  max-width: 500px;
+  width: 100%;
+  border-radius: 5px;
+}
+@media screen and (max-width: 848px) {
+  .boxMainPromotions .items .item img {
+    max-width: 300px;
+  }
+}
+@media screen and (max-width: 670px) {
+  .boxMainPromotions .items .item img {
+    max-width: 250px;
+  }
+}
+@media screen and (max-width: 635px) {
+  .boxMainPromotions .items .item img {
+    max-width: inherit;
+  }
+}
+.boxMainPromotions .items .item .right {
+  width: 100%;
+}
+.boxMainPromotions .items .item .msg {
+  padding: 20px;
+  background-color: #c9b297;
+  border-radius: 5px;
+  display: inline-block;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+@media screen and (max-width: 848px) {
+  .boxMainPromotions .items .item .msg {
+    font-size: 14px;
+  }
+}
+.boxMainPromotions .items .item .text {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.3;
+  letter-spacing: 0%;
+}
+@media screen and (max-width: 848px) {
+  .boxMainPromotions .items .item .text {
+    font-size: 14px;
+  }
+}
