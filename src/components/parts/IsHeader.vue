@@ -55,7 +55,10 @@
         </div>
       </div>
     </div>
-    <IsHeaderCategory :class="{ active: IsHeaderCategory }"></IsHeaderCategory>
+    <IsHeaderCategory
+      @close-menu="toggleHeaderCategory"
+      :class="{ active: IsHeaderCategory }"
+    ></IsHeaderCategory>
   </div>
 </template>
 
