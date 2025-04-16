@@ -40,6 +40,9 @@ nav.is-kroshki {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  word-break: break-all;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 5px;
 }
 nav.is-kroshki a {
@@ -47,7 +50,7 @@ nav.is-kroshki a {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 12px;
-  line-height: 100%;
+  line-height: 1.5;
   letter-spacing: 0%;
   text-decoration: none;
   vertical-align: middle;

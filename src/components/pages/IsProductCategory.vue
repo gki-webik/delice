@@ -10,13 +10,17 @@
       <div class="block1">
         <div class="left">
           <div class="currentImage">
-            <img src="/media/images/Mask_group5.png" alt="" />
+            <img :src="currentImage" alt="" />
           </div>
           <div class="otherImages">
-            <img src="/media/images/Mask_group6.png" alt="" />
-            <img src="/media/images/Mask_group7.png" alt="" />
-            <img src="/media/images/Mask_group8.png" alt="" />
-            <img src="/media/images/Mask_group9.png" alt="" />
+            <img
+              v-for="(image, index) in otherImages"
+              :key="index"
+              :src="image"
+              alt=""
+              @click="switchImage(index)"
+              :class="{ 'is-active': currentImage === image }"
+            />
           </div>
         </div>
         <div class="right">
@@ -74,30 +78,32 @@
       </div>
       <div class="block2">
         <div class="left">
-          <h2>
+          <h2 @click="toggleBlock('specs')">
             ХАРАКТЕРИСТИКИ
             <img
               src="/media/images/filter__icon__dropdown.svg"
               alt="Раскрыть"
+              :class="{ rotate: openBlocks.specs }"
             />
           </h2>
           <hr />
-          <ul>
+          <ul v-show="openBlocks.specs">
             <li>Состав: 100% хлопок</li>
             <li>Страна производства: Бангладеш</li>
           </ul>
-          <hr />
+          <hr v-show="openBlocks.specs" />
         </div>
         <div class="right">
-          <h2>
+          <h2 @click="toggleBlock('care')">
             УХОД ЗА ИЗДЕЛИЕМ
             <img
               src="/media/images/filter__icon__dropdown.svg"
               alt="Раскрыть"
+              :class="{ rotate: openBlocks.care }"
             />
           </h2>
           <hr />
-          <ul>
+          <ul v-show="openBlocks.care">
             <li>Максимальная температура стирки 30°С, мягкий режим</li>
             <li>Не отбеливать</li>
             <li>Не применять барабанную сушку</li>
@@ -107,7 +113,7 @@
             </li>
             <li>Сухая чистка запрещена</li>
           </ul>
-          <hr />
+          <hr v-show="openBlocks.care" />
         </div>
       </div>
       <div class="block3">
@@ -233,6 +239,17 @@ export default {
       visibleSlidesNew: 4,
       itemWidthNew: 200,
       sliderWidthNew: 0,
+      currentImage: "/media/images/Mask_group5.png",
+      otherImages: [
+        "/media/images/Mask_group6.png",
+        "/media/images/Mask_group7.png",
+        "/media/images/Mask_group8.png",
+        "/media/images/Mask_group9.png",
+      ],
+      openBlocks: {
+        specs: false,
+        care: false,
+      },
     };
   },
   computed: {
@@ -288,6 +305,15 @@ export default {
       this.currentSlideNew = Math.round(
         this.$refs.sliderNew.scrollLeft / this.itemWidthNew
       );
+    },
+    switchImage(index) {
+      // Меняем местами текущее изображение и выбранное
+      const temp = this.currentImage;
+      this.currentImage = this.otherImages[index];
+      this.otherImages[index] = temp;
+    },
+    toggleBlock(blockName) {
+      this.openBlocks[blockName] = !this.openBlocks[blockName];
     },
   },
 };
