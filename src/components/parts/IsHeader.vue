@@ -5,7 +5,12 @@
       <h1>DÉLICE</h1>
       <div class="mainContent" :class="{ 'is-active': mainContentActive }">
         <div class="center">
-          <input type="search" placeholder="" />
+          <input
+            type="search"
+            placeholder="Поиск..."
+            v-model="searchQuery"
+            @keyup.enter="performSearch"
+          />
           <select v-model="selectedOption" class="search-select">
             <option value="">Все категории</option>
             <option
@@ -16,8 +21,8 @@
               {{ option.label }}
             </option>
           </select>
-          <button type="button">
-            <img src="/media/images/search__logo.svg" alt="" />
+          <button type="button" @click="performSearch">
+            <img src="/media/images/search__logo.svg" alt="Поиск" />
           </button>
         </div>
         <div class="right">
@@ -77,10 +82,6 @@
   </div>
 </template>
 
-<style scoped>
-@import "../../assets/styles/parts/dist/min/header.min.css";
-</style>
-
 <script>
 import IsHeaderCategory from "./IsHeaderCategory.vue";
 export default {
@@ -106,9 +107,16 @@ export default {
   components: { IsHeaderCategory },
   methods: {
     performSearch() {
-      console.log("Поиск:", {
-        query: this.searchQuery,
-        category: this.selectedOption,
+      if (!this.searchQuery.trim()) {
+        // Если строка поиска пустая, можно не выполнять поиск
+        return;
+      }
+      this.$router.push({
+        path: "/search",
+        query: {
+          q: this.searchQuery,
+          category: this.selectedOption || undefined,
+        },
       });
     },
     toggleHeaderCategory() {
@@ -123,3 +131,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@import "../../assets/styles/parts/dist/min/header.min.css";
+</style>

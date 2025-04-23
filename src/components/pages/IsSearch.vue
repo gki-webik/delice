@@ -4,7 +4,7 @@
       <div class="top">
         <nav class="is-kroshki">
           <router-link to="/">Главная</router-link>
-          <a class="is-end">Каталог</a>
+          <a class="is-end">Результаты поиска</a>
         </nav>
         <button
           type="button"
@@ -61,6 +61,7 @@
                 </label>
               </div>
             </div>
+
             <div class="filter-section">
               <h3
                 class="filter-title"
@@ -241,6 +242,7 @@
           <img :src="product.image" class="is-product" alt="" />
           <div class="content">
             <div class="name">{{ product.name }}</div>
+            <div class="name">{{ product.category }}</div>
             <div class="price">{{ formatPrice(product.price) }} ₽</div>
             <div class="actions">
               <svg
@@ -397,6 +399,74 @@ export default {
         "Черный",
       ],
       availableSizes: ["XS", "S", "M", "L", "XL", "XXL"],
+      // Добавьте этот объект в data() в IsSearch.vue
+      categoryMapping: {
+        women_clothing: [
+          "блузы и рубашки",
+          "боди",
+          "брюки",
+          "верхняя одежда",
+          "джемперы, свитера и кардиганы",
+          "джинсы",
+          "комбинезоны",
+          "пиджаки и костюмы",
+          "платья",
+          "топы и майки",
+          "футболки и поло",
+          "худи и свитшоты",
+          "шорты",
+          "юбки",
+        ],
+        men_clothing: [
+          "брюки",
+          "верхняя одежда",
+          "джемперы, свитера и кардиганы",
+          "джинсы",
+          "комбинезоны",
+          "майки",
+          "пиджаки и костюмы",
+          "рубашки",
+          "футболки и поло",
+          "худи и свитшоты",
+          "шорты",
+        ],
+        women_shoes: [
+          "босоножки",
+          "ботильоны",
+          "ботинки",
+          "вечерняя обувь",
+          "кроссовки и кеды",
+          "сабо",
+          "сланцы",
+          "туфли",
+        ],
+        men_shoes: [
+          "ботинки",
+          "кроссовки и кеды",
+          "сабо",
+          "сандалии",
+          "сланцы",
+          "туфли",
+        ],
+        women_accessories: [
+          "головные уборы",
+          "кошельки и визитницы",
+          "очки",
+          "ремни и пояса",
+          "рюкзаки",
+          "сумки",
+          "шарфы и платки",
+        ],
+        men_accessories: [
+          "головные уборы",
+          "кошельки и визитницы",
+          "очки",
+          "ремни и пояса",
+          "рюкзаки",
+          "сумки",
+          "шарфы и платки",
+        ],
+      },
       colorCodes: {
         Белый: "#ffffff",
         Бежевый: "#f5f5dc",
@@ -412,31 +482,9 @@ export default {
         Фиолетовый: "#800080",
         Черный: "#000000",
       },
-      categoryUrlMap: {
-        women_clothing: "ЖЕНСКАЯ ОДЕЖДА",
-        men_clothing: "МУЖСКАЯ ОДЕЖДА",
-        women_shoes: "ЖЕНСКАЯ ОБУВЬ",
-        men_shoes: "МУЖСКАЯ ОБУВЬ",
-        women_accessories: "АКСЕССУАРЫ",
-        men_accessories: "АКСЕССУАРЫ",
-        popular: "Популярные товары",
-        new: "Новинки",
-        sale: "Скидки до 50%",
-      },
+      searchQuery: "",
+      searchCategory: "",
     };
-  },
-  watch: {
-    "$route.params.name": {
-      immediate: true,
-      handler(categoryName) {
-        if (categoryName) {
-          this.handleCategoryFromUrl(categoryName);
-        } else {
-          // Если категория не указана, сбрасываем фильтры
-          this.resetFilters();
-        }
-      },
-    },
   },
   computed: {
     filteredProducts() {
@@ -489,6 +537,27 @@ export default {
       return pages;
     },
   },
+  watch: {
+    // При изменении параметров маршрута обновляем поиск
+    "$route.query": {
+      immediate: true,
+      handler(newQuery) {
+        this.searchQuery = newQuery.q || "";
+        this.searchCategory = newQuery.category || "";
+        this.resetFilters();
+
+        // Если указана категория из хедера, выбираем соответствующие подкатегории
+        if (this.searchCategory && this.categoryMapping[this.searchCategory]) {
+          this.selectedCategories = this.categoryMapping[this.searchCategory];
+        } else if (this.searchCategory) {
+          // Если это конкретная подкатегория
+          this.selectedCategories = [this.searchCategory];
+        }
+
+        this.applyFilters();
+      },
+    },
+  },
   created() {
     this.loadProducts();
     const savedFavorites = localStorage.getItem("favorites");
@@ -497,55 +566,6 @@ export default {
     }
   },
   methods: {
-    handleCategoryFromUrl(categoryName) {
-      // Преобразуем URL-параметр в понятную категорию
-      let categoryToSelect = "";
-
-      // Маппинг URL-параметров на категории
-      const categoryMap = {
-        women_clothing: "ЖЕНСКАЯ ОДЕЖДА",
-        men_clothing: "МУЖСКАЯ ОДЕЖДА",
-        women_shoes: "ЖЕНСКАЯ ОБУВЬ",
-        men_shoes: "МУЖСКАЯ ОБУВЬ",
-        women_accessories: "АКСЕССУАРЫ",
-        men_accessories: "АКСЕССУАРЫ",
-      };
-
-      if (categoryMap[categoryName]) {
-        // Если это основная категория, открываем её
-        categoryToSelect = categoryMap[categoryName];
-        this.openSubcategories = [categoryToSelect];
-        // this.showCategoryDropdown = true;
-
-        // Выбираем все подкатегории из этой категории
-        if (this.categories[categoryToSelect]) {
-          this.selectedCategories = [...this.categories[categoryToSelect]];
-        }
-      } else {
-        // Проверяем, является ли параметр подкатегорией
-        for (const [category, subcategories] of Object.entries(
-          this.categories
-        )) {
-          if (subcategories.includes(categoryName)) {
-            categoryToSelect = categoryName;
-            this.openSubcategories = [category];
-            break;
-          }
-        }
-
-        // Если это подкатегория или специальная категория (popular, new, sale)
-        if (categoryToSelect) {
-          this.selectedCategories = [categoryToSelect];
-        } else if (["popular", "new", "sale"].includes(categoryName)) {
-          // Обработка специальных категорий
-          this.selectedCategories = [];
-          // Здесь можно добавить специальную логику для popular, new, sale
-        }
-      }
-
-      // Применяем фильтры после установки категории
-      this.applyFilters();
-    },
     loadProducts() {
       this.loading = true;
       setTimeout(() => {
@@ -554,40 +574,7 @@ export default {
         this.loading = false;
       }, 800);
     },
-    transliterate(text) {
-      // Сначала проверяем, есть ли прямое соответствие в нашей карте категорий
-      for (const [urlKey, categoryName] of Object.entries(
-        this.categoryUrlMap
-      )) {
-        if (text === categoryName) {
-          return urlKey;
-        }
-      }
-
-      // Если прямого соответствия нет, используем транслитерацию
-      const translitMap = {
-        // ... существующая карта транслитерации ...
-      };
-
-      if (typeof text !== "string") return "";
-
-      return text
-        .split("")
-        .map((char) => {
-          const lowerChar = char.toLowerCase();
-          const isUpperCase = char !== lowerChar;
-          const translitChar = translitMap[lowerChar] || char;
-          return isUpperCase
-            ? translitChar.charAt(0).toUpperCase() + translitChar.slice(1)
-            : translitChar;
-        })
-        .join("");
-    },
-    toggleFilters() {
-      this.showFilters = !this.showFilters;
-    },
     toggleDropdown(dropdownName) {
-      // Список всех возможных выпадающих меню
       const dropdowns = [
         "showCategoryDropdown",
         "showSizesDropdown",
@@ -595,8 +582,6 @@ export default {
         "showColorDropdown",
         "showPriceDropdown",
       ];
-
-      // Переключаем указанное меню и закрываем все остальные
       dropdowns.forEach((name) => {
         this[name] = name === dropdownName ? !this[name] : false;
       });
@@ -611,50 +596,56 @@ export default {
       }
     },
     applyFilters() {
-      this.loading = true;
+  this.loading = true;
+  setTimeout(() => {
+    let filtered = this.products.filter((product) => {
+      // Фильтр по поисковому запросу (по названию, регистронезависимо)
+      if (
+        this.searchQuery &&
+        !product.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      ) {
+        return false;
+      }
+      
+      // Фильтр по категории (если выбрана)
+      if (
+        this.selectedCategories.length > 0 &&
+        !this.selectedCategories.includes(product.category)
+      ) {
+        return false;
+      }
+      
+      // Остальные фильтры без изменений
+      if (
+        this.selectedColors.length > 0 &&
+        !this.selectedColors.includes(product.color)
+      ) {
+        return false;
+      }
+      if (
+        this.selectedSizes.length > 0 &&
+        !this.selectedSizes.includes(product.size)
+      ) {
+        return false;
+      }
+      if (product.price < this.minPrice || product.price > this.maxPrice) {
+        return false;
+      }
+      return true;
+    });
 
-      setTimeout(() => {
-        let filtered = this.products.filter((product) => {
-          // Проверяем, соответствует ли товар выбранным категориям
-          if (this.selectedCategories.length > 0) {
-            // Если выбраны подкатегории, проверяем точное соответствие
-            if (!this.selectedCategories.includes(product.category)) {
-              return false;
-            }
-          }
-
-          if (
-            this.selectedColors.length > 0 &&
-            !this.selectedColors.includes(product.color)
-          ) {
-            return false;
-          }
-          if (
-            this.selectedSizes.length > 0 &&
-            !this.selectedSizes.includes(product.size)
-          ) {
-            return false;
-          }
-          if (product.price < this.minPrice || product.price > this.maxPrice) {
-            return false;
-          }
-          return true;
-        });
-
-        this.sortProductsList(filtered);
-
-        this.filteredProductsCache = filtered;
-        this.currentPage = 1;
-        this.loading = false;
-      }, 300);
-    },
+    this.sortProductsList(filtered);
+    this.filteredProductsCache = filtered;
+    this.currentPage = 1;
+    this.loading = false;
+  }, 300);
+},
     resetFilters() {
       this.selectedCategories = [];
       this.selectedColors = [];
       this.selectedSizes = [];
       this.minPrice = 0;
       this.maxPrice = this.maxPriceLimit;
-      this.applyFilters();
     },
     sortProducts() {
       this.sortProductsList(this.filteredProductsCache);
@@ -676,14 +667,14 @@ export default {
       }
     },
     changePage(page) {
-      if (typeof page === "number") {
+      if (typeof page === "number" && page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
     viewProductDetails(product) {
-      const category = this.transliterate(product.category);
-      this.$router.push(`/catalog/${category}/${product.id}`);
+      // Пример перехода на страницу товара
+      this.$router.push(`/catalog/${product.category}/${product.id}`);
     },
     toggleFavorite(product) {
       const index = this.favorites.indexOf(product.id);
@@ -717,18 +708,6 @@ export default {
           ];
         const randomPrice = Math.floor(Math.random() * 10000) + 500;
 
-        const availableColors = [];
-        const colorCount = Math.floor(Math.random() * 3) + 1;
-        for (let j = 0; j < colorCount; j++) {
-          const color =
-            this.availableColors[
-              Math.floor(Math.random() * this.availableColors.length)
-            ];
-          if (!availableColors.includes(color)) {
-            availableColors.push(color);
-          }
-        }
-
         products.push({
           id: i,
           name: `Товар ${i}`,
@@ -737,7 +716,6 @@ export default {
           category: randomCategory,
           color: randomColor,
           size: randomSize,
-          availableColors: availableColors,
         });
       }
 
