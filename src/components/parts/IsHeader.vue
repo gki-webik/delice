@@ -27,8 +27,16 @@
               @click="$router.push('/account/orders')"
               alt=""
             />
-            <img src="/media/images/heart__logo.svg" alt="" />
-            <img src="/media/images/cart__logo.svg" alt="" />
+            <img
+              src="/media/images/heart__logo.svg"
+              @click="$router.push('/favorites')"
+              alt=""
+            />
+            <img
+              src="/media/images/cart__logo.svg"
+              @click="$router.push('/cart')"
+              alt=""
+            />
           </div>
           <div class="data">
             <div><span>Всего заказов:</span> <span>1 шт</span></div>

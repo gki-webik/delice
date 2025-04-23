@@ -8,6 +8,8 @@ import DeliveryAndPayment from '../components/pages/DeliveryAndPayment.vue'
 import AboutUs from '@/components/pages/AboutUs.vue'
 import IsContacts from '../components/pages/IsContacts.vue'
 import IsBlog from '../components/pages/IsBlog.vue'
+import IsFavourites from '../components/pages/IsFavourites.vue'
+import IsCart from '../components/pages/IsCart.vue'
 
 const routes = [
     {
@@ -45,6 +47,14 @@ const routes = [
     {
         path: '/blog',
         component: IsBlog
+    },
+    {
+        path: '/favorites',
+        component: IsFavourites
+    },
+    {
+        path: '/cart',
+        component: IsCart
     }
 ]
 

@@ -24,6 +24,7 @@ button {
 
 main {
   margin-top: 170px;
+  min-height: 50vh;
   @media screen and (min-width: 870px) {
     margin-top: 200px;
   }
