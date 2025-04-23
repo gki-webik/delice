@@ -73,5 +73,5 @@
 </template>
 
 <style scoped>
-@import "../../assets/styles/pages/dist/min/isContacts.min.css";
+@import "../../assets/styles/pages/dist/min/isBlog.min.css";
 </style>

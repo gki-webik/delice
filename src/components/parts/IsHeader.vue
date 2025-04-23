@@ -55,7 +55,7 @@
             <router-link to="/delivery-and-payment"
               >ДОСТАВКА И ОПЛАТА</router-link
             >
-            <a href="">БЛОГ</a>
+            <router-link to="/blog">БЛОГ</router-link>
             <router-link to="/about-us">О НАС</router-link>
             <router-link to="/contacts">КОНТАКТЫ</router-link>
           </nav>

@@ -60,6 +60,9 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   gap: 10px;
 }
 @media screen and (max-width: 1020px) {
@@ -85,7 +88,7 @@
   }
 }
 .boxMainProductCategory .block1 .left .otherImages img {
-  width: 130px;
+  width: 130px !important;
   aspect-ratio: 1/1;
   border-radius: 5px;
   -o-object-fit: cover;

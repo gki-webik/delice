@@ -42,21 +42,21 @@
         <section>
           <h4>О КОМПАНИИ</h4>
           <nav>
-            <a href="">Доставка и оплата</a>
-            <a href="">Блог</a>
-            <a href="">О нас</a>
-            <a href="">Таблица размеров</a>
+            <router-link to="/delivery-and-payment">Доставка и оплата</router-link>
+            <router-link to="/blog">Блог</router-link>
+            <router-link to="/about-us">О нас</router-link>
+            <a role="button">Таблица размеров</a>
           </nav>
         </section>
         <hr />
         <section class="is-3">
           <h4>КОНТАКТЫ</h4>
-          <a href="">8 (888) 888-88-88</a>
-          <a href="">info@delice.ru</a>
+          <a href="tel:+78888888888">8 (888) 888-88-88</a>
+          <a href="mailto:info@delice.ru">info@delice.ru</a>
           <address>г. Санкт-Петербург, Невский пр., 65</address>
           <div class="social">
-            <img src="/media/images/telegram__icon.svg" alt="" />
-            <img src="/media/images/whatsapp__icon.svg" alt="" />
+            <img src="/media/images/telegram__icon.svg" alt="telegram__icon" />
+            <img src="/media/images/whatsapp__icon.svg" alt="whatsapp__icon" />
           </div>
         </section>
       </div>

@@ -502,6 +502,57 @@ export default {
         this.loading = false;
       }, 800);
     },
+    transliterate(text) {
+      const translitMap = {
+        а: "a",
+        б: "b",
+        в: "v",
+        г: "g",
+        д: "d",
+        е: "e",
+        ё: "yo",
+        ж: "zh",
+        з: "z",
+        и: "i",
+        й: "y",
+        к: "k",
+        л: "l",
+        м: "m",
+        н: "n",
+        о: "o",
+        п: "p",
+        р: "r",
+        с: "s",
+        т: "t",
+        у: "u",
+        ф: "f",
+        х: "kh",
+        ц: "ts",
+        ч: "ch",
+        ш: "sh",
+        щ: "shch",
+        ъ: "",
+        ы: "y",
+        ь: "",
+        э: "e",
+        ю: "yu",
+        я: "ya",
+      };
+
+      if (typeof text !== "string") return "";
+
+      return text
+        .split("")
+        .map((char) => {
+          const lowerChar = char.toLowerCase();
+          const isUpperCase = char !== lowerChar;
+          const translitChar = translitMap[lowerChar] || char;
+          return isUpperCase
+            ? translitChar.charAt(0).toUpperCase() + translitChar.slice(1)
+            : translitChar;
+        })
+        .join("");
+    },
     toggleFilters() {
       this.showFilters = !this.showFilters;
     },
@@ -599,8 +650,8 @@ export default {
       }
     },
     viewProductDetails(product) {
-      console.log("Просмотр товара:", product);
-      // this.$router.push(`/product/${product.id}`);
+      const category = this.transliterate(product.category);
+      this.$router.push(`/catalog/${category}/${product.id}`);
     },
     toggleFavorite(product) {
       const index = this.favorites.indexOf(product.id);
