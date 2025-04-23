@@ -549,7 +549,7 @@ export default {
     loadProducts() {
       this.loading = true;
       setTimeout(() => {
-        this.products = this.generateProducts(100);
+        this.fetchProducts();
         this.applyFilters();
         this.loading = false;
       }, 800);
@@ -682,8 +682,7 @@ export default {
       }
     },
     viewProductDetails(product) {
-      const category = this.transliterate(product.category);
-      this.$router.push(`/catalog/${category}/${product.id}`);
+      this.$router.push(`/catalog/product/${product.id}`);
     },
     toggleFavorite(product) {
       const index = this.favorites.indexOf(product.id);
@@ -700,48 +699,12 @@ export default {
     getColorCode(colorName) {
       return this.colorCodes[colorName] || "#cccccc";
     },
-    generateProducts(count) {
-      const products = [];
-      const allSubcategories = Object.values(this.categories).flat();
-
-      for (let i = 1; i <= count; i++) {
-        const randomCategory =
-          allSubcategories[Math.floor(Math.random() * allSubcategories.length)];
-        const randomColor =
-          this.availableColors[
-            Math.floor(Math.random() * this.availableColors.length)
-          ];
-        const randomSize =
-          this.availableSizes[
-            Math.floor(Math.random() * this.availableSizes.length)
-          ];
-        const randomPrice = Math.floor(Math.random() * 10000) + 500;
-
-        const availableColors = [];
-        const colorCount = Math.floor(Math.random() * 3) + 1;
-        for (let j = 0; j < colorCount; j++) {
-          const color =
-            this.availableColors[
-              Math.floor(Math.random() * this.availableColors.length)
-            ];
-          if (!availableColors.includes(color)) {
-            availableColors.push(color);
-          }
-        }
-
-        products.push({
-          id: i,
-          name: `Товар ${i}`,
-          price: randomPrice,
-          image: "/media/images/MaskProduct.png",
-          category: randomCategory,
-          color: randomColor,
-          size: randomSize,
-          availableColors: availableColors,
+    fetchProducts() {
+      fetch("https://profi.local/api/products").then((response) => {
+        return response.json().then((data) => {
+          this.products = data.data;
         });
-      }
-
-      return products;
+      });
     },
   },
 };

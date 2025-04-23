@@ -218,10 +218,11 @@
             font-size: 13px !important;
           }
           transition: background-color 0.15s ease-in-out,
-            color 0.15s ease-in-out;
+            outline 0.15s ease-in-out, color 0.15s ease-in-out;
           &:hover {
-            background-color: $color-3;
-            color: $color-2;
+            background-color: $color-1;
+            outline: 1px solid $color-3;
+            color: $color-3;
             path {
               fill: $color-2;
             }
@@ -539,6 +540,7 @@
             gap: 10px;
             min-width: 200px;
             width: 200px;
+            cursor: pointer;
             background-color: $color-1;
             padding: 20px;
             border-radius: 5px;
@@ -566,6 +568,12 @@
           }
         }
       }
+    }
+  }
+  .is-heart {
+    transition: fill 0.1s ease-in-out;
+    &.is-favorite path {
+      fill: red !important;
     }
   }
   .block4 {

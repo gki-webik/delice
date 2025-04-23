@@ -202,7 +202,7 @@ nav.is-kroshki a.is-end {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  gap: 10px;
+  gap: 20px;
   width: 100%;
   -webkit-box-align: start;
       -ms-flex-align: start;
@@ -240,4 +240,8 @@ nav.is-kroshki a.is-end {
   .box-modal .box .text h3 {
     font-size: 18px;
   }
+}
+
+.is-Montserrat {
+  font-family: "Montserrat", sans-serif;
 }

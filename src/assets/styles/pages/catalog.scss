@@ -273,6 +273,8 @@
       }
       img.is-product {
         width: 100%;
+        aspect-ratio: 2/2.5;
+        object-fit: cover;
       }
       .content {
         display: flex;

@@ -384,6 +384,9 @@
 }
 .boxMainCatalog .cards .card img.is-product {
   width: 100%;
+  aspect-ratio: 2/2.5;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .boxMainCatalog .cards .card .content {
   display: -webkit-box;

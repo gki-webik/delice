@@ -89,13 +89,15 @@
   </div>
   <main class="boxMainProductCategory">
     <div class="max-container">
-      <nav class="is-kroshki">
+      <nav class="is-kroshki" v-if="product">
         <router-link to="/">Главная</router-link>
         <router-link to="/catalog">Каталог</router-link>
-        <router-link to="/catalog/women_clothing">Женская одежда</router-link>
-        <a class="is-end">Футболка с текстовым принтом</a>
+        <router-link :to="'/catalog/' + product.categoryUrl">{{
+          categoryUrlMap[product.categoryUrl]
+        }}</router-link>
+        <a class="is-end">{{ product.name }}</a>
       </nav>
-      <div class="block1">
+      <div class="block1" v-if="product">
         <div class="left">
           <div class="currentImage">
             <img :src="currentImage" alt="" />
@@ -112,8 +114,10 @@
           </div>
         </div>
         <div class="right">
-          <h1>Футболка с текстовым принтом</h1>
-          <div class="cost">2 900 ₽</div>
+          <h1>{{ product.name }}</h1>
+          <div class="cost" v-if="product.price">
+            {{ formatPrice(product.price) }} ₽
+          </div>
           <h3>Цвет</h3>
           <div class="colors">
             <img src="/media/images/Mask_group8.png" class="is-active" alt="" />
@@ -122,11 +126,12 @@
           </div>
           <h3>Размер</h3>
           <div class="sizes">
-            <span class="is-active">XS</span>
-            <span>S</span>
-            <span>M</span>
-            <span>L</span>
-            <span>Xl</span>
+            <span
+              v-for="(item, index) in product.sizes"
+              :key="index"
+              :class="{ 'is-active': index === 0 }"
+              >{{ item }}</span
+            >
             <a role="button" @click="showModalSizes = !showModalSizes"
               >Таблицы размеров</a
             >
@@ -136,7 +141,7 @@
               <img src="/media/images/cart__logo.svg" alt="" />
               Добавить в корзину
             </button>
-            <button type="button" class="is-2">
+            <button type="button" class="is-2" @click="toggleFavorite()">
               <svg
                 width="27"
                 height="25"
@@ -144,6 +149,9 @@
                 fill="none"
                 class="is-heart"
                 xmlns="http://www.w3.org/2000/svg"
+                :class="{
+                  'is-favorite': favorites.includes($route.params.product),
+                }"
               >
                 <path
                   fill-rule="evenodd"
@@ -166,7 +174,7 @@
           </div>
         </div>
       </div>
-      <div class="block2">
+      <div class="block2" v-if="product">
         <div class="left">
           <h2 @click="toggleBlock('specs')">
             ХАРАКТЕРИСТИКИ
@@ -178,8 +186,9 @@
           </h2>
           <hr />
           <ul v-show="openBlocks.specs">
-            <li>Состав: 100% хлопок</li>
-            <li>Страна производства: Бангладеш</li>
+            <li v-for="(item, index) in product.characteristic" :key="index">
+              {{ item }}
+            </li>
           </ul>
           <hr v-show="openBlocks.specs" />
         </div>
@@ -194,66 +203,59 @@
           </h2>
           <hr />
           <ul v-show="openBlocks.care">
-            <li>Максимальная температура стирки 30°С, мягкий режим</li>
-            <li>Не отбеливать</li>
-            <li>Не применять барабанную сушку</li>
-            <li>
-              Гладить при максимальной температуре подошвы утюга 110°С, без
-              пара; глажение с паром может вызывать необратимые повреждения
+            <li v-for="(item, index) in product.product_care" :key="index">
+              {{ item }}
             </li>
-            <li>Сухая чистка запрещена</li>
           </ul>
           <hr v-show="openBlocks.care" />
         </div>
       </div>
-      <div class="block3">
+      <div class="block3" v-if="product">
         <h2>ОТЗЫВЫ</h2>
-        <div class="renting"><b>5,0</b> ★★★★★</div>
+        <div class="renting">
+          <b>{{ averageRating.toFixed(1) }}</b>
+          <span v-html="starRating"></span>
+        </div>
         <button type="button">Написать отзыв</button>
+        <p class="is-Montserrat" v-if="!comments || comments.length === 0">
+          Отзывов пока нет. Оставь его первым!
+        </p>
         <hr />
-        <div class="items">
-          <div class="item">
-            <div class="name">Валерия</div>
+        <div class="items" v-if="comments && comments.length">
+          <div class="item" v-for="(item, index) in comments" :key="index">
+            <div class="name">{{ item.user_name }}</div>
             <div class="content">
-              <div class="stars">★★★★★</div>
-              <div>Хорошее качество! Идет в размер</div>
-            </div>
-            <div class="date">7 апреля</div>
-          </div>
-          <div class="item">
-            <div class="name">Кристина</div>
-            <div class="content">
-              <div class="stars">★★★★★</div>
-              <div>
-                Недавно приобрела женскую футболку, и осталась очень довольна!
-                Материал мягкий и приятный на ощупь, отлично сидит по фигуре.
-                Футболка имеет стильный дизайн и яркий цвет, который отлично
-                поднимает настроение. Она хорошо стирается и не теряет форму,
-                даже после нескольких стирок. Подходит как для повседневной
-                носки, так и для более нарядных образов. Рекомендую всем, кто
-                ищет комфорт и стиль в одном флаконе!
+              <div class="stars">
+                <span
+                  v-for="star in 5"
+                  :key="star"
+                  v-show="star <= Number(item.rating)"
+                >
+                  ★
+                </span>
               </div>
+              <div>{{ item.review_text }}</div>
             </div>
-            <div class="date">2 апреля</div>
+            <div class="date">{{ getNormalFormatDate(item.review_date) }}</div>
           </div>
         </div>
       </div>
-      <div class="block4">
+      <div class="block4" v-if="newItems">
         <h2>ПОХОЖИЕ ТОВАРЫ</h2>
         <div class="tape">
-          <div class="poster">
-            <img src="/media/images/MaskProduct.png" alt="" />
-          </div>
           <div class="slider_box">
             <div class="slider" ref="sliderNew" @scroll="handleScrollNew">
               <div
                 class="slider__item"
+                @click="$router.push('/catalog/product/' + item.id)"
                 v-for="(item, index) in newItems"
                 :key="index"
               >
-                <img src="/media/images/MaskProduct.png" alt="" />
-                <span class="name">Новинка {{ index + 1 }}</span>
-                <span class="price">1000₽</span>
+                <img :src="item.image" alt="" />
+                <span class="name">{{ item.name }}</span>
+                <span class="price" v-if="item.price"
+                  >{{ formatPrice(item.price) }}₽</span
+                >
               </div>
             </div>
           </div>
@@ -324,38 +326,112 @@
 export default {
   data() {
     return {
+      product: [],
       newItems: Array(10).fill(0),
       currentSlideNew: 0,
       visibleSlidesNew: 4,
       itemWidthNew: 200,
       sliderWidthNew: 0,
       showModalSizes: false,
-      currentImage: "/media/images/Mask_group5.png",
+      currentImage: "/media/images/MaskProduct.png",
+      comments: null,
       otherImages: [
-        "/media/images/Mask_group6.png",
-        "/media/images/Mask_group7.png",
-        "/media/images/Mask_group8.png",
-        "/media/images/Mask_group9.png",
+        "/media/images/MaskProduct.png",
+        "/media/images/MaskProduct.png",
+        "/media/images/MaskProduct.png",
       ],
       openBlocks: {
         specs: false,
         care: false,
       },
+      categoryUrlMap: {
+        women_clothing: "ЖЕНСКАЯ ОДЕЖДА",
+        men_clothing: "МУЖСКАЯ ОДЕЖДА",
+        women_shoes: "ЖЕНСКАЯ ОБУВЬ",
+        men_shoes: "МУЖСКАЯ ОБУВЬ",
+        women_accessories: "АКСЕССУАРЫ",
+        men_accessories: "АКСЕССУАРЫ",
+        popular: "Популярные товары",
+        new: "Новинки",
+        sale: "Скидки до 50%",
+      },
+      favorites: [],
     };
   },
   computed: {
     maxSlidesNew() {
       return this.newItems.length;
     },
+    averageRating() {
+      if (!this.comments || this.comments.length === 0) return 0;
+      const sum = this.comments.reduce((total, comment) => {
+        return total + Number(comment.rating);
+      }, 0);
+      return sum / this.comments.length;
+    },
+    starRating() {
+      const fullStars = "★".repeat(Math.floor(this.averageRating));
+      const halfStar = this.averageRating % 1 >= 0.5 ? "★" : "";
+      const emptyStars = "☆".repeat(5 - Math.ceil(this.averageRating));
+      return " " + fullStars + halfStar + emptyStars;
+    },
   },
   mounted() {
-    this.calculateVisibleSlidesNew();
-    window.addEventListener("resize", this.calculateVisibleSlidesNew);
+    this.init();
+  },
+  watch: {
+    $route() {
+      this.init();
+    },
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.calculateVisibleSlidesNew);
   },
   methods: {
+    init() {
+      this.calculateVisibleSlidesNew();
+      this.fetchProduct(this.$route.params.product);
+      window.addEventListener("resize", this.calculateVisibleSlidesNew);
+      const savedFavorites = localStorage.getItem("favorites");
+      if (savedFavorites) {
+        this.favorites = JSON.parse(savedFavorites);
+      }
+    },
+    toggleFavorite() {
+      const index = this.favorites.indexOf(this.$route.params.product);
+      if (index === -1) {
+        this.favorites.push(this.$route.params.product);
+      } else {
+        this.favorites.splice(index, 1);
+      }
+      localStorage.setItem("favorites", JSON.stringify(this.favorites));
+    },
+    fetchProduct(id) {
+      fetch("https://profi.local/api/getProductById/" + id).then((response) => {
+        return response.json().then((data) => {
+          this.product = data.data[0];
+          this.currentImage = this.product.image;
+          this.product.sizes = JSON.parse(this.product.sizes);
+          this.otherImages = JSON.parse(this.product.images);
+          this.product.product_care = JSON.parse(this.product.product_care);
+          this.product.characteristic = JSON.parse(this.product.characteristic);
+        });
+      });
+      fetch("https://profi.local/api/getCommentProductById/" + id).then(
+        (response) => {
+          return response.json().then((data) => {
+            this.comments = data.data;
+          });
+        }
+      );
+      fetch("https://profi.local/api/similarProducts/" + id).then(
+        (response) => {
+          return response.json().then((data) => {
+            this.newItems = data.data;
+          });
+        }
+      );
+    },
     calculateVisibleSlidesNew() {
       this.$nextTick(() => {
         if (this.$refs.sliderNew && this.$refs.sliderNew.firstElementChild) {
@@ -405,6 +481,44 @@ export default {
     },
     toggleBlock(blockName) {
       this.openBlocks[blockName] = !this.openBlocks[blockName];
+    },
+    formatPrice(price) {
+      console.log(price);
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+    getNormalFormatDate(d) {
+      const dateString = d;
+      const date = new Date(dateString);
+
+      const day = date.getDate();
+      const hours = date.getHours();
+
+      const formattedDate = new Date(date);
+      if (hours >= 23) {
+        formattedDate.setDate(day + 1);
+      }
+
+      const monthNames = [
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря",
+      ];
+
+      const formattedDay = formattedDate.getDate();
+      const formattedMonth = monthNames[formattedDate.getMonth()];
+
+      // Итоговая строка
+      const result = `${formattedDay} ${formattedMonth}`;
+      return result;
     },
   },
 };

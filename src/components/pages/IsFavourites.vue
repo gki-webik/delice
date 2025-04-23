@@ -475,17 +475,29 @@ export default {
         this.favorites = JSON.parse(savedFavorites);
       }
     },
-    loadProducts() {
+    async loadProducts() {
       this.loading = true;
-      // Имитация загрузки данных
-      setTimeout(() => {
-        this.products = this.generateProducts(100);
-        this.updateFavoriteProducts();
+      this.favoriteProducts = [];
+
+      try {
+        const requests = this.favorites.map((id) =>
+          fetch(`https://profi.local/api/getProductById/${id}`)
+            .then((response) => response.json())
+            .then((data) => data.data[0])
+        );
+
+        const results = await Promise.all(requests);
+        this.favoriteProducts = results.filter(Boolean);
+        this.applyFilters();
+      } catch (error) {
+        console.error("Ошибка загрузки товаров:", error);
+        this.filteredFavorites = [];
+      } finally {
         this.loading = false;
-      }, 800);
+      }
     },
     updateFavoriteProducts() {
-      this.favoriteProducts = this.products.filter((product) =>
+      this.filteredFavorites = this.favoriteProducts.filter((product) =>
         this.favorites.includes(product.id)
       );
       this.applyFilters();
@@ -495,24 +507,16 @@ export default {
       if (index !== -1) {
         this.favorites.splice(index, 1);
         localStorage.setItem("favorites", JSON.stringify(this.favorites));
-        this.updateFavoriteProducts();
-
-        // Если на текущей странице не осталось товаров, переходим на предыдущую
+        this.favoriteProducts = this.favoriteProducts.filter(
+          (p) => p.id !== product.id
+        );
+        this.applyFilters();
         if (this.paginatedProducts.length === 0 && this.currentPage > 1) {
           this.currentPage--;
         }
       }
     },
-    clearAllFavorites() {
-      if (confirm("Вы уверены, что хотите удалить все товары из избранного?")) {
-        this.favorites = [];
-        localStorage.setItem("favorites", JSON.stringify(this.favorites));
-        this.updateFavoriteProducts();
-        this.currentPage = 1;
-      }
-    },
     toggleDropdown(dropdownName) {
-      // Список всех возможных выпадающих меню
       const dropdowns = [
         "showCategoryDropdown",
         "showSizesDropdown",
@@ -521,7 +525,6 @@ export default {
         "showPriceDropdown",
       ];
 
-      // Переключаем указанное меню и закрываем все остальные
       dropdowns.forEach((name) => {
         this[name] = name === dropdownName ? !this[name] : false;
       });
@@ -604,8 +607,7 @@ export default {
       }
     },
     viewProductDetails(product) {
-      const category = this.transliterate(product.category);
-      this.$router.push(`/catalog/${category}/${product.id}`);
+      this.$router.push(`/catalog/product/${product.id}`);
     },
     transliterate(text) {
       const translitMap = {
@@ -663,49 +665,6 @@ export default {
     },
     getColorCode(colorName) {
       return this.colorCodes[colorName] || "#cccccc";
-    },
-    generateProducts(count) {
-      const products = [];
-      const allSubcategories = Object.values(this.categories).flat();
-
-      for (let i = 1; i <= count; i++) {
-        const randomCategory =
-          allSubcategories[Math.floor(Math.random() * allSubcategories.length)];
-        const randomColor =
-          this.availableColors[
-            Math.floor(Math.random() * this.availableColors.length)
-          ];
-        const randomSize =
-          this.availableSizes[
-            Math.floor(Math.random() * this.availableSizes.length)
-          ];
-        const randomPrice = Math.floor(Math.random() * 10000) + 500;
-
-        const availableColors = [];
-        const colorCount = Math.floor(Math.random() * 3) + 1;
-        for (let j = 0; j < colorCount; j++) {
-          const color =
-            this.availableColors[
-              Math.floor(Math.random() * this.availableColors.length)
-            ];
-          if (!availableColors.includes(color)) {
-            availableColors.push(color);
-          }
-        }
-
-        products.push({
-          id: i,
-          name: `Товар ${i}`,
-          price: randomPrice,
-          image: "/media/images/MaskProduct.png",
-          category: randomCategory,
-          color: randomColor,
-          size: randomSize,
-          availableColors: availableColors,
-        });
-      }
-
-      return products;
     },
   },
 };

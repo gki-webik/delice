@@ -42,7 +42,9 @@
         <section>
           <h4>О КОМПАНИИ</h4>
           <nav>
-            <router-link to="/delivery-and-payment">Доставка и оплата</router-link>
+            <router-link to="/delivery-and-payment"
+              >Доставка и оплата</router-link
+            >
             <router-link to="/blog">Блог</router-link>
             <router-link to="/about-us">О нас</router-link>
             <a role="button">Таблица размеров</a>
@@ -55,8 +57,12 @@
           <a href="mailto:info@delice.ru">info@delice.ru</a>
           <address>г. Санкт-Петербург, Невский пр., 65</address>
           <div class="social">
-            <img src="/media/images/telegram__icon.svg" alt="telegram__icon" />
-            <img src="/media/images/whatsapp__icon.svg" alt="whatsapp__icon" />
+            <a href=""
+              ><img src="/media/images/telegram__icon.svg" alt="telegram__icon"
+            /></a>
+            <a href=""
+              ><img src="/media/images/whatsapp__icon.svg" alt="whatsapp__icon"
+            /></a>
           </div>
         </section>
       </div>

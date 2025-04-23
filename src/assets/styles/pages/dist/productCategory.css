@@ -233,8 +233,8 @@
   margin: 20px 0;
 }
 .boxMainProductCategory .block1 .right .actions button {
-  -webkit-transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
-  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  -webkit-transition: background-color 0.15s ease-in-out, outline 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, outline 0.15s ease-in-out, color 0.15s ease-in-out;
 }
 .boxMainProductCategory .block1 .right .actions button.is-1 {
   padding: 10px;
@@ -300,8 +300,9 @@
   }
 }
 .boxMainProductCategory .block1 .right .actions button:hover {
-  background-color: #26436c;
-  color: #c9b297;
+  background-color: #ffebd4;
+  outline: 1px solid #26436c;
+  color: #26436c;
 }
 .boxMainProductCategory .block1 .right .actions button:hover path {
   fill: #c9b297;
@@ -728,6 +729,7 @@
   gap: 10px;
   min-width: 200px;
   width: 200px;
+  cursor: pointer;
   background-color: #ffebd4;
   padding: 20px;
   border-radius: 5px;
@@ -754,6 +756,13 @@
 }
 .boxMainProductCategory .block4 .tape .slider_box .slider .slider__item img {
   width: 100%;
+}
+.boxMainProductCategory .is-heart {
+  -webkit-transition: fill 0.1s ease-in-out;
+  transition: fill 0.1s ease-in-out;
+}
+.boxMainProductCategory .is-heart.is-favorite path {
+  fill: red !important;
 }
 .boxMainProductCategory .block4 {
   margin-top: 50px;

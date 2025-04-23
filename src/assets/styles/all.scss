@@ -169,7 +169,7 @@ nav.is-kroshki {
   }
   .box {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     width: 100%;
     align-items: flex-start;
     @media screen and (max-width: 750px) {
@@ -199,4 +199,8 @@ nav.is-kroshki {
       }
     }
   }
+}
+
+.is-Montserrat {
+  font-family: "Montserrat", sans-serif;
 }

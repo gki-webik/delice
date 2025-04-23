@@ -26,7 +26,7 @@ const routes = [
         component: IsCatalog
     },
     {
-        path: '/catalog/:category/:product',
+        path: '/catalog/product/:product',
         component: IsProductCategory
     },
     {

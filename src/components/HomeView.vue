@@ -25,19 +25,20 @@
         <div class="block3">
           <h2>ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
           <div class="tape">
-            <div class="poster">
+            <!-- <div class="poster">
               <img src="/media/images/MaskProduct.png" alt="" />
-            </div>
+            </div> -->
             <div class="slider_box">
               <div class="slider" ref="slider" @scroll="handleScroll">
                 <div
                   class="slider__item"
                   v-for="(item, index) in items"
                   :key="index"
+                  @click="goToProduct(item.id)"
                 >
-                  <img src="/media/images/MaskProduct.png" alt="" />
-                  <span class="name">Название {{ index + 1 }}</span>
-                  <span class="price">1000₽</span>
+                  <img :src="item.image" alt="" />
+                  <span class="name">{{ item.name }}</span>
+                  <span class="price">{{ formatPrice(item.price) }}₽</span>
                 </div>
               </div>
             </div>
@@ -103,19 +104,17 @@
         <div class="block4">
           <h2>НОВИНКИ</h2>
           <div class="tape">
-            <div class="poster">
-              <img src="/media/images/MaskProduct.png" alt="" />
-            </div>
             <div class="slider_box">
               <div class="slider" ref="sliderNew" @scroll="handleScrollNew">
                 <div
                   class="slider__item"
                   v-for="(item, index) in newItems"
+                  @click="goToProduct(item.id)"
                   :key="index"
                 >
-                  <img src="/media/images/MaskProduct.png" alt="" />
-                  <span class="name">Новинка {{ index + 1 }}</span>
-                  <span class="price">1000₽</span>
+                  <img :src="item.image" alt="" />
+                  <span class="name">{{ item.name }}</span>
+                  <span class="price">{{ formatPrice(item.price) }}₽</span>
                 </div>
               </div>
             </div>
@@ -310,8 +309,8 @@ import IsHeaderCategory from "./parts/IsHeaderCategory.vue";
 export default {
   data() {
     return {
-      items: Array(10).fill(0),
-      newItems: Array(10).fill(0),
+      items: [],
+      newItems: [],
       currentSlide: 0,
       currentSlideNew: 0,
       visibleSlides: 4,
@@ -347,6 +346,8 @@ export default {
     window.addEventListener("resize", this.calculateVisibleSlides);
     window.addEventListener("resize", this.calculateVisibleSlidesNew);
     window.addEventListener("resize", this.calculateBlogItemWidth);
+    this.fetchPopularProducts();
+    this.fetchNewProducts();
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.calculateVisibleSlides);
@@ -467,6 +468,26 @@ export default {
       this.currentSlideNew = Math.round(
         this.$refs.sliderNew.scrollLeft / this.itemWidthNew
       );
+    },
+    goToProduct(id) {
+      this.$router.push("/catalog/product/" + id);
+    },
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+    fetchPopularProducts() {
+      fetch("https://profi.local/api/popularProducts").then((response) => {
+        return response.json().then((data) => {
+          this.items = data.data;
+        });
+      });
+    },
+    fetchNewProducts() {
+      fetch("https://profi.local/api/newProducts").then((response) => {
+        return response.json().then((data) => {
+          this.newItems = data.data;
+        });
+      });
     },
   },
 };
