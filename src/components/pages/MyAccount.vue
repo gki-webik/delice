@@ -26,6 +26,9 @@
           <div v-else-if="errorOrders" class="is-Montserrat error">
             {{ errorOrders }}
           </div>
+          <div v-else-if="orders && orders.length === 0" class="is-Montserrat">
+            У вас нет заказов...
+          </div>
           <div class="tableBox" v-else>
             <table>
               <thead>
@@ -39,10 +42,18 @@
               </thead>
               <tbody>
                 <tr v-for="order in orders" :key="order.id">
-                  <td>{{ order.number }}</td>
+                  <td>{{ order.id }}</td>
                   <td>{{ order.date }}</td>
-                  <td>{{ order.total }} ₽</td>
-                  <td>{{ order.status }}</td>
+                  <td>{{ formatPrice(order.total) }} ₽</td>
+                  <td>
+                    {{
+                      order.status === "default"
+                        ? "Создан"
+                        : order.status === "pending"
+                        ? "В процессе"
+                        : "Выполнен"
+                    }}
+                  </td>
                   <td>
                     <a :href="'/order/' + order.id">Перейти к заказу &gt;</a>
                   </td>
@@ -97,13 +108,29 @@
           <div v-else-if="errorComments" class="is-Montserrat error">
             {{ errorComments }}
           </div>
+          <div
+            v-if="comments && comments.length === 0"
+            class="is-Montserrat error"
+          >
+            У вас нет отзывов...
+          </div>
           <div class="items" v-else>
             <div class="item" v-for="comment in comments" :key="comment.id">
               <img src="/media/images/MaskProduct.png" alt="" />
               <div class="content">
-                <div class="name">{{ comment.productName }}</div>
-                <div class="params">{{ comment.params }}</div>
-                <div class="renting">{{ comment.rating }}</div>
+                <div class="name">{{ comment.product.name }}</div>
+                <div class="params">
+                  {{ comment.product.size }}, {{ comment.product.color }}
+                </div>
+                <div class="renting">
+                  <span
+                    v-for="star in 5"
+                    :key="star"
+                    v-show="star <= Number(comment.stars)"
+                  >
+                    ★
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -138,10 +165,12 @@ export default {
     };
   },
   mounted() {
-    this.updateCurrentPage();
-    this.fetchData();
+    this.isAuth();
   },
   methods: {
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
     updateCurrentPage() {
       const path = this.$route.path;
       if (path.includes("/account/orders")) {
@@ -163,18 +192,45 @@ export default {
         this.fetchComments();
       }
     },
+    isAuth() {
+      fetch("https://profi.local/api/checkAuth", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            this.$router.replace("/");
+            throw new Error("Ошибка аутентификации");
+          }
+          return res.json();
+        })
+        .then(() => {
+          this.updateCurrentPage();
+          this.fetchData();
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    },
     fetchOrders() {
       this.loadingOrders = true;
       this.errorOrders = null;
       fetch("https://profi.local/api/profile-orders", {
+        method: "POST",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
         .then((res) => {
           if (!res.ok) throw new Error("Ошибка загрузки заказов");
           return res.json();
         })
         .then((data) => {
-          this.orders = data.orders;
+          this.orders = data.data;
         })
         .catch((err) => {
           this.errorOrders = err.message;
@@ -207,13 +263,19 @@ export default {
     fetchComments() {
       this.loadingComments = true;
       this.errorComments = null;
-      fetch("https://profi.local/api/profile-comments")
+      fetch("https://profi.local/api/profile-comments", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
         .then((res) => {
           if (!res.ok) throw new Error("Ошибка загрузки отзывов");
           return res.json();
         })
         .then((data) => {
-          this.comments = data.comments;
+          this.comments = data.data;
         })
         .catch((err) => {
           this.errorComments = err.message;

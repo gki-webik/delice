@@ -484,3 +484,106 @@
   background-color: #c9b297;
   color: #26436c;
 }
+.boxHeader .box-modal .modal {
+  max-width: 400px;
+  width: 100%;
+}
+.boxHeader .box-modal .modal span.is-close {
+  width: 100%;
+  text-align: right;
+  line-height: 0.5;
+  display: block;
+  font-size: 40px;
+  cursor: pointer;
+  -webkit-transition: color 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out;
+}
+.boxHeader .box-modal .modal span.is-close:hover {
+  color: #c9b297;
+}
+.boxHeader .box-modal .modal form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 30px;
+  max-width: 400px;
+  margin-top: 20px;
+  width: 100%;
+}
+.boxHeader .box-modal .modal form a {
+  text-align: center;
+  color: #26436c;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: 0%;
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip-ink: auto;
+}
+.boxHeader .box-modal .modal form button {
+  padding: 15px 30px;
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background-color: #26436c;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: #ffebd4;
+  -webkit-transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+.boxHeader .box-modal .modal form button:hover {
+  background-color: #c9b297;
+  color: #26436c;
+}
+.boxHeader .box-modal .modal form label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 5px;
+  max-width: 400px;
+  width: 100%;
+}
+.boxHeader .box-modal .modal form label span {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.boxHeader .box-modal .modal form label input {
+  padding: 13px;
+  border-radius: 5px;
+  background-color: #c9b297;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: #26436c;
+}
+.boxHeader .box-modal .modal .is-error {
+  color: red;
+  text-align: center;
+  margin: 5px 0;
+  background-color: #ffcece;
+  padding: 13px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+}

@@ -77,6 +77,9 @@ nav.is-kroshki {
   justify-content: center;
   align-items: flex-start;
   overflow: auto;
+  &.is-centered {
+    align-items: center;
+  }
   .modal {
     max-width: 900px;
     padding: 20px;

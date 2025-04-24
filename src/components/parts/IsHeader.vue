@@ -1,5 +1,57 @@
 <template>
   <div class="boxHeader">
+    <div class="box-modal is-centered" v-if="showModalLogin">
+      <div class="modal">
+        <span class="is-close" @click="showModalLogin = !showModalLogin"
+          >×</span
+        >
+        <form @submit.prevent="submitFormLogin">
+          <label>
+            <span>E-mail</span>
+            <input type="email" v-model="form_email" />
+          </label>
+          <label>
+            <span>Пароль</span>
+            <input type="password" v-model="form_password" />
+          </label>
+          <a href="">Забыли пароль?</a>
+          <button type="submit">Войти</button>
+          <a role="button" @click="showModalSignUp = true">Регистрация</a>
+          <span class="is-error" v-if="modalError">{{ modalError }}</span>
+        </form>
+      </div>
+    </div>
+    <div class="box-modal is-centered" v-if="showModalSignUp">
+      <div class="modal">
+        <span class="is-close" @click="showModalSignUp = !showModalSignUp"
+          >×</span
+        >
+        <form @submit.prevent="submitFormSignUp">
+          <label>
+            <span>Имя</span>
+            <input type="text" v-model="form_first_name" />
+          </label>
+          <label>
+            <span>Фамилия</span>
+            <input type="text" v-model="form_last_name" />
+          </label>
+          <label>
+            <span>E-mail</span>
+            <input type="email" v-model="form_email" />
+          </label>
+          <label>
+            <span>Пароль</span>
+            <input type="password" v-model="form_password" />
+          </label>
+          <label>
+            <span>Повторите пароль</span>
+            <input type="password" v-model="form_password2" />
+          </label>
+          <button type="submit">Регистрация</button>
+          <span class="is-error" v-if="modalError2">{{ modalError2 }}</span>
+        </form>
+      </div>
+    </div>
     <div class="topLine">• tu le mérites •</div>
     <header>
       <h1>DÉLICE</h1>
@@ -29,7 +81,13 @@
           <div class="icons">
             <img
               src="/media/images/account__logo.svg"
-              @click="$router.push('/account/orders')"
+              @click="
+                isAuth
+                  ? $router.push('/account/orders')
+                  : isAuth === false
+                  ? (showModalLogin = true)
+                  : null
+              "
               alt=""
             />
             <img
@@ -94,9 +152,18 @@ export default {
       mainContentActive: false,
       searchQuery: "",
       selectedOption: "",
+      modalError: null,
+      modalError2: null,
       IsHeaderCategory: false,
       isCountCart: 0,
       isAmountCart: 0,
+      showModalLogin: false,
+      showModalSignUp: false,
+      isAuth: null,
+      form_email: "",
+      form_password: "",
+      form_last_name: "",
+      form_first_name: "",
       options: [
         { value: "women_clothing", label: "Женская одежда" },
         { value: "women_shoes", label: "Женская обувь" },
@@ -112,6 +179,7 @@ export default {
   },
   components: { IsHeaderCategory },
   mounted() {
+    this.isAuthFetch();
     setInterval(() => {
       this.cartProducts();
       this.cartAmount();
@@ -163,6 +231,86 @@ export default {
     },
     formatPrice(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+    isAuthFetch() {
+      fetch("https://profi.local/api/checkAuth", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (res.ok) {
+            this.isAuth = true;
+          } else {
+            this.isAuth = false;
+          }
+        })
+        .catch((err) => {
+          this.isAuth = false;
+          console.error(err.message);
+        });
+    },
+    submitFormLogin() {
+      this.modalError = null;
+      let formData = new FormData();
+      formData.append("email", this.form_email);
+      formData.append("password", this.form_password);
+      fetch("https://profi.local/api/login", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      })
+        .then((response) => {
+          return response.json().then((data) => {
+            if (response.status !== 200) {
+              this.modalError = data.message;
+              console.log(data.message);
+              return;
+            }
+            this.isAuth = true;
+            this.showModalLogin = false;
+            this.showModalSignUp = false;
+            this.$router.replace("/account/orders");
+          });
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    },
+    submitFormSignUp() {
+      this.modalError2 = null;
+      if (this.form_password != this.form_password2) {
+        this.modalError2 = "Пароли не совпадают";
+        return;
+      }
+      let formData = new FormData();
+      formData.append("email", this.form_email);
+      formData.append("password", this.form_password);
+      formData.append("first_name", this.form_first_name);
+      formData.append("last_name", this.form_last_name);
+      fetch("https://profi.local/api/signup", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      })
+        .then((response) => {
+          return response.json().then((data) => {
+            if (response.status !== 201) {
+              this.modalError2 = data.message;
+              return;
+            }
+            this.isAuth = true;
+            this.showModalLogin = false;
+            this.showModalSignUp = false;
+            this.$router.replace("/account/orders");
+            // this.$router.replace("/account/orders");
+          });
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
     },
   },
 };
