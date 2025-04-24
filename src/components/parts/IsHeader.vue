@@ -44,8 +44,12 @@
             />
           </div>
           <div class="data">
-            <div><span>Всего заказов:</span> <span>1 шт</span></div>
-            <div><span>Сумма: </span><span>5000 ₽</span></div>
+            <div>
+              <span>Товары:</span> <span>{{ isCountCart }} шт</span>
+            </div>
+            <div>
+              <span>Сумма: </span><span>{{ formatPrice(isAmountCart) }} ₽</span>
+            </div>
           </div>
         </div>
       </div>
@@ -91,6 +95,8 @@ export default {
       searchQuery: "",
       selectedOption: "",
       IsHeaderCategory: false,
+      isCountCart: 0,
+      isAmountCart: 0,
       options: [
         { value: "women_clothing", label: "Женская одежда" },
         { value: "women_shoes", label: "Женская обувь" },
@@ -105,7 +111,34 @@ export default {
     };
   },
   components: { IsHeaderCategory },
+  mounted() {
+    setInterval(() => {
+      this.cartProducts();
+      this.cartAmount();
+    }, 1000);
+  },
   methods: {
+    cartProducts() {
+      this.isCountCart = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart")).length
+        : 0;
+    },
+    cartAmount() {
+      if (!localStorage.getItem("cart")) {
+        this.isAmountCart = 0;
+        return;
+      }
+      const formData = new FormData();
+      formData.append("products", localStorage.getItem("cart"));
+      fetch("https://profi.local/api/amountCart", {
+        method: "POST",
+        body: formData,
+      }).then((response) => {
+        return response.json().then((data) => {
+          this.isAmountCart = data.data;
+        });
+      });
+    },
     performSearch() {
       if (!this.searchQuery.trim()) {
         // Если строка поиска пустая, можно не выполнять поиск
@@ -127,6 +160,9 @@ export default {
         return;
 
       this.IsHeaderCategory = !this.IsHeaderCategory;
+    },
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
   },
 };

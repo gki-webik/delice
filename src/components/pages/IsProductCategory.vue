@@ -137,9 +137,13 @@
             >
           </div>
           <div class="actions">
-            <button type="button" class="is-1">
+            <button type="button" @click="toggleCart()" class="is-1">
               <img src="/media/images/cart__logo.svg" alt="" />
-              Добавить в корзину
+              {{
+                cart.includes($route.params.product)
+                  ? "Удалить из корзины"
+                  : "Добавить в корзину"
+              }}
             </button>
             <button type="button" class="is-2" @click="toggleFavorite()">
               <svg
@@ -356,6 +360,7 @@ export default {
         sale: "Скидки до 50%",
       },
       favorites: [],
+      cart: [],
     };
   },
   computed: {
@@ -396,6 +401,10 @@ export default {
       if (savedFavorites) {
         this.favorites = JSON.parse(savedFavorites);
       }
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        this.cart = JSON.parse(savedCart);
+      }
     },
     toggleFavorite() {
       const index = this.favorites.indexOf(this.$route.params.product);
@@ -405,6 +414,15 @@ export default {
         this.favorites.splice(index, 1);
       }
       localStorage.setItem("favorites", JSON.stringify(this.favorites));
+    },
+    toggleCart() {
+      const index = this.cart.indexOf(this.$route.params.product);
+      if (index === -1) {
+        this.cart.push(this.$route.params.product);
+      } else {
+        this.cart.splice(index, 1);
+      }
+      localStorage.setItem("cart", JSON.stringify(this.cart));
     },
     fetchProduct(id) {
       fetch("https://profi.local/api/getProductById/" + id).then((response) => {

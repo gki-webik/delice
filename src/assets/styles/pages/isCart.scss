@@ -23,6 +23,40 @@
       vertical-align: middle;
       margin-left: 20px;
     }
+    &.is-h1-2 {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      @media screen and (max-width: 565px) {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      @media screen and (max-width: 565px) {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .is-name {
+        padding: 15px 30px;
+        background-color: $color-2;
+        border-radius: 5px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        @media screen and (max-width: 450px) {
+          font-size: 13px;
+        }
+      }
+    }
   }
   label {
     font-family: "Montserrat", sans-serif;
@@ -335,6 +369,159 @@
                 width: 25px;
               }
             }
+          }
+        }
+      }
+    }
+  }
+  .checkout-form-overlay {
+    display: flex;
+    gap: 50px;
+    .left {
+      max-width: 500px;
+      @media screen and (max-width: 1025px) {
+        margin: 0 auto;
+      }
+    }
+    @media screen and (max-width: 1025px) {
+      gap: 30px;
+      flex-direction: column;
+    }
+  }
+  select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    background-color: $color-2;
+    color: $color-3;
+    cursor: pointer;
+  }
+
+  select option {
+    padding: 10px;
+    color: $color-3;
+  }
+  .right {
+    width: 100%;
+    .cartBoxResult {
+      display: flex;
+      overflow: auto;
+      background-color: $color-3;
+      gap: 10px;
+      padding: 20px;
+      width: 100%;
+      border-radius: 5px;
+      .cartResult {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        color: $color-1;
+        .count {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 100%;
+          letter-spacing: 0%;
+          vertical-align: middle;
+          @media screen and (max-width: 450px) {
+            font-size: 13px;
+          }
+        }
+        .price {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 400;
+          font-size: 22px;
+          line-height: 100%;
+          letter-spacing: 0%;
+          vertical-align: middle;
+          @media screen and (max-width: 450px) {
+            font-size: 15px;
+          }
+        }
+        img {
+          max-width: 200px;
+          width: 100%;
+          aspect-ratio: 2/2.5;
+          object-fit: cover;
+          border-radius: 5px;
+          @media screen and (max-width: 450px) {
+            width: 100px;
+          }
+        }
+      }
+    }
+  }
+  .left {
+    color: $color-3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+
+    .line-group {
+      .error {
+        color: red;
+        padding: 10px 0;
+        font-size: 15px;
+        font-family: "Montserrat", sans-serif;
+      }
+      &.total {
+        display: flex;
+        justify-content: space-between;
+        max-width: 500px;
+        width: 100%;
+        gap: 20px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        vertical-align: middle;
+        margin: 30px 0;
+        @media screen and (max-width: 450px) {
+          font-size: 18px;
+        }
+      }
+    }
+    .form-actions {
+      display: flex;
+      max-width: 500px;
+      gap: 10px;
+      button {
+        width: 100%;
+        color: $color-1;
+        background-color: $color-3;
+        padding: 15px 30px;
+        border-radius: 5px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        border: none;
+        transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+        @media screen and (max-width: 450px) {
+          font-size: 13px;
+          padding: 15px;
+        }
+        &.is-1 {
+          background-color: $color-2;
+          color: $color-3;
+          &:hover {
+            background-color: $color-3;
+            color: $color-1;
+          }
+        }
+        &.is-2 {
+          background-color: $color-3;
+          color: $color-1;
+          &:hover {
+            background-color: $color-2;
+            color: $color-3;
           }
         }
       }
