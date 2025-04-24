@@ -95,6 +95,129 @@ nav.is-kroshki a.is-end {
       -ms-flex-align: center;
           align-items: center;
 }
+.box-modal.is-comment .modal {
+  max-width: 500px;
+  width: 100%;
+}
+.box-modal.is-comment span.is-close {
+  line-height: 0.5;
+  display: block;
+  width: 100%;
+  text-align: right;
+  font-size: 40px;
+  cursor: pointer;
+  -webkit-transition: color 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out;
+}
+.box-modal.is-comment span.is-close:hover {
+  color: #c9b297;
+}
+.box-modal.is-comment .stars {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.box-modal.is-comment .star {
+  font-size: 24px;
+  cursor: pointer;
+  color: #c9b297;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.box-modal.is-comment .star.active {
+  color: #26436c;
+}
+.box-modal.is-comment form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+.box-modal.is-comment form button {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 15px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  background-color: #c9b297;
+  border: none;
+  outline: none;
+  color: #26436c;
+  border-radius: 5px;
+  -webkit-transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+.box-modal.is-comment form button:hover {
+  background-color: #26436c;
+  color: #ffebd4;
+}
+.box-modal.is-comment textarea {
+  max-width: 500px;
+  width: 100%;
+  min-height: 80px;
+  height: 120px;
+  max-height: 500px;
+  resize: vertical;
+  padding: 10px;
+  background-color: #c9b297;
+  color: #26436c;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+}
+.box-modal.is-comment textarea::-webkit-input-placeholder {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.box-modal.is-comment textarea::-moz-placeholder {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.box-modal.is-comment textarea:-ms-input-placeholder {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.box-modal.is-comment textarea::-ms-input-placeholder {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.box-modal.is-comment textarea::placeholder {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
 .box-modal .modal {
   max-width: 900px;
   padding: 20px;
@@ -249,4 +372,8 @@ nav.is-kroshki a.is-end {
 
 .is-Montserrat {
   font-family: "Montserrat", sans-serif;
+}
+
+input {
+  color: #26436c;
 }

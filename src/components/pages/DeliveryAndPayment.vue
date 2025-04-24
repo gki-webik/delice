@@ -20,7 +20,13 @@
         <li>ТЦ “Мега Дыбенко”, проспект Дыбенко, 1</li>
         <li>ТЦ “РИО”, проспект Культуры, 1</li>
       </ol>
-      <img src="/media/images/map.png" alt="" />
+      <iframe
+        src="https://yandex.ru/map-widget/v1/?um=constructor%3A5052d3a53167b1e999acc06dd2a4bfe9d22c0847c68e1019ebc73dc997636131&amp;source=constructor"
+        width="100%"
+        height="400"
+        frameborder="0"
+        style="border: 1px solid #ccc; border-radius: 8px"
+      ></iframe>
       <h2>Условия самовывоза</h2>
       <ul>
         <li>

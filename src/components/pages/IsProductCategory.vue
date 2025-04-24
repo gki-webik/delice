@@ -1,4 +1,33 @@
 <template>
+  <div class="box-modal is-comment is-centered" v-if="showModalComment">
+    <div class="modal">
+      <span class="is-close" @click="showModalComment = !showModalComment"
+        >×</span
+      >
+      <h2>ОСТАВЬТЕ ОТЗЫВ</h2>
+      <form @submit.prevent="submitComment">
+        <div class="stars">
+          <span
+            v-for="star in 5"
+            :key="star"
+            class="star"
+            :class="{ active: star <= hoverRating || star <= selectedRating }"
+            @mouseover="hoverRating = star"
+            @mouseleave="hoverRating = 0"
+            @click="selectedRating = star"
+          >
+            ★
+          </span>
+        </div>
+        <textarea
+          v-model="commentText"
+          placeholder="Что понравилось? Что не так?"
+          required
+        ></textarea>
+        <button type="submit">Отправить отзыв</button>
+      </form>
+    </div>
+  </div>
   <div class="box-modal" v-if="showModalSizes">
     <div class="modal">
       <h2>
@@ -220,7 +249,13 @@
           <b>{{ averageRating.toFixed(1) }}</b>
           <span v-html="starRating"></span>
         </div>
-        <button type="button">Написать отзыв</button>
+        <button
+          type="button"
+          v-if="!myComment"
+          @click="showModalComment = !showModalComment"
+        >
+          Написать отзыв
+        </button>
         <p class="is-Montserrat" v-if="!comments || comments.length === 0">
           Отзывов пока нет. Оставь его первым!
         </p>
@@ -331,12 +366,16 @@ export default {
   data() {
     return {
       product: [],
-      newItems: Array(10).fill(0),
+      newItems: [],
       currentSlideNew: 0,
       visibleSlidesNew: 4,
       itemWidthNew: 200,
       sliderWidthNew: 0,
+      showModalComment: false,
       showModalSizes: false,
+      hoverRating: 0,
+      selectedRating: 0,
+      commentText: "",
       currentImage: "/media/images/MaskProduct.png",
       comments: null,
       otherImages: [
@@ -361,6 +400,7 @@ export default {
       },
       favorites: [],
       cart: [],
+      myComment: false,
     };
   },
   computed: {
@@ -405,7 +445,77 @@ export default {
       if (savedCart) {
         this.cart = JSON.parse(savedCart);
       }
+      this.fetchMyComments();
     },
+    async submitComment() {
+      if (this.selectedRating === 0) {
+        alert("Пожалуйста, выберите рейтинг.");
+        return;
+      }
+      if (this.myComment) return;
+
+      const commentData = {
+        productId: this.$route.params.product,
+        rating: this.selectedRating,
+        review_text: this.commentText,
+      };
+      let formData = new FormData();
+      formData.append("commentData", JSON.stringify(commentData));
+      try {
+        const response = await fetch("https://profi.local/api/addComment", {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        });
+
+        if (response.ok) {
+          this.showModalComment = false;
+          this.selectedRating = 0;
+          this.commentText = "";
+
+          fetch(
+            "https://profi.local/api/getCommentProductById/" +
+              this.$route.params.product
+          ).then((response) => {
+            return response.json().then((data) => {
+              this.comments = data.data;
+              this.myComment = true;
+            });
+          });
+        } else {
+          alert("Ошибка при отправке отзыва. Попробуйте снова.");
+        }
+      } catch (error) {
+        console.error("Ошибка:", error);
+        alert("Ошибка при отправке отзыва. Попробуйте снова.");
+      }
+    },
+    async fetchMyComments() {
+      try {
+        const response = await fetch(
+          "https://profi.local/api/getComment/" + this.$route.params.product,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Ошибка сети: ${response.status}`);
+        }
+
+        const comments = await response.json();
+        // Предполагается, что response.data — массив комментариев
+        this.myComment = comments.data.length > 0;
+      } catch (error) {
+        console.error("Ошибка при получении комментариев:", error);
+        this.myComment = false; // На всякий случай
+      }
+    },
+
     toggleFavorite() {
       const index = this.favorites.indexOf(this.$route.params.product);
       if (index === -1) {

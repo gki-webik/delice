@@ -8,7 +8,7 @@
       <h1>Блог</h1>
     </div>
     <div class="blocks">
-      <div class="block" v-for="(item, index) in items" :key="index">
+      <div class="block" v-for="item in items" :key="item.id">
         <h2>{{ item.title }}</h2>
         <div class="content">
           <div class="left">
@@ -25,9 +25,9 @@
             <p v-for="(text, indexText) in item.texts" :key="indexText">
               {{ text }}
             </p>
-            <router-link :to="'/blog/' + item.id"
-              >Читать полностью ></router-link
-            >
+            <router-link :to="'/blog/' + item.id">
+              Читать полностью
+            </router-link>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
 </template>
 
 <style scoped>
-@import "../../assets/styles/pages/dist/min/isContacts.min.css";
+@import "../../assets/styles/pages/dist/min/isBlog.min.css"; /* Исправьте путь, если нужно */
 </style>
 
 <script>
@@ -72,6 +72,48 @@ export default {
         },
       ],
     };
+  },
+  mounted() {
+    this.fetchBlogPosts();
+  },
+  methods: {
+    fetchBlogPosts() {
+      fetch("https://profi.local/api/blogPosts")
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.data) {
+            this.items = data.data.map((item) => {
+              let images = [];
+              let texts = [];
+
+              if (item.images && typeof item.images === "string") {
+                try {
+                  images = JSON.parse(item.images);
+                } catch (e) {
+                  images = [];
+                }
+              }
+              if (item.short_text && typeof item.short_text === "string") {
+                try {
+                  texts = JSON.parse(item.short_text);
+                } catch (e) {
+                  texts = [];
+                }
+              }
+
+              return {
+                id: item.id,
+                title: item.title,
+                images,
+                texts,
+              };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Ошибка загрузки блога:", error);
+        });
+    },
   },
 };
 </script>

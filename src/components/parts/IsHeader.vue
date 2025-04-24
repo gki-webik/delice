@@ -54,7 +54,7 @@
     </div>
     <div class="topLine">• tu le mérites •</div>
     <header>
-      <h1>DÉLICE</h1>
+      <h1 @click="$router.push('/')">DÉLICE</h1>
       <div class="mainContent" :class="{ 'is-active': mainContentActive }">
         <div class="center">
           <input
@@ -209,7 +209,7 @@ export default {
     },
     performSearch() {
       if (!this.searchQuery.trim()) {
-        // Если строка поиска пустая, можно не выполнять поиск
+        // Можно сбросить фильтр или оставить как есть
         return;
       }
       this.$router.push({
@@ -266,7 +266,6 @@ export default {
           return response.json().then((data) => {
             if (response.status !== 200) {
               this.modalError = data.message;
-              console.log(data.message);
               return;
             }
             this.isAuth = true;

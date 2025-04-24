@@ -482,3 +482,32 @@
   background-color: #26436c;
   color: #ffebd4;
 }
+.boxMainCatalog .search-results-info {
+  color: #26436c;
+  font-size: 15px;
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+.boxMainCatalog .search-results-info .reset-search {
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  color: #ffebd4;
+  background-color: #26436c;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}

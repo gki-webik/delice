@@ -6,8 +6,8 @@
           <h4>Подписывайтесь на новости!</h4>
           <p>Не пропустите новости об акциях и мероприятиях</p>
           <div class="input">
-            <input type="email" placeholder="Ваш e-mail" />
-            <button>
+            <input type="email" v-model="email" placeholder="Ваш e-mail" />
+            <button type="button" @click="submitFormMail">
               Подписаться
               <svg
                 width="8"
@@ -34,7 +34,7 @@
             </button>
           </div>
           <label class="acceptance">
-            <input type="checkbox" name="" id="" /> Нажимая на кнопку, я
+            <input type="checkbox" v-model="accepted" /> Нажимая на кнопку, я
             принимаю условия публичной оферты и политики конфиденциальности
           </label>
         </section>
@@ -57,10 +57,10 @@
           <a href="mailto:info@delice.ru">info@delice.ru</a>
           <address>г. Санкт-Петербург, Невский пр., 65</address>
           <div class="social">
-            <a href=""
+            <a href="https://t.me/unp_lug" target="_blank"
               ><img src="/media/images/telegram__icon.svg" alt="telegram__icon"
             /></a>
-            <a href=""
+            <a href="https://wa.me/+79613339444" target="_blank"
               ><img src="/media/images/whatsapp__icon.svg" alt="whatsapp__icon"
             /></a>
           </div>
@@ -71,6 +71,45 @@
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      email: "",
+      accepted: false, // добавили переменную для чекбокса
+    };
+  },
+  methods: {
+    isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    },
+    submitFormMail() {
+      if (!this.isValidEmail(this.email)) {
+        alert("Пожалуйста, введите корректный e-mail");
+        return;
+      }
+      if (!this.accepted) {
+        alert(
+          "Пожалуйста, примите условия публичной оферты и политики конфиденциальности"
+        );
+        return;
+      }
+      const formData = new FormData();
+      formData.append("email", this.email);
+      fetch("https://profi.local/api/mailing", {
+        method: "POST",
+        body: formData,
+      }).then((response) => {
+        return response.json().then(() => {
+          alert("Вы подписались на рассылку");
+          this.email = "";
+          this.accepted = false; // сбрасываем чекбокс
+        });
+      });
+    },
+  },
+};
+</script>
 <style scoped>
 @import "../../assets/styles/parts/dist/min/footer.min.css";
 </style>

@@ -10,7 +10,6 @@ import IsContacts from '../components/pages/IsContacts.vue'
 import IsBlog from '../components/pages/IsBlog.vue'
 import IsFavourites from '../components/pages/IsFavourites.vue'
 import IsCart from '../components/pages/IsCart.vue'
-import IsSearch from '../components/pages/IsSearch.vue'
 
 const routes = [
     {
@@ -63,7 +62,7 @@ const routes = [
     },
     {
         path: '/search',
-        component: IsSearch
+        component: IsCatalog
     }
 ]
 

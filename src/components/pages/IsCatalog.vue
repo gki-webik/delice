@@ -4,7 +4,9 @@
       <div class="top">
         <nav class="is-kroshki">
           <router-link to="/">Главная</router-link>
-          <a class="is-end">Каталог</a>
+          <a class="is-end">{{
+            searchQuery ? "Поиск: " + searchQuery : "Каталог"
+          }}</a>
         </nav>
         <button
           type="button"
@@ -216,6 +218,12 @@
           </div>
         </div>
       </div>
+      <div v-if="searchQuery" class="search-results-info">
+        Найдено товаров: {{ filteredProducts.length }}
+        <button class="reset-search" @click="resetSearch">
+          Сбросить поиск
+        </button>
+      </div>
 
       <div v-if="loading" class="loading">
         <p>Загрузка товаров...</p>
@@ -321,6 +329,8 @@ export default {
       sortOption: "priceAsc",
       loading: false,
       favorites: [],
+      searchQuery: "",
+      searchCategory: "",
       categories: {
         "ЖЕНСКАЯ ОДЕЖДА": [
           "блузы и рубашки",
@@ -432,10 +442,15 @@ export default {
         if (categoryName) {
           this.handleCategoryFromUrl(categoryName);
         } else {
-          // Если категория не указана, сбрасываем фильтры
           this.resetFilters();
         }
       },
+    },
+    "$route.query": {
+      handler() {
+        this.handleSearchParams();
+      },
+      deep: true,
     },
   },
   computed: {
@@ -495,13 +510,46 @@ export default {
     if (savedFavorites) {
       this.favorites = JSON.parse(savedFavorites);
     }
+    this.handleSearchParams();
   },
   methods: {
+    handleSearchParams() {
+      const query = this.$route.query.q;
+      const category = this.$route.query.category;
+
+      if (query) {
+        this.searchQuery = query;
+
+        if (category) {
+          this.searchCategory = category;
+          if (this.categoryUrlMap[category]) {
+            const categoryName = this.categoryUrlMap[category];
+            if (
+              categoryName === "Популярные товары" ||
+              categoryName === "Новинки" ||
+              categoryName === "Скидки до 50%"
+            ) {
+              this.selectedCategories = [];
+            } else {
+              this.openSubcategories = [categoryName];
+              if (this.categories[categoryName]) {
+                this.selectedCategories = [...this.categories[categoryName]];
+              }
+            }
+          }
+        } else {
+          this.selectedCategories = [];
+          this.searchCategory = "";
+        }
+
+        this.performSearch();
+      } else {
+        this.applyFilters();
+      }
+    },
     handleCategoryFromUrl(categoryName) {
-      // Преобразуем URL-параметр в понятную категорию
       let categoryToSelect = "";
 
-      // Маппинг URL-параметров на категории
       const categoryMap = {
         women_clothing: "ЖЕНСКАЯ ОДЕЖДА",
         men_clothing: "МУЖСКАЯ ОДЕЖДА",
@@ -512,17 +560,13 @@ export default {
       };
 
       if (categoryMap[categoryName]) {
-        // Если это основная категория, открываем её
         categoryToSelect = categoryMap[categoryName];
         this.openSubcategories = [categoryToSelect];
-        // this.showCategoryDropdown = true;
 
-        // Выбираем все подкатегории из этой категории
         if (this.categories[categoryToSelect]) {
           this.selectedCategories = [...this.categories[categoryToSelect]];
         }
       } else {
-        // Проверяем, является ли параметр подкатегорией
         for (const [category, subcategories] of Object.entries(
           this.categories
         )) {
@@ -533,17 +577,13 @@ export default {
           }
         }
 
-        // Если это подкатегория или специальная категория (popular, new, sale)
         if (categoryToSelect) {
           this.selectedCategories = [categoryToSelect];
         } else if (["popular", "new", "sale"].includes(categoryName)) {
-          // Обработка специальных категорий
           this.selectedCategories = [];
-          // Здесь можно добавить специальную логику для popular, new, sale
         }
       }
 
-      // Применяем фильтры после установки категории
       this.applyFilters();
     },
     loadProducts() {
@@ -555,7 +595,6 @@ export default {
       }, 800);
     },
     transliterate(text) {
-      // Сначала проверяем, есть ли прямое соответствие в нашей карте категорий
       for (const [urlKey, categoryName] of Object.entries(
         this.categoryUrlMap
       )) {
@@ -564,10 +603,7 @@ export default {
         }
       }
 
-      // Если прямого соответствия нет, используем транслитерацию
-      const translitMap = {
-        // ... существующая карта транслитерации ...
-      };
+      const translitMap = {};
 
       if (typeof text !== "string") return "";
 
@@ -587,7 +623,6 @@ export default {
       this.showFilters = !this.showFilters;
     },
     toggleDropdown(dropdownName) {
-      // Список всех возможных выпадающих меню
       const dropdowns = [
         "showCategoryDropdown",
         "showSizesDropdown",
@@ -596,7 +631,6 @@ export default {
         "showPriceDropdown",
       ];
 
-      // Переключаем указанное меню и закрываем все остальные
       dropdowns.forEach((name) => {
         this[name] = name === dropdownName ? !this[name] : false;
       });
@@ -610,43 +644,101 @@ export default {
         this.openSubcategories.push(category);
       }
     },
-    applyFilters() {
+    performSearch() {
       this.loading = true;
 
       setTimeout(() => {
         let filtered = this.products.filter((product) => {
-          // Проверяем, соответствует ли товар выбранным категориям
+          const matchesQuery = this.searchQuery
+            ? product.name
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase())
+            : true;
+
+          let matchesCategory = true;
           if (this.selectedCategories.length > 0) {
-            // Если выбраны подкатегории, проверяем точное соответствие
-            if (!this.selectedCategories.includes(product.category)) {
-              return false;
-            }
+            matchesCategory = this.selectedCategories.includes(
+              product.category
+            );
           }
 
-          if (
-            this.selectedColors.length > 0 &&
-            !this.selectedColors.includes(product.color)
-          ) {
-            return false;
-          }
-          if (
-            this.selectedSizes.length > 0 &&
-            !this.selectedSizes.includes(product.size)
-          ) {
-            return false;
-          }
-          if (product.price < this.minPrice || product.price > this.maxPrice) {
-            return false;
-          }
-          return true;
+          const matchesColor =
+            this.selectedColors.length > 0
+              ? this.selectedColors.includes(product.color)
+              : true;
+
+          const matchesSize =
+            this.selectedSizes.length > 0
+              ? this.selectedSizes.includes(product.size)
+              : true;
+
+          const matchesPrice =
+            product.price >= this.minPrice && product.price <= this.maxPrice;
+
+          return (
+            matchesQuery &&
+            matchesCategory &&
+            matchesColor &&
+            matchesSize &&
+            matchesPrice
+          );
         });
 
         this.sortProductsList(filtered);
-
         this.filteredProductsCache = filtered;
         this.currentPage = 1;
         this.loading = false;
       }, 300);
+    },
+    applyFilters() {
+      if (this.searchQuery) {
+        this.performSearch();
+      } else {
+        this.loading = true;
+
+        setTimeout(() => {
+          let filtered = this.products.filter((product) => {
+            if (this.selectedCategories.length > 0) {
+              if (!this.selectedCategories.includes(product.category)) {
+                return false;
+              }
+            }
+
+            if (
+              this.selectedColors.length > 0 &&
+              !this.selectedColors.includes(product.color)
+            ) {
+              return false;
+            }
+            if (
+              this.selectedSizes.length > 0 &&
+              !this.selectedSizes.includes(product.size)
+            ) {
+              return false;
+            }
+            if (
+              product.price < this.minPrice ||
+              product.price > this.maxPrice
+            ) {
+              return false;
+            }
+            return true;
+          });
+
+          this.sortProductsList(filtered);
+          this.filteredProductsCache = filtered;
+          this.currentPage = 1;
+          this.loading = false;
+        }, 300);
+      }
+    },
+    resetSearch() {
+      this.searchQuery = "";
+      this.$router.push({
+        path: this.$route.path,
+        query: {},
+      });
+      this.resetFilters();
     },
     resetFilters() {
       this.selectedCategories = [];

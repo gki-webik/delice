@@ -94,8 +94,8 @@
             <button type="submit">Сохранить</button>
           </form>
           <div class="actions">
-            <a href="#">Выйти из профиля</a>
-            <a href="#">Удалить профиль</a>
+            <a role="button" @click="fetchAccountExit()">Выйти из профиля</a>
+            <a role="button" @click="fetchAccountDelete()">Удалить профиль</a>
           </div>
         </div>
 
@@ -242,16 +242,22 @@ export default {
     fetchUserData() {
       this.loadingUser = true;
       this.errorUser = null;
-      fetch("https://profi.local/api/profile-user")
+      fetch("https://profi.local/api/profile-user", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
         .then((res) => {
           if (!res.ok) throw new Error("Ошибка загрузки данных пользователя");
           return res.json();
         })
         .then((data) => {
-          this.userData.firstName = data.firstName;
-          this.userData.lastName = data.lastName;
-          this.userData.email = data.email;
-          this.userData.phone = data.phone;
+          this.userData.firstName = data.data.first_name;
+          this.userData.lastName = data.data.last_name;
+          this.userData.email = data.data.email;
+          this.userData.phone = data.data.phone;
         })
         .catch((err) => {
           this.errorUser = err.message;
@@ -285,16 +291,42 @@ export default {
         });
     },
     saveUserData() {
+      let formData = new FormData();
+      formData.append("userData", JSON.stringify(this.userData));
       fetch("https://profi.local/api/profile-user", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.userData),
+        credentials: "include",
+        body: formData,
       })
         .then((res) => {
           if (!res.ok) throw new Error("Ошибка сохранения данных");
           alert("Данные успешно сохранены");
+        })
+        .catch((err) => {
+          alert("Ошибка: " + err.message);
+        });
+    },
+    fetchAccountExit() {
+      fetch("https://profi.local/api/profile-exit", {
+        method: "POST",
+        credentials: "include",
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Ошибка сохранения данных");
+          document.location.reload();
+        })
+        .catch((err) => {
+          alert("Ошибка: " + err.message);
+        });
+    },
+    fetchAccountDelete() {
+      fetch("https://profi.local/api/profile-delete", {
+        method: "DELETE",
+        credentials: "include",
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Ошибка сохранения данных");
+          document.location.reload();
         })
         .catch((err) => {
           alert("Ошибка: " + err.message);
