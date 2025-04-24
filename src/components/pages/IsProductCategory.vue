@@ -483,7 +483,6 @@ export default {
       this.openBlocks[blockName] = !this.openBlocks[blockName];
     },
     formatPrice(price) {
-      console.log(price);
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     getNormalFormatDate(d) {

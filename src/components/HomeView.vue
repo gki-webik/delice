@@ -178,13 +178,13 @@
           <button type="button">Смотреть всё</button>
         </div>
       </div>
-      <div class="block5">
+      <div class="block5" v-if="blogItems && blogItems.length">
         <div class="max-container">
           <h2>БЛОГ</h2>
         </div>
         <div class="box">
           <div class="max-container">
-            <h3>Самые модные сумки сезона весна-лето 2025</h3>
+            <h3>{{ currentBlogTitle }}</h3>
           </div>
           <div class="slider-container">
             <button
@@ -216,59 +216,30 @@
                 ref="sliderBlog"
                 @scroll="handleScrollBlog"
               >
-                <div class="blog-item">
+                <div
+                  class="blog-item"
+                  v-for="(item, index) in blogItems"
+                  :key="index"
+                >
                   <div class="blog-images">
-                    <img src="/media/images/bag__item.png" alt="Модная сумка" />
                     <img
-                      src="/media/images/bag__item2.png"
-                      alt="Модная сумка"
-                    />
-                    <img
-                      src="/media/images/bag__item3.png"
+                      :src="item_img"
+                      v-for="(item_img, index_img) in item.images"
+                      :key="index_img"
                       alt="Модная сумка"
                     />
                   </div>
                   <div class="blog-content">
-                    <p>
-                      Новый сезон — еще одна возможность начать с чистого листа,
-                      особенно если все предыдущие месяцы вы откладывали
-                      преображение. При обновлении гардероба важно уделить
-                      внимание не только модной одежде, но и аксессуарам. Сумка
-                      играет ключевую роль в образе — задает настроение,
-                      объединяет детали и может полностью изменить восприятие
-                      наряда.
-                    </p>
-                    <p>
-                      Вместе со стилистом выяснили, какие сумки сейчас модные, и
-                      собрали для вас подборку новинок.
+                    <p
+                      v-for="(item_text, index_text) in item.short_text"
+                      :key="index_text"
+                    >
+                      {{ item_text }}
                     </p>
                     <p class="read-more">
-                      <a href="">Читать полностью ></a>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="blog-item">
-                  <div class="blog-images">
-                    <img src="/media/images/bag__item.png" alt="Модная сумка" />
-                    <img
-                      src="/media/images/bag__item2.png"
-                      alt="Модная сумка"
-                    />
-                    <img
-                      src="/media/images/bag__item3.png"
-                      alt="Модная сумка"
-                    />
-                  </div>
-                  <div class="blog-content">
-                    <p>
-                      Новый сезон — еще одна возможность начать с чистого листа,
-                      особенно если все предыдущие месяцы вы откладывали
-                      преображение. При обновлении гардероба важно уделить
-                      внимание не только модной одежде, но и аксессуарам.
-                    </p>
-                    <p class="read-more">
-                      <a href="">Читать полностью ></a>
+                      <router-link :to="'/blog/' + item.id"
+                        >Читать полностью ></router-link
+                      >
                     </p>
                   </div>
                 </div>
@@ -322,10 +293,19 @@ export default {
       currentBlogSlide: 0,
       maxBlogSlides: 2,
       blogItemWidth: 0,
+      blogItems: null,
+      currentBlogTitleIndex: 0,
     };
   },
   components: { IsHeaderCategory },
   computed: {
+    blogTitles() {
+      return this.blogItems ? this.blogItems.map((item) => item.name) : [];
+    },
+    currentBlogTitle() {
+      if (this.blogTitles.length === 0) return "Блог";
+      return this.blogTitles[this.currentBlogTitleIndex] || "Блог";
+    },
     maxSlides() {
       return this.items.length;
     },
@@ -348,6 +328,7 @@ export default {
     window.addEventListener("resize", this.calculateBlogItemWidth);
     this.fetchPopularProducts();
     this.fetchNewProducts();
+    this.fetchBlogPosts();
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.calculateVisibleSlides);
@@ -369,19 +350,21 @@ export default {
       });
     },
     slideBlog(direction) {
-      const newPosition =
-        this.$refs.sliderBlog.scrollLeft + direction * this.blogItemWidth;
+      const newSlideIndex = this.currentBlogSlide + direction;
 
-      // Для бесконечного слайдера
-      if (direction === 1 && this.currentBlogSlide === this.maxBlogSlides - 1) {
-        this.currentBlogSlide = 0;
-        this.$refs.sliderBlog.scrollLeft = 0;
-      } else if (direction === -1 && this.currentBlogSlide === 0) {
+      if (newSlideIndex < 0) {
         this.currentBlogSlide = this.maxBlogSlides - 1;
+        this.currentBlogTitleIndex = this.blogTitles.length - 1;
         this.$refs.sliderBlog.scrollLeft =
           this.blogItemWidth * (this.maxBlogSlides - 1);
+      } else if (newSlideIndex >= this.maxBlogSlides) {
+        this.currentBlogSlide = 0;
+        this.currentBlogTitleIndex = 0;
+        this.$refs.sliderBlog.scrollLeft = 0;
       } else {
-        this.currentBlogSlide += direction;
+        this.currentBlogSlide = newSlideIndex;
+        this.currentBlogTitleIndex = newSlideIndex % this.blogTitles.length;
+        const newPosition = this.blogItemWidth * this.currentBlogSlide;
         this.$refs.sliderBlog.scrollTo({
           left: newPosition,
           behavior: "smooth",
@@ -389,9 +372,11 @@ export default {
       }
     },
     handleScrollBlog() {
-      this.currentBlogSlide = Math.round(
+      const index = Math.round(
         this.$refs.sliderBlog.scrollLeft / this.blogItemWidth
       );
+      this.currentBlogSlide = index;
+      this.currentBlogTitleIndex = index % this.blogTitles.length;
     },
     calculateVisibleSlides() {
       this.$nextTick(() => {
@@ -488,6 +473,46 @@ export default {
           this.newItems = data.data;
         });
       });
+    },
+    fetchBlogPosts() {
+      fetch("https://profi.local/api/blogPosts")
+        .then((response) => response.json())
+        .then((data) => {
+          this.blogItems = data.data.map((item) => {
+            let images = [];
+            let short_text = [];
+
+            if (item.images && typeof item.images === "string") {
+              try {
+                images = JSON.parse(item.images);
+              } catch (e) {
+                console.error("Ошибка парсинга images:", e);
+                images = [];
+              }
+            }
+            if (item.short_text && typeof item.short_text === "string") {
+              try {
+                short_text = JSON.parse(item.short_text);
+              } catch (e) {
+                console.error("Ошибка парсинга short_text:", e);
+                short_text = [];
+              }
+            }
+
+            return {
+              ...item,
+              images,
+              short_text,
+            };
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching blog posts:", error);
+        })
+        .finally(() => {
+          this.calculateBlogItemWidth();
+          window.addEventListener("resize", this.calculateBlogItemWidth);
+        });
     },
   },
 };

@@ -398,7 +398,7 @@
 .boxMainPage .block5 .box .slider-container .blog-item .blog-images img {
   width: 100%;
   max-width: 200px;
-  height: auto;
+  aspect-ratio: 2/2.5;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 4px;
