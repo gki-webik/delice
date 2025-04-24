@@ -322,6 +322,10 @@
 .boxMainAccount .box .block3 .items .item img {
   max-width: 90px;
   width: 100%;
+  aspect-ratio: 2/2.5;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
 }
 .boxMainAccount .box .block3 .items .item .content {
   display: -webkit-box;

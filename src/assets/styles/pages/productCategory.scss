@@ -18,10 +18,9 @@
         flex-direction: column;
       }
       .currentImage {
-        max-width: 600px;
+        height: 550px;
         @media screen and (max-width: 1020px) {
-          max-width: 950px;
-          width: 100%;
+          height: auto;
         }
         img {
           width: 100%;
@@ -38,23 +37,18 @@
         gap: 10px;
         @media screen and (max-width: 1020px) {
           flex-direction: row;
+          overflow-x: auto;
           img {
-            max-width: 250px;
-            width: 100% !important;
+            max-height: 100px;
           }
         }
-        @media screen and (max-width: 553px) {
-          img {
-            max-width: 70px;
-          }
-        }
-        @media screen and (max-width: 365px) {
-          img {
-            max-width: 50px;
-          }
+        @media screen and (min-width: 1021px) {
+          overflow-y: auto;
+          max-width: 130px;
+          max-height: 550px;
         }
         img {
-          width: 130px !important;
+          width: 100%;
           aspect-ratio: 1/1;
           border-radius: 5px;
           object-fit: cover;
@@ -564,6 +558,9 @@
             }
             img {
               width: 100%;
+              aspect-ratio: 2/2.5;
+              object-fit: cover;
+              border-radius: 5px;
             }
           }
         }

@@ -286,10 +286,12 @@
   pointer-events: none;
 }
 .boxMainCart .items .item img.is-photo {
+  cursor: pointer;
   height: 230px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 5px;
+  aspect-ratio: 2/2.5;
 }
 @media screen and (max-width: 700px) {
   .boxMainCart .items .item img.is-photo {
@@ -344,6 +346,7 @@
 }
 .boxMainCart .items .item .content .top {
   height: 100%;
+  cursor: pointer;
 }
 .boxMainCart .items .item .content .top div.is-1 {
   display: -webkit-box;
@@ -567,6 +570,11 @@
   width: 100%;
   border-radius: 5px;
 }
+@media screen and (min-width: 1026px) {
+  .boxMainCart .right .cartBoxResult {
+    max-width: 650px;
+  }
+}
 .boxMainCart .right .cartBoxResult .cartResult {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -576,7 +584,11 @@
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 15px;
+  cursor: pointer;
+}
+.boxMainCart .right .cartBoxResult .cartResult * {
   color: #ffebd4;
+  font-family: "Montserrat", sans-serif;
 }
 .boxMainCart .right .cartBoxResult .cartResult .count {
   font-family: "Montserrat", sans-serif;
@@ -606,6 +618,7 @@
 }
 .boxMainCart .right .cartBoxResult .cartResult img {
   max-width: 200px;
+  min-width: 100px;
   width: 100%;
   aspect-ratio: 2/2.5;
   -o-object-fit: cover;

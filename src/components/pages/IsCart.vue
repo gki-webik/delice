@@ -19,7 +19,7 @@
           <router-link to="/account/orders"
             ><img src="/media/images/account__logo.svg" alt=""
           /></router-link>
-          <div class="is-name">Иван Иванов</div>
+          <div class="is-name" v-if="username">{{ username }}</div>
         </div>
       </h1>
       <div class="box" v-if="!showCheckoutForm">
@@ -44,7 +44,7 @@
               class="item"
               :class="{ noIsAccess: !item.IsAccess }"
               v-for="(item, index) in cartItems"
-              :key="item.id"
+              :key="item.id + '-' + item.size + '-' + item.color"
             >
               <input
                 type="checkbox"
@@ -54,9 +54,17 @@
                 "
                 :disabled="!item.IsAccess"
               />
-              <img :src="item.image" class="is-photo" :alt="item.name" />
+              <img
+                :src="item.image"
+                class="is-photo"
+                @click="$router.push('/catalog/product/' + item.id)"
+                :alt="item.name"
+              />
               <div class="content">
-                <div class="top">
+                <div
+                  class="top"
+                  @click="$router.push('/catalog/product/' + item.id)"
+                >
                   <div class="is-1">
                     <span class="is-title">{{ item.name }}</span>
                     <span class="is-cost">
@@ -71,6 +79,10 @@
                   </div>
                   <div class="is-2">
                     <p class="description">{{ item.description }}</p>
+                    <p class="item-details">
+                      Размер: <strong>{{ item.size }}</strong
+                      >, Цвет: <strong>{{ item.color }}</strong>
+                    </p>
                   </div>
                 </div>
                 <div class="actions">
@@ -189,13 +201,15 @@
             <div
               class="cartResult"
               v-for="item in selectedItems"
-              :key="item.id"
+              @click="$router.push('/catalog/product/' + item.id)"
+              :key="item.id + '-' + item.size + '-' + item.color"
             >
               <div class="count">{{ item.quantity }} Товар(а)</div>
               <img :src="item.image" alt="" />
               <div class="price">
                 {{ formatPrice(Number(item.price) * Number(item.quantity)) }}
               </div>
+              <div class="item-details">{{ item.size }}, {{ item.color }}</div>
             </div>
           </div>
         </div>
@@ -206,6 +220,17 @@
 
 <style scoped>
 @import "../../assets/styles/pages/dist/min/isCart.min.css";
+
+.item-details {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 5px;
+}
+
+.cartResult .item-details {
+  margin-top: 8px;
+  font-size: 0.85em;
+}
 </style>
 
 <script>
@@ -239,10 +264,12 @@ export default {
           name: "Онлайн оплата",
         },
       ],
+      username: null,
     };
   },
   created() {
     this.loadCartFromLocalStorage();
+    this.fetchUserData();
   },
   computed: {
     totalItems() {
@@ -306,7 +333,11 @@ export default {
       if (!this.cartItems) return [];
       return this.cartItems
         .filter((item) => item.selected && item.IsAccess)
-        .map((item) => item.id);
+        .map((item) => ({
+          id: item.id,
+          size: item.size,
+          color: item.color,
+        }));
     },
     totalQuantity() {
       if (!this.cartItems) return 0;
@@ -325,6 +356,27 @@ export default {
       })
         .format(price)
         .replace("RUB", "₽");
+    },
+    fetchUserData() {
+      this.loadingUser = true;
+      this.errorUser = null;
+      fetch("https://profi.local/api/profile-user", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Ошибка загрузки данных пользователя");
+          return res.json();
+        })
+        .then((data) => {
+          this.username = data.data.first_name + " " + data.data.last_name;
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
     increaseQuantity(index) {
       const item = this.cartItems[index];
@@ -353,24 +405,45 @@ export default {
         (item) => !item.IsAccess || item.selected
       );
     },
-    async fetchCartItems(ids) {
+    async fetchCartItems(cartItems) {
       this.cartItems = null;
       try {
-        const requests = ids.map((id) =>
-          fetch(`https://profi.local/api/getProductById/${id}`)
+        const requests = cartItems.map((item) => {
+          const id = typeof item === "object" ? item.id : item;
+          return fetch(`https://profi.local/api/getProductById/${id}`)
             .then((response) => response.json())
-            .then((data) => data.data[0])
-        );
-        const results = await Promise.all(requests);
-        this.cartItems = results.filter(Boolean).map((item) => {
-          const countNumber = Number(item.count);
-          return {
-            ...item,
-            selected: false,
-            quantity: 1,
-            IsAccess: countNumber > 0,
-          };
+            .then((data) => {
+              const productData = data.data[0];
+              if (!productData) return null;
+
+              const countNumber = Number(productData.count);
+
+              // Если item - это объект с размером и цветом
+              if (typeof item === "object" && item.size && item.color) {
+                return {
+                  ...productData,
+                  size: item.size,
+                  color: item.color,
+                  selected: false,
+                  quantity: 1,
+                  IsAccess: countNumber > 0,
+                };
+              } else {
+                // Для обратной совместимости со старыми записями в корзине
+                return {
+                  ...productData,
+                  size: productData.size || "M", // Значение по умолчанию
+                  color: productData.color || "Синий", // Значение по умолчанию
+                  selected: false,
+                  quantity: 1,
+                  IsAccess: countNumber > 0,
+                };
+              }
+            });
         });
+
+        const results = await Promise.all(requests);
+        this.cartItems = results.filter(Boolean);
         this.updateSelectAll();
       } catch (error) {
         console.error("Ошибка загрузки товаров:", error);
@@ -378,28 +451,75 @@ export default {
       }
     },
     loadCartFromLocalStorage() {
-      const cartIds = JSON.parse(localStorage.getItem("cart")) || [];
-      if (cartIds.length === 0) {
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      if (cartItems.length === 0) {
         this.cartItems = [];
         return;
       }
-      this.fetchCartItems(cartIds);
+      this.fetchCartItems(cartItems);
     },
     applyPromo() {
-      if (this.promoCode === "DISCOUNT10") {
-        this.discount = this.selectedItemsTotal * 0.1;
-      } else {
-        this.discount = 0;
-      }
+      let formData = new FormData();
+      formData.append("promo", this.promoCode);
+      fetch("https://profi.local/api/checkPromoCode", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert("Промокод не найден");
+            return;
+          } else {
+            return res.json().then((data) => {
+              this.discount =
+                (this.selectedItemsTotal * Number(data.data)) / 100;
+            });
+          }
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
     removeItem(index) {
+      // Получаем удаляемый элемент
+      const removedItem = this.cartItems[index];
+
+      // Удаляем из текущего списка
       this.cartItems.splice(index, 1);
+
+      // Обновляем localStorage
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // Находим индекс элемента в localStorage
+      const storageIndex = cartItems.findIndex((item) => {
+        if (typeof item === "object") {
+          return (
+            item.id === removedItem.id &&
+            item.size === removedItem.size &&
+            item.color === removedItem.color
+          );
+        }
+        return item === removedItem.id; // Для обратной совместимости
+      });
+
+      // Удаляем из localStorage если найден
+      if (storageIndex !== -1) {
+        cartItems.splice(storageIndex, 1);
+        localStorage.setItem("cart", JSON.stringify(cartItems));
+      }
+
       this.updateSelectAll();
-      this.saveCartToLocalStorage();
     },
     saveCartToLocalStorage() {
-      const ids = this.cartItems.map((item) => item.id);
-      localStorage.setItem("cart", JSON.stringify(ids));
+      // Преобразуем cartItems в формат для localStorage
+      const cartItems = this.cartItems.map((item) => ({
+        id: item.id,
+        size: item.size,
+        color: item.color,
+      }));
+
+      localStorage.setItem("cart", JSON.stringify(cartItems));
     },
     validateForm() {
       let isValid = true;
@@ -437,6 +557,8 @@ export default {
           name: item.name,
           price: Number(item.price),
           quantity: Number(item.quantity),
+          size: item.size,
+          color: item.color,
         })),
         totalBeforeDiscount: this.selectedAvailableItemsTotal,
         totalAfterDiscount: this.selectedAvailableItemsTotal - this.discount,
@@ -448,7 +570,7 @@ export default {
 
       // Выводим информацию в консоль
       console.log("Оформлен заказ:");
-      console.log("ID товаров:", this.selectedItemsIds);
+      console.log("Товары:", this.selectedItemsIds);
       console.log("Количество товаров:", this.totalQuantity);
       console.log("Промокод:", this.promoCode || "Не применен");
       console.log("Сумма без промокода:", this.selectedAvailableItemsTotal);
@@ -458,11 +580,48 @@ export default {
       );
       console.log("Полные данные заказа:", orderData);
 
-      // Очищаем корзину от оформленных товаров
+      let formData = new FormData();
+      formData.append("orderData", JSON.stringify(orderData));
+      fetch("https://profi.local/api/cartBuy", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert("Ошибка");
+            return;
+          }
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+
+      // Получаем текущие элементы корзины из localStorage
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // Фильтруем элементы, которые не были выбраны для заказа
+      const remainingCartItems = cartItems.filter((cartItem) => {
+        // Проверяем, не входит ли этот элемент в выбранные для заказа
+        return !selectedItems.some((selectedItem) => {
+          if (typeof cartItem === "object") {
+            return (
+              cartItem.id === selectedItem.id &&
+              cartItem.size === selectedItem.size &&
+              cartItem.color === selectedItem.color
+            );
+          }
+          return cartItem === selectedItem.id; // Для обратной совместимости
+        });
+      });
+
+      // Обновляем localStorage
+      localStorage.setItem("cart", JSON.stringify(remainingCartItems));
+
+      // Обновляем cartItems, оставляя только неоформленные товары
       this.cartItems = this.cartItems.filter(
         (item) => !item.selected || !item.IsAccess
       );
-      this.saveCartToLocalStorage();
 
       // Закрываем форму оформления
       this.showCheckoutForm = false;
@@ -475,6 +634,7 @@ export default {
 
       // Можно добавить уведомление об успешном оформлении заказа
       alert("Заказ успешно оформлен!");
+      this.$router.push("/account/orders");
     },
   },
 };

@@ -196,8 +196,13 @@ export default {
         this.isAmountCart = 0;
         return;
       }
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      const ids = cart.map((item) => item.id);
+      const idsString = JSON.stringify(ids);
+
       const formData = new FormData();
-      formData.append("products", localStorage.getItem("cart"));
+      formData.append("products", idsString);
+
       fetch("https://profi.local/api/amountCart", {
         method: "POST",
         body: formData,

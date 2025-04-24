@@ -215,9 +215,11 @@
         }
       }
       img.is-photo {
+        cursor: pointer;
         height: 230px;
         object-fit: cover;
         border-radius: 5px;
+        aspect-ratio: 2/2.5;
         @media screen and (max-width: 700px) {
           height: 190px;
         }
@@ -250,6 +252,7 @@
         }
         .top {
           height: 100%;
+          cursor: pointer;
           div.is-1 {
             display: flex;
             justify-content: space-between;
@@ -413,11 +416,18 @@
       padding: 20px;
       width: 100%;
       border-radius: 5px;
+      @media screen and (min-width: 1026px) {
+        max-width: 650px;
+      }
       .cartResult {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        color: $color-1;
+        cursor: pointer;
+        * {
+          color: $color-1;
+          font-family: "Montserrat", sans-serif;
+        }
         .count {
           font-family: "Montserrat", sans-serif;
           font-weight: 400;
@@ -442,6 +452,7 @@
         }
         img {
           max-width: 200px;
+          min-width: 100px;
           width: 100%;
           aspect-ratio: 2/2.5;
           object-fit: cover;

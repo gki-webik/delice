@@ -53,7 +53,7 @@
         <hr />
         <section class="is-3">
           <h4>КОНТАКТЫ</h4>
-          <a href="tel:+78888888888">8 (888) 888-88-88</a>
+          <a href="tel:+79613339444">+7 961 333 94 44</a>
           <a href="mailto:info@delice.ru">info@delice.ru</a>
           <address>г. Санкт-Петербург, Невский пр., 65</address>
           <div class="social">

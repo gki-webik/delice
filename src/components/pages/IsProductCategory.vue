@@ -149,30 +149,37 @@
           </div>
           <h3>Цвет</h3>
           <div class="colors">
-            <img src="/media/images/Mask_group8.png" class="is-active" alt="" />
-            <img src="/media/images/Mask_group8.png" alt="" />
-            <img src="/media/images/Mask_group8.png" alt="" />
+            <img
+              v-for="(colorImage, colorName) in parsedColorsImages"
+              :key="colorName"
+              :src="colorImage"
+              :alt="colorName"
+              :class="{ 'is-active': selectedColor === colorName }"
+              @click="selectColor(colorName)"
+            />
           </div>
           <h3>Размер</h3>
           <div class="sizes">
             <span
-              v-for="(item, index) in product.sizes"
+              v-for="(size, index) in product.sizes"
               :key="index"
-              :class="{ 'is-active': index === 0 }"
-              >{{ item }}</span
+              :class="{ 'is-active': selectedSize === size }"
+              @click="selectSize(size)"
+              >{{ size }}</span
             >
             <a role="button" @click="showModalSizes = !showModalSizes"
               >Таблицы размеров</a
             >
           </div>
           <div class="actions">
-            <button type="button" @click="toggleCart()" class="is-1">
+            <button
+              type="button"
+              @click="toggleCart()"
+              class="is-1"
+              :disabled="!selectedSize || !selectedColor"
+            >
               <img src="/media/images/cart__logo.svg" alt="" />
-              {{
-                cart.includes($route.params.product)
-                  ? "Удалить из корзины"
-                  : "Добавить в корзину"
-              }}
+              {{ isInCart() ? "Удалить из корзины" : "Добавить в корзину" }}
             </button>
             <button type="button" class="is-2" @click="toggleFavorite()">
               <svg
@@ -401,6 +408,10 @@ export default {
       favorites: [],
       cart: [],
       myComment: false,
+      selectedSize: "",
+      selectedColor: "",
+      parsedColorsImages: {},
+      availableColors: [],
     };
   },
   computed: {
@@ -525,15 +536,71 @@ export default {
       }
       localStorage.setItem("favorites", JSON.stringify(this.favorites));
     },
+
+    // Проверка, находится ли товар в корзине с учетом размера и цвета
+    isInCart() {
+      if (!this.cart) return false;
+
+      return this.cart.some((item) => {
+        if (typeof item === "object") {
+          return (
+            item.id === this.$route.params.product &&
+            item.size === this.selectedSize &&
+            item.color === this.selectedColor
+          );
+        }
+        return false;
+      });
+    },
+
+    // Добавление/удаление товара из корзины с учетом размера и цвета
     toggleCart() {
-      const index = this.cart.indexOf(this.$route.params.product);
-      if (index === -1) {
-        this.cart.push(this.$route.params.product);
-      } else {
-        this.cart.splice(index, 1);
+      if (!this.selectedSize || !this.selectedColor) {
+        alert("Пожалуйста, выберите размер и цвет товара");
+        return;
       }
+
+      // Создаем объект товара с выбранными параметрами
+      const productItem = {
+        id: this.$route.params.product,
+        size: this.selectedSize,
+        color: this.selectedColor,
+      };
+
+      // Проверяем, есть ли уже такой товар в корзине
+      const existingItemIndex = this.cart.findIndex((item) => {
+        if (typeof item === "object") {
+          return (
+            item.id === productItem.id &&
+            item.size === productItem.size &&
+            item.color === productItem.color
+          );
+        }
+        return false;
+      });
+
+      if (existingItemIndex !== -1) {
+        // Если товар уже в корзине, удаляем его
+        this.cart.splice(existingItemIndex, 1);
+      } else {
+        // Если товара нет в корзине, добавляем его
+        this.cart.push(productItem);
+      }
+
+      // Обновляем localStorage
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
+
+    // Выбор размера
+    selectSize(size) {
+      this.selectedSize = size;
+    },
+
+    // Выбор цвета
+    selectColor(color) {
+      this.selectedColor = color;
+    },
+
     fetchProduct(id) {
       fetch("https://profi.local/api/getProductById/" + id).then((response) => {
         return response.json().then((data) => {
@@ -543,6 +610,24 @@ export default {
           this.otherImages = JSON.parse(this.product.images);
           this.product.product_care = JSON.parse(this.product.product_care);
           this.product.characteristic = JSON.parse(this.product.characteristic);
+
+          // Парсим доступные цвета
+          this.availableColors = JSON.parse(this.product.availableColors);
+
+          // Парсим изображения цветов
+          this.parsedColorsImages = JSON.parse(this.product.colorsImages);
+
+          // Устанавливаем начальные значения для размера и цвета
+          if (this.product.sizes && this.product.sizes.length > 0) {
+            this.selectedSize = this.product.sizes[0];
+          }
+
+          if (this.availableColors && this.availableColors.length > 0) {
+            this.selectedColor = this.availableColors[0];
+          }
+
+          // Проверяем, есть ли этот товар в корзине и устанавливаем выбранные параметры
+          this.checkCartForProduct(id);
         });
       });
       fetch("https://profi.local/api/getCommentProductById/" + id).then(
@@ -560,6 +645,28 @@ export default {
         }
       );
     },
+
+    // Проверяем, есть ли товар в корзине и устанавливаем выбранные параметры
+    checkCartForProduct(productId) {
+      const cartItem = this.cart.find((item) => {
+        if (typeof item === "object") {
+          return item.id === productId;
+        }
+        return item === productId; // Для обратной совместимости
+      });
+
+      if (cartItem && typeof cartItem === "object") {
+        // Если товар найден в корзине, устанавливаем выбранные параметры
+        if (cartItem.size && this.product.sizes.includes(cartItem.size)) {
+          this.selectedSize = cartItem.size;
+        }
+
+        if (cartItem.color && this.availableColors.includes(cartItem.color)) {
+          this.selectedColor = cartItem.color;
+        }
+      }
+    },
+
     calculateVisibleSlidesNew() {
       this.$nextTick(() => {
         if (this.$refs.sliderNew && this.$refs.sliderNew.firstElementChild) {
@@ -639,7 +746,6 @@ export default {
         "ноября",
         "декабря",
       ];
-
       const formattedDay = formattedDate.getDate();
       const formattedMonth = monthNames[formattedDate.getMonth()];
 

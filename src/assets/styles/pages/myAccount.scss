@@ -252,6 +252,9 @@
           img {
             max-width: 90px;
             width: 100%;
+            aspect-ratio: 2/2.5;
+            object-fit: cover;
+            border-radius: 5px;
           }
           .content {
             display: flex;

@@ -48,10 +48,14 @@
                   <td>
                     {{
                       order.status === "default"
-                        ? "Создан"
+                        ? "Не оплачен"
                         : order.status === "pending"
                         ? "В процессе"
-                        : "Выполнен"
+                        : order.status === "created"
+                        ? "Создан"
+                        : order.status === "success"
+                        ? "Выполнен"
+                        : "Неизвестно"
                     }}
                   </td>
                   <td>
@@ -116,7 +120,7 @@
           </div>
           <div class="items" v-else>
             <div class="item" v-for="comment in comments" :key="comment.id">
-              <img src="/media/images/MaskProduct.png" alt="" />
+              <img :src="comment.product.image" alt="" />
               <div class="content">
                 <div class="name">{{ comment.product.name }}</div>
                 <div class="params">
