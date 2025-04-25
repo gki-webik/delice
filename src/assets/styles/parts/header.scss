@@ -263,10 +263,14 @@
           font-size: 12px;
           line-height: 100%;
           letter-spacing: 0%;
-          text-align: center;
           vertical-align: middle;
           span {
             white-space: nowrap;
+            width: 100%;
+            text-align: left;
+            &.is-right {
+              text-align: right;
+            }
           }
         }
       }

@@ -133,6 +133,18 @@
 .boxFooter footer .top h4 {
   margin-top: 0;
   padding-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.boxFooter footer .top section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
 }
 .boxFooter footer .top section nav {
   display: -webkit-box;
@@ -167,7 +179,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  gap: 20px;
 }
 .boxFooter footer .top section.is-3 a {
   font-family: "Montserrat", sans-serif;

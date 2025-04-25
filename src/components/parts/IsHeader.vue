@@ -135,16 +135,18 @@
             />
             <img
               src="/media/images/cart__logo.svg"
-              @click="$router.push('/cart')"
+              @click="isAuth ? $router.push('/cart') : (showModalLogin = true)"
               alt=""
             />
           </div>
           <div class="data">
             <div>
-              <span>Товары:</span> <span>{{ isCountCart }} шт</span>
+              <span>Товары:</span>
+              <span class="is-right">{{ isCountCart }} шт</span>
             </div>
             <div>
-              <span>Сумма: </span><span>{{ formatPrice(isAmountCart) }} ₽</span>
+              <span>Сумма: </span
+              ><span class="is-right">{{ formatPrice(isAmountCart) }} ₽</span>
             </div>
           </div>
         </div>
@@ -177,6 +179,7 @@
     </div>
     <IsHeaderCategory
       @close-menu="toggleHeaderCategory"
+      class="IsHeaderCategory"
       :class="{ active: IsHeaderCategory }"
     ></IsHeaderCategory>
   </div>
@@ -237,6 +240,17 @@ export default {
         }
       },
       immediate: true,
+    },
+    $route(to) {
+      // Проверяем, что мы на главной странице
+      if (to.path === "/") {
+        // Находим элемент с классом IsHeaderCategory
+        const headerCategory = document.querySelector(".IsHeaderCategory");
+        if (headerCategory && headerCategory.classList.contains("active")) {
+          // Удаляем класс active
+          headerCategory.classList.remove("active");
+        }
+      }
     },
   },
   methods: {

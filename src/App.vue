@@ -1,7 +1,7 @@
 <template>
   <div>
-    <IsHeader></IsHeader>
-    <router-view></router-view>
+    <IsHeader ref="isHeader"></IsHeader>
+    <router-view @modal-auth="openModalAuth"></router-view>
     <IsFooter></IsFooter>
   </div>
 </template>
@@ -15,6 +15,16 @@ export default {
   components: {
     IsHeader,
     IsFooter,
+  },
+  methods: {
+    openModalAuth() {
+      this.$refs["isHeader"].showModalLogin = true;
+    },
+  },
+  watch: {
+    $route() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
   },
 };
 </script>

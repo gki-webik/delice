@@ -35,10 +35,12 @@
 }
 .boxMainProductCategory .block1 .left .currentImage {
   height: 550px;
+  width: 412px;
 }
 @media screen and (max-width: 1020px) {
   .boxMainProductCategory .block1 .left .currentImage {
-    height: auto;
+    height: 550px;
+    width: 100%;
   }
 }
 .boxMainProductCategory .block1 .left .currentImage img {

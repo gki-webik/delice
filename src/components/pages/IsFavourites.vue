@@ -217,6 +217,9 @@
         </div>
       </div>
 
+      <h1 v-if="!showCheckoutForm">
+        Корзина <span>{{ totalItems }} {{ pluralizeGoods }}</span>
+      </h1>
       <div v-if="loading" class="loading">
         <p>Загрузка избранных товаров...</p>
       </div>
@@ -417,6 +420,21 @@ export default {
     };
   },
   computed: {
+    pluralizeGoods() {
+      if (!this.paginatedProducts) return "товаров";
+      const total = this.totalItems;
+      const lastDigit = total % 10;
+      const lastTwoDigits = total % 100;
+      if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+        return "товаров";
+      }
+      if (lastDigit === 1) return "товар";
+      if (lastDigit >= 2 && lastDigit <= 4) return "товара";
+      return "товаров";
+    },
+    totalItems() {
+      return this.filteredFavorites.length;
+    },
     paginatedProducts() {
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
@@ -467,6 +485,7 @@ export default {
   created() {
     this.loadFavorites();
     this.loadProducts();
+    this.totalItems = this.paginatedProducts.length;
   },
   methods: {
     loadFavorites() {

@@ -19,8 +19,10 @@
       }
       .currentImage {
         height: 550px;
+        width: 412px;
         @media screen and (max-width: 1020px) {
-          height: auto;
+          height: 550px;
+          width: 100%;
         }
         img {
           width: 100%;

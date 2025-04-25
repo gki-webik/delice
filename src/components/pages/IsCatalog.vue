@@ -86,13 +86,22 @@
                 >
                   <h4
                     class="category-title"
-                    @click="toggleSubcategory(category)"
+                    :class="{ 'no-cursor': $route.params.name }"
+                    v-if="
+                      $route.params.name
+                        ? openSubcategories.includes(category)
+                        : true
+                    "
+                    @click="
+                      $route.params.name ? null : toggleSubcategory(category)
+                    "
                   >
                     {{ category }}
                     <img
                       src="/media/images/filter__icon__dropdown.svg"
                       alt="Раскрыть"
                       class="dropdown-icon"
+                      v-if="!$route.params.name"
                       :class="{ rotated: openSubcategories.includes(category) }"
                     />
                   </h4>

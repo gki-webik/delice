@@ -174,12 +174,16 @@
           <div class="actions">
             <button
               type="button"
-              @click="toggleCart()"
+              @click="isAuth ? toggleCart() : this.$emit('modal-auth')"
               class="is-1"
               :disabled="!selectedSize || !selectedColor"
             >
               <img src="/media/images/cart__logo.svg" alt="" />
-              {{ isInCart() ? "Удалить из корзины" : "Добавить в корзину" }}
+              {{
+                isInCart() && isAuth
+                  ? "Удалить из корзины"
+                  : "Добавить в корзину"
+              }}
             </button>
             <button type="button" class="is-2" @click="toggleFavorite()">
               <svg
@@ -412,6 +416,7 @@ export default {
       selectedColor: "",
       parsedColorsImages: {},
       availableColors: [],
+      isAuth: false,
     };
   },
   computed: {
@@ -445,6 +450,7 @@ export default {
   },
   methods: {
     init() {
+      this.isAuthFetch();
       this.calculateVisibleSlidesNew();
       this.fetchProduct(this.$route.params.product);
       window.addEventListener("resize", this.calculateVisibleSlidesNew);
@@ -473,11 +479,14 @@ export default {
       let formData = new FormData();
       formData.append("commentData", JSON.stringify(commentData));
       try {
-        const response = await fetch("https://ce95524.tw1.ru/api/v1/addComment", {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        });
+        const response = await fetch(
+          "https://ce95524.tw1.ru/api/v1/addComment",
+          {
+            method: "POST",
+            credentials: "include",
+            body: formData,
+          }
+        );
 
         if (response.ok) {
           this.showModalComment = false;
@@ -504,7 +513,8 @@ export default {
     async fetchMyComments() {
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/getComment/" + this.$route.params.product,
+          "https://ce95524.tw1.ru/api/v1/getComment/" +
+            this.$route.params.product,
           {
             method: "POST",
             credentials: "include",
@@ -602,34 +612,38 @@ export default {
     },
 
     fetchProduct(id) {
-      fetch("https://ce95524.tw1.ru/api/v1/getProductById/" + id).then((response) => {
-        return response.json().then((data) => {
-          this.product = data.data[0];
-          this.currentImage = this.product.image;
-          this.product.sizes = JSON.parse(this.product.sizes);
-          this.otherImages = JSON.parse(this.product.images);
-          this.product.product_care = JSON.parse(this.product.product_care);
-          this.product.characteristic = JSON.parse(this.product.characteristic);
+      fetch("https://ce95524.tw1.ru/api/v1/getProductById/" + id).then(
+        (response) => {
+          return response.json().then((data) => {
+            this.product = data.data[0];
+            this.currentImage = this.product.image;
+            this.product.sizes = JSON.parse(this.product.sizes);
+            this.otherImages = JSON.parse(this.product.images);
+            this.product.product_care = JSON.parse(this.product.product_care);
+            this.product.characteristic = JSON.parse(
+              this.product.characteristic
+            );
 
-          // Парсим доступные цвета
-          this.availableColors = JSON.parse(this.product.availableColors);
+            // Парсим доступные цвета
+            this.availableColors = JSON.parse(this.product.availableColors);
 
-          // Парсим изображения цветов
-          this.parsedColorsImages = JSON.parse(this.product.colorsImages);
+            // Парсим изображения цветов
+            this.parsedColorsImages = JSON.parse(this.product.colorsImages);
 
-          // Устанавливаем начальные значения для размера и цвета
-          if (this.product.sizes && this.product.sizes.length > 0) {
-            this.selectedSize = this.product.sizes[0];
-          }
+            // Устанавливаем начальные значения для размера и цвета
+            if (this.product.sizes && this.product.sizes.length > 0) {
+              this.selectedSize = this.product.sizes[0];
+            }
 
-          if (this.availableColors && this.availableColors.length > 0) {
-            this.selectedColor = this.availableColors[0];
-          }
+            if (this.availableColors && this.availableColors.length > 0) {
+              this.selectedColor = this.availableColors[0];
+            }
 
-          // Проверяем, есть ли этот товар в корзине и устанавливаем выбранные параметры
-          this.checkCartForProduct(id);
-        });
-      });
+            // Проверяем, есть ли этот товар в корзине и устанавливаем выбранные параметры
+            this.checkCartForProduct(id);
+          });
+        }
+      );
       fetch("https://ce95524.tw1.ru/api/v1/getCommentProductById/" + id).then(
         (response) => {
           return response.json().then((data) => {
@@ -645,7 +659,26 @@ export default {
         }
       );
     },
-
+    isAuthFetch() {
+      fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (res.ok) {
+            this.isAuth = true;
+          } else {
+            this.isAuth = false;
+          }
+        })
+        .catch((err) => {
+          this.isAuth = false;
+          console.error(err.message);
+        });
+    },
     // Проверяем, есть ли товар в корзине и устанавливаем выбранные параметры
     checkCartForProduct(productId) {
       const cartItem = this.cart.find((item) => {

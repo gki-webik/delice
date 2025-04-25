@@ -272,8 +272,11 @@
   letter-spacing: 0%;
   vertical-align: middle;
 }
-.boxMainCatalog .top .filter .filter-section .category-title:hover {
+.boxMainCatalog .top .filter .filter-section .category-title:hover:not(.no-cursor) {
   background-color: #c9b297;
+}
+.boxMainCatalog .top .filter .filter-section .category-title.no-cursor {
+  cursor: default !important;
 }
 @media screen and (min-width: 1002px) {
   .boxMainCatalog .top .filter .filter-section.is-price h3 img {
@@ -510,4 +513,23 @@
   line-height: 100%;
   letter-spacing: 0%;
   vertical-align: middle;
+}
+.boxMainCatalog h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  margin: 40px 0;
+}
+.boxMainCatalog h1 span {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 20px;
 }
