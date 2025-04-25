@@ -268,8 +268,7 @@ export default {
     };
   },
   created() {
-    this.loadCartFromLocalStorage();
-    this.fetchUserData();
+    this.isAuth();
   },
   computed: {
     totalItems() {
@@ -635,6 +634,29 @@ export default {
       // Можно добавить уведомление об успешном оформлении заказа
       alert("Заказ успешно оформлен!");
       this.$router.push("/account/orders");
+    },
+    isAuth() {
+      fetch("https://profi.local/api/checkAuth", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            this.$router.replace("/");
+            throw new Error("Ошибка аутентификации");
+          }
+          return res.json();
+        })
+        .then(() => {
+          this.loadCartFromLocalStorage();
+          this.fetchUserData();
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
     },
   },
 };

@@ -14,10 +14,29 @@
             <span>Пароль</span>
             <input type="password" v-model="form_password" />
           </label>
-          <a href="">Забыли пароль?</a>
+          <a role="button" @click="showModalRecover = true">Забыли пароль?</a>
           <button type="submit">Войти</button>
           <a role="button" @click="showModalSignUp = true">Регистрация</a>
           <span class="is-error" v-if="modalError">{{ modalError }}</span>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="boxHeader">
+    <div class="box-modal is-centered" v-if="showModalNewPassword">
+      <div class="modal">
+        <span
+          class="is-close"
+          @click="showModalNewPassword = !showModalNewPassword"
+          >×</span
+        >
+        <form @submit.prevent="submitFormNewPassword">
+          <label>
+            <span>Новый пароль</span>
+            <input type="password" v-model="form_password" />
+          </label>
+          <button type="submit">Восстановить</button>
+          <span class="is-error" v-if="modalError4">{{ modalError4 }}</span>
         </form>
       </div>
     </div>
@@ -49,6 +68,25 @@
           </label>
           <button type="submit">Регистрация</button>
           <span class="is-error" v-if="modalError2">{{ modalError2 }}</span>
+        </form>
+      </div>
+    </div>
+    <div class="box-modal is-centered" v-if="showModalRecover">
+      <div class="modal">
+        <span class="is-close" @click="showModalRecover = !showModalRecover"
+          >×</span
+        >
+        <form @submit.prevent="submitFormRecover">
+          <p>
+            Введите свой e-mail, который вы указывали при регистрации. На него
+            мы вышлем ссылку на восстановление
+          </p>
+          <label>
+            <span>E-mail</span>
+            <input type="email" v-model="form_email" />
+          </label>
+          <button type="submit">Отправить</button>
+          <span class="is-error" v-if="modalError3">{{ modalError3 }}</span>
         </form>
       </div>
     </div>
@@ -154,12 +192,17 @@ export default {
       selectedOption: "",
       modalError: null,
       modalError2: null,
+      modalError3: null,
+      modalError4: null,
       IsHeaderCategory: false,
       isCountCart: 0,
       isAmountCart: 0,
       showModalLogin: false,
       showModalSignUp: false,
+      showModalRecover: false,
+      showModalNewPassword: false,
       isAuth: null,
+      currentTokenMail: "",
       form_email: "",
       form_password: "",
       form_last_name: "",
@@ -184,6 +227,17 @@ export default {
       this.cartProducts();
       this.cartAmount();
     }, 1000);
+  },
+  watch: {
+    "$route.query": {
+      handler(newQuery) {
+        if (newQuery.modal === "newPassword" && newQuery.token) {
+          this.currentTokenMail = newQuery.token;
+          this.showModalNewPassword = true;
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     cartProducts() {
@@ -276,6 +330,62 @@ export default {
             this.isAuth = true;
             this.showModalLogin = false;
             this.showModalSignUp = false;
+            this.showModalRecover = false;
+            this.showModalNewPassword = false;
+            this.$router.replace("/account/orders");
+          });
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    },
+    submitFormRecover() {
+      this.modalError3 = null;
+      let formData = new FormData();
+      formData.append("email", this.form_email);
+      fetch("https://profi.local/api/recover", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      })
+        .then((response) => {
+          return response.json().then((data) => {
+            if (response.status !== 200) {
+              this.modalError3 = data.message;
+              return;
+            }
+            this.showModalLogin = false;
+            this.showModalSignUp = false;
+            this.showModalRecover = false;
+            this.showModalNewPassword = false;
+            alert("Ссылка для восстановления доступа успешно отправлена");
+          });
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    },
+    submitFormNewPassword() {
+      this.modalError4 = null;
+      let formData = new FormData();
+      formData.append("password", this.form_password);
+      formData.append("token", this.currentTokenMail);
+      fetch("https://profi.local/api/newPassword", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      })
+        .then((response) => {
+          return response.json().then((data) => {
+            if (response.status !== 200) {
+              this.modalError4 = data.message;
+              return;
+            }
+            this.showModalLogin = false;
+            this.showModalSignUp = false;
+            this.showModalRecover = false;
+            this.showModalNewPassword = false;
+            this.isAuth = true;
             this.$router.replace("/account/orders");
           });
         })
@@ -308,8 +418,9 @@ export default {
             this.isAuth = true;
             this.showModalLogin = false;
             this.showModalSignUp = false;
+            this.showModalRecover = false;
+            this.showModalNewPassword = false;
             this.$router.replace("/account/orders");
-            // this.$router.replace("/account/orders");
           });
         })
         .catch((err) => {
