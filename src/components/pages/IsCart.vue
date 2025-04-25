@@ -359,7 +359,7 @@ export default {
     fetchUserData() {
       this.loadingUser = true;
       this.errorUser = null;
-      fetch("https://profi.local/api/profile-user", {
+      fetch("https://ce95524.tw1.ru/api/v1/profile-user", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -409,7 +409,7 @@ export default {
       try {
         const requests = cartItems.map((item) => {
           const id = typeof item === "object" ? item.id : item;
-          return fetch(`https://profi.local/api/getProductById/${id}`)
+          return fetch(`https://ce95524.tw1.ru/api/v1/getProductById/${id}`)
             .then((response) => response.json())
             .then((data) => {
               const productData = data.data[0];
@@ -460,7 +460,7 @@ export default {
     applyPromo() {
       let formData = new FormData();
       formData.append("promo", this.promoCode);
-      fetch("https://profi.local/api/checkPromoCode", {
+      fetch("https://ce95524.tw1.ru/api/v1/checkPromoCode", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -581,7 +581,7 @@ export default {
 
       let formData = new FormData();
       formData.append("orderData", JSON.stringify(orderData));
-      fetch("https://profi.local/api/cartBuy", {
+      fetch("https://ce95524.tw1.ru/api/v1/cartBuy", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -636,7 +636,7 @@ export default {
       this.$router.push("/account/orders");
     },
     isAuth() {
-      fetch("https://profi.local/api/checkAuth", {
+      fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {

@@ -257,7 +257,7 @@ export default {
       const formData = new FormData();
       formData.append("products", idsString);
 
-      fetch("https://profi.local/api/amountCart", {
+      fetch("https://ce95524.tw1.ru/api/v1/amountCart", {
         method: "POST",
         body: formData,
       }).then((response) => {
@@ -292,7 +292,7 @@ export default {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     isAuthFetch() {
-      fetch("https://profi.local/api/checkAuth", {
+      fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -316,7 +316,7 @@ export default {
       let formData = new FormData();
       formData.append("email", this.form_email);
       formData.append("password", this.form_password);
-      fetch("https://profi.local/api/login", {
+      fetch("https://ce95524.tw1.ru/api/v1/login", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -343,7 +343,7 @@ export default {
       this.modalError3 = null;
       let formData = new FormData();
       formData.append("email", this.form_email);
-      fetch("https://profi.local/api/recover", {
+      fetch("https://ce95524.tw1.ru/api/v1/recover", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -370,7 +370,7 @@ export default {
       let formData = new FormData();
       formData.append("password", this.form_password);
       formData.append("token", this.currentTokenMail);
-      fetch("https://profi.local/api/newPassword", {
+      fetch("https://ce95524.tw1.ru/api/v1/newPassword", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -404,7 +404,7 @@ export default {
       formData.append("password", this.form_password);
       formData.append("first_name", this.form_first_name);
       formData.append("last_name", this.form_last_name);
-      fetch("https://profi.local/api/signup", {
+      fetch("https://ce95524.tw1.ru/api/v1/signup", {
         method: "POST",
         credentials: "include",
         body: formData,

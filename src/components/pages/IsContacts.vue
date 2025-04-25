@@ -115,7 +115,7 @@ export default {
       formData.append("email", this.email);
       formData.append("text", this.text);
       formData.append("theme", this.theme);
-      fetch("https://profi.local/api/mailHelp", {
+      fetch("https://ce95524.tw1.ru/api/v1/mailHelp", {
         method: "POST",
         body: formData,
       }).then((response) => {

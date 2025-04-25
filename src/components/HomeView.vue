@@ -461,21 +461,21 @@ export default {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     fetchPopularProducts() {
-      fetch("https://profi.local/api/popularProducts").then((response) => {
+      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then((response) => {
         return response.json().then((data) => {
           this.items = data.data;
         });
       });
     },
     fetchNewProducts() {
-      fetch("https://profi.local/api/newProducts").then((response) => {
+      fetch("https://ce95524.tw1.ru/api/v1/newProducts").then((response) => {
         return response.json().then((data) => {
           this.newItems = data.data;
         });
       });
     },
     fetchBlogPosts() {
-      fetch("https://profi.local/api/blogPosts")
+      fetch("https://ce95524.tw1.ru/api/v1/blogPosts")
         .then((response) => response.json())
         .then((data) => {
           this.blogItems = data.data.map((item) => {

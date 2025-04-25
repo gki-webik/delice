@@ -96,7 +96,7 @@ export default {
       }
       const formData = new FormData();
       formData.append("email", this.email);
-      fetch("https://profi.local/api/mailing", {
+      fetch("https://ce95524.tw1.ru/api/v1/mailing", {
         method: "POST",
         body: formData,
       }).then((response) => {

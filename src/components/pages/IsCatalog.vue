@@ -792,7 +792,7 @@ export default {
       return this.colorCodes[colorName] || "#cccccc";
     },
     fetchProducts() {
-      fetch("https://profi.local/api/products").then((response) => {
+      fetch("https://ce95524.tw1.ru/api/v1/products").then((response) => {
         return response.json().then((data) => {
           this.products = data.data;
         });

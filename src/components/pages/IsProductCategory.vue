@@ -473,7 +473,7 @@ export default {
       let formData = new FormData();
       formData.append("commentData", JSON.stringify(commentData));
       try {
-        const response = await fetch("https://profi.local/api/addComment", {
+        const response = await fetch("https://ce95524.tw1.ru/api/v1/addComment", {
           method: "POST",
           credentials: "include",
           body: formData,
@@ -485,7 +485,7 @@ export default {
           this.commentText = "";
 
           fetch(
-            "https://profi.local/api/getCommentProductById/" +
+            "https://ce95524.tw1.ru/api/v1/getCommentProductById/" +
               this.$route.params.product
           ).then((response) => {
             return response.json().then((data) => {
@@ -504,7 +504,7 @@ export default {
     async fetchMyComments() {
       try {
         const response = await fetch(
-          "https://profi.local/api/getComment/" + this.$route.params.product,
+          "https://ce95524.tw1.ru/api/v1/getComment/" + this.$route.params.product,
           {
             method: "POST",
             credentials: "include",
@@ -602,7 +602,7 @@ export default {
     },
 
     fetchProduct(id) {
-      fetch("https://profi.local/api/getProductById/" + id).then((response) => {
+      fetch("https://ce95524.tw1.ru/api/v1/getProductById/" + id).then((response) => {
         return response.json().then((data) => {
           this.product = data.data[0];
           this.currentImage = this.product.image;
@@ -630,14 +630,14 @@ export default {
           this.checkCartForProduct(id);
         });
       });
-      fetch("https://profi.local/api/getCommentProductById/" + id).then(
+      fetch("https://ce95524.tw1.ru/api/v1/getCommentProductById/" + id).then(
         (response) => {
           return response.json().then((data) => {
             this.comments = data.data;
           });
         }
       );
-      fetch("https://profi.local/api/similarProducts/" + id).then(
+      fetch("https://ce95524.tw1.ru/api/v1/similarProducts/" + id).then(
         (response) => {
           return response.json().then((data) => {
             this.newItems = data.data;

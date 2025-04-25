@@ -197,7 +197,7 @@ export default {
       }
     },
     isAuth() {
-      fetch("https://profi.local/api/checkAuth", {
+      fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -222,7 +222,7 @@ export default {
     fetchOrders() {
       this.loadingOrders = true;
       this.errorOrders = null;
-      fetch("https://profi.local/api/profile-orders", {
+      fetch("https://ce95524.tw1.ru/api/v1/profile-orders", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -246,7 +246,7 @@ export default {
     fetchUserData() {
       this.loadingUser = true;
       this.errorUser = null;
-      fetch("https://profi.local/api/profile-user", {
+      fetch("https://ce95524.tw1.ru/api/v1/profile-user", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -273,7 +273,7 @@ export default {
     fetchComments() {
       this.loadingComments = true;
       this.errorComments = null;
-      fetch("https://profi.local/api/profile-comments", {
+      fetch("https://ce95524.tw1.ru/api/v1/profile-comments", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -297,7 +297,7 @@ export default {
     saveUserData() {
       let formData = new FormData();
       formData.append("userData", JSON.stringify(this.userData));
-      fetch("https://profi.local/api/profile-user", {
+      fetch("https://ce95524.tw1.ru/api/v1/profile-user", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -311,7 +311,7 @@ export default {
         });
     },
     fetchAccountExit() {
-      fetch("https://profi.local/api/profile-exit", {
+      fetch("https://ce95524.tw1.ru/api/v1/profile-exit", {
         method: "POST",
         credentials: "include",
       })
@@ -324,7 +324,7 @@ export default {
         });
     },
     fetchAccountDelete() {
-      fetch("https://profi.local/api/profile-delete", {
+      fetch("https://ce95524.tw1.ru/api/v1/profile-delete", {
         method: "DELETE",
         credentials: "include",
       })
