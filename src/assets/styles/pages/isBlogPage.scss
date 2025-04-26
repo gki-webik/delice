@@ -1,0 +1,121 @@
+@import "../variables";
+
+.boxMainBlogPage {
+  padding: 50px 20px;
+  h1 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  .blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    .block {
+      @media screen and (max-width: 880px) {
+        flex-direction: column !important;
+      }
+      img {
+        border-radius: 5px;
+      }
+      &.is-1 {
+        display: flex;
+        gap: 40px;
+        img {
+          width: 50%;
+          object-fit: cover;
+          height: 100%;
+          @media screen and (max-width: 880px) {
+            width: 100%;
+          }
+        }
+        .flex-column {
+          display: flex;
+          flex-direction: column;
+          gap: 25px;
+          width: 50%;
+          @media screen and (max-width: 880px) {
+            width: 100%;
+          }
+          img {
+            width: 100%;
+          }
+          div {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 1.4;
+            letter-spacing: 0%;
+            vertical-align: middle;
+          }
+        }
+      }
+      &:not(.is-1) {
+        display: flex;
+        gap: 45px;
+        img {
+          width: 100%;
+        }
+        div {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 400;
+          font-size: 13px;
+          line-height: 1.4;
+          letter-spacing: 0%;
+          vertical-align: middle;
+          width: 100%;
+        }
+        .flex-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+          width: 100%;
+          @media screen and (max-width: 600px) {
+            flex-wrap: wrap;
+          }
+          img {
+            object-fit: cover;
+            &.is-1 {
+              width: 230px;
+              height: 361px;
+              @media screen and (max-width: 880px) {
+                width: 100% !important;
+                aspect-ratio: 2/2.5;
+              }
+            }
+            &.is-2 {
+              width: 170px;
+              height: 243px;
+              @media screen and (max-width: 880px) {
+                width: 100% !important;
+                height: 361px;
+                aspect-ratio: 2/2.5;
+              }
+            }
+          }
+        }
+
+        &.is-right {
+          flex-direction: row-reverse;
+          .flex-row {
+            img {
+              &.is-2 {
+                width: 230px;
+                height: 361px;
+              }
+              &.is-1 {
+                width: 170px;
+                height: 243px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

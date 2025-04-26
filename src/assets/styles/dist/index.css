@@ -271,6 +271,8 @@
   gap: 10px;
   min-width: 200px;
   width: 200px;
+  overflow: hidden;
+  height: 315px;
   cursor: pointer;
   background-color: #ffebd4;
   padding: 20px;
@@ -281,6 +283,7 @@
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
   scroll-snap-align: start;
+  position: relative;
 }
 .boxMainPage .block3 .tape .slider_box .slider .slider__item .name,
 .boxMainPage .block4 .tape .slider_box .slider .slider__item .name {
@@ -305,6 +308,23 @@
   border-radius: 5px;
   -o-object-fit: cover;
      object-fit: cover;
+  -webkit-transition: -webkit-transform 0.15s ease-in-out;
+  transition: -webkit-transform 0.15s ease-in-out;
+  transition: transform 0.15s ease-in-out;
+  transition: transform 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out;
+}
+.boxMainPage .block3 .tape .slider_box .slider .slider__item:hover img,
+.boxMainPage .block4 .tape .slider_box .slider .slider__item:hover img {
+  aspect-ratio: auto;
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+  height: 535px;
+}
+.boxMainPage .block3 .tape .slider_box .slider .slider__item:hover .price,
+.boxMainPage .block3 .tape .slider_box .slider .slider__item:hover .name,
+.boxMainPage .block4 .tape .slider_box .slider .slider__item:hover .price,
+.boxMainPage .block4 .tape .slider_box .slider .slider__item:hover .name {
+  display: none;
 }
 .boxMainPage .block4 {
   margin-top: 50px;

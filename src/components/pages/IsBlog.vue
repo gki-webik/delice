@@ -38,7 +38,7 @@
 </template>
 
 <style scoped>
-@import "../../assets/styles/pages/dist/min/isBlog.min.css"; /* Исправьте путь, если нужно */
+@import "../../assets/styles/pages/dist/min/isBlog.min.css";
 </style>
 
 <script>

@@ -461,11 +461,13 @@ export default {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     fetchPopularProducts() {
-      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then((response) => {
-        return response.json().then((data) => {
-          this.items = data.data;
-        });
-      });
+      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then(
+        (response) => {
+          return response.json().then((data) => {
+            this.items = data.data;
+          });
+        }
+      );
     },
     fetchNewProducts() {
       fetch("https://ce95524.tw1.ru/api/v1/newProducts").then((response) => {
@@ -485,6 +487,9 @@ export default {
             if (item.images && typeof item.images === "string") {
               try {
                 images = JSON.parse(item.images);
+                if (images.length > 3) {
+                  images = images.slice(0, 3);
+                }
               } catch (e) {
                 console.error("Ошибка парсинга images:", e);
                 images = [];
@@ -498,7 +503,6 @@ export default {
                 short_text = [];
               }
             }
-
             return {
               ...item,
               images,

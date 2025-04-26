@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.boxMainBlogPage {
+  padding: 50px 20px;
+}
+.boxMainBlogPage h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+.boxMainBlogPage .blocks {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 50px;
+}
+@media screen and (max-width: 880px) {
+  .boxMainBlogPage .blocks .block {
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+        -ms-flex-direction: column !important;
+            flex-direction: column !important;
+  }
+}
+.boxMainBlogPage .blocks .block img {
+  border-radius: 5px;
+}
+.boxMainBlogPage .blocks .block.is-1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 40px;
+}
+.boxMainBlogPage .blocks .block.is-1 img {
+  width: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
+}
+@media screen and (max-width: 880px) {
+  .boxMainBlogPage .blocks .block.is-1 img {
+    width: 100%;
+  }
+}
+.boxMainBlogPage .blocks .block.is-1 .flex-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 25px;
+  width: 50%;
+}
+@media screen and (max-width: 880px) {
+  .boxMainBlogPage .blocks .block.is-1 .flex-column {
+    width: 100%;
+  }
+}
+.boxMainBlogPage .blocks .block.is-1 .flex-column img {
+  width: 100%;
+}
+.boxMainBlogPage .blocks .block.is-1 .flex-column div {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.boxMainBlogPage .blocks .block:not(.is-1) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 45px;
+}
+.boxMainBlogPage .blocks .block:not(.is-1) img {
+  width: 100%;
+}
+.boxMainBlogPage .blocks .block:not(.is-1) div {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  width: 100%;
+}
+.boxMainBlogPage .blocks .block:not(.is-1) .flex-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+@media screen and (max-width: 600px) {
+  .boxMainBlogPage .blocks .block:not(.is-1) .flex-row {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+}
+.boxMainBlogPage .blocks .block:not(.is-1) .flex-row img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.boxMainBlogPage .blocks .block:not(.is-1) .flex-row img.is-1 {
+  width: 230px;
+  height: 361px;
+}
+@media screen and (max-width: 880px) {
+  .boxMainBlogPage .blocks .block:not(.is-1) .flex-row img.is-1 {
+    width: 100% !important;
+    aspect-ratio: 2/2.5;
+  }
+}
+.boxMainBlogPage .blocks .block:not(.is-1) .flex-row img.is-2 {
+  width: 170px;
+  height: 243px;
+}
+@media screen and (max-width: 880px) {
+  .boxMainBlogPage .blocks .block:not(.is-1) .flex-row img.is-2 {
+    width: 100% !important;
+    height: 361px;
+    aspect-ratio: 2/2.5;
+  }
+}
+.boxMainBlogPage .blocks .block:not(.is-1).is-right {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+.boxMainBlogPage .blocks .block:not(.is-1).is-right .flex-row img.is-2 {
+  width: 230px;
+  height: 361px;
+}
+.boxMainBlogPage .blocks .block:not(.is-1).is-right .flex-row img.is-1 {
+  width: 170px;
+  height: 243px;
+}

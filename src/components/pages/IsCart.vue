@@ -553,6 +553,7 @@ export default {
       const orderData = {
         items: selectedItems.map((item) => ({
           id: item.id,
+          image: item.image,
           name: item.name,
           price: Number(item.price),
           quantity: Number(item.quantity),
@@ -566,18 +567,6 @@ export default {
         store: this.selectedStore,
         paymentMethod: this.selectedPaymentMethod,
       };
-
-      // Выводим информацию в консоль
-      console.log("Оформлен заказ:");
-      console.log("Товары:", this.selectedItemsIds);
-      console.log("Количество товаров:", this.totalQuantity);
-      console.log("Промокод:", this.promoCode || "Не применен");
-      console.log("Сумма без промокода:", this.selectedAvailableItemsTotal);
-      console.log(
-        "Сумма с промокодом:",
-        this.selectedAvailableItemsTotal - this.discount
-      );
-      console.log("Полные данные заказа:", orderData);
 
       let formData = new FormData();
       formData.append("orderData", JSON.stringify(orderData));

@@ -364,6 +364,15 @@
   letter-spacing: 0%;
   vertical-align: middle;
 }
+.boxMainAccount .box .block3 .items .item .content .price {
+  color: #26436c;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
 .boxMainAccount .box .block3 .items .item .content .renting {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
@@ -371,4 +380,24 @@
   line-height: 100%;
   letter-spacing: 0%;
   vertical-align: middle;
+}
+.boxMainAccount .box .block3 .items .item .content button {
+  padding: 15px 10px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  color: #ffebd4;
+  max-width: 200px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  border-radius: 5px;
+  background-color: #26436c;
+  border: none;
+  opacity: 0.7;
+  -webkit-transition: opacity 0.1s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
+}
+.boxMainAccount .box .block3 .items .item .content button:hover {
+  opacity: 1;
 }

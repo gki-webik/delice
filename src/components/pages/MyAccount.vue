@@ -1,4 +1,35 @@
 <template>
+  <div class="boxHeader">
+    <div class="box-modal is-comment is-centered" v-if="showModalComment">
+      <div class="modal">
+        <span class="is-close" @click="showModalComment = !showModalComment"
+          >×</span
+        >
+        <h2>ОСТАВЬТЕ ОТЗЫВ</h2>
+        <form @submit.prevent="submitComment">
+          <div class="stars">
+            <span
+              v-for="star in 5"
+              :key="star"
+              class="star"
+              :class="{ active: star <= hoverRating || star <= selectedRating }"
+              @mouseover="hoverRating = star"
+              @mouseleave="hoverRating = 0"
+              @click="selectedRating = star"
+            >
+              ★
+            </span>
+          </div>
+          <textarea
+            v-model="commentText"
+            placeholder="Что понравилось? Что не так?"
+            required
+          ></textarea>
+          <button type="submit">Отправить отзыв</button>
+        </form>
+      </div>
+    </div>
+  </div>
   <main class="boxMainAccount">
     <div class="max-container">
       <nav class="is-kroshki">
@@ -9,6 +40,8 @@
             ? "Заказы"
             : isCurrentPage === "data"
             ? "Мои данные"
+            : isCurrentPage === "order"
+            ? "Мои заказы"
             : isCurrentPage === "comments"
             ? "Отзывы"
             : "Не известно"
@@ -17,7 +50,6 @@
       <div class="box">
         <AccountLeftMenu></AccountLeftMenu>
 
-        <!-- Блок Заказы -->
         <div class="block1" v-if="isCurrentPage === 'orders'">
           <h1>Мои заказы</h1>
           <div v-if="loadingOrders" class="is-Montserrat">
@@ -59,7 +91,14 @@
                     }}
                   </td>
                   <td>
-                    <a :href="'/order/' + order.id">Перейти к заказу &gt;</a>
+                    <a
+                      role="button"
+                      @click="
+                        isCurrentPage = 'order';
+                        currentIdOrder = order.id;
+                      "
+                      >Перейти к заказу &gt;</a
+                    >
                   </td>
                 </tr>
               </tbody>
@@ -67,7 +106,57 @@
           </div>
         </div>
 
-        <!-- Блок Мои данные -->
+        <div class="block3" v-if="isCurrentPage === 'order'">
+          <h1>
+            Мои заказы (#{{ currentIdOrder ? currentIdOrder : null }} -
+            {{ orderDetails && orderDetails.date }})
+          </h1>
+          <div v-if="loadingOrderDetails" class="is-Montserrat">
+            Загрузка деталей заказа...
+          </div>
+          <div v-else-if="errorOrderDetails" class="is-Montserrat error">
+            {{ errorOrderDetails }}
+          </div>
+          <div v-else-if="!orderDetails" class="is-Montserrat">
+            Информация о заказе не найдена
+          </div>
+          <div class="orderDetails" v-else>
+            <div
+              class="items"
+              v-if="
+                parsedProducts &&
+                parsedProducts.items &&
+                parsedProducts.items.length > 0
+              "
+            >
+              <div
+                class="item"
+                v-for="(item, index) in parsedProducts.items"
+                :key="index"
+              >
+                <img :src="item.image" alt="" />
+                <div class="content">
+                  <div class="name">{{ item.name }}</div>
+                  <div class="price">{{ formatPrice(item.price) }} ₽</div>
+                  <div class="params">{{ item.size }}, {{ item.color }}</div>
+                  <button
+                    type="button"
+                    v-if="!commentsIds.includes(item.id)"
+                    @click="
+                      currentCommentId = item.id;
+                      showModalComment = true;
+                    "
+                  >
+                    Написать отзыв
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div v-else class="is-Montserrat">В заказе нет товаров</div>
+          </div>
+        </div>
+
         <div class="block2" v-if="isCurrentPage === 'data'">
           <h1>Мои данные</h1>
           <div v-if="loadingUser" class="is-Montserrat">Загрузка данных...</div>
@@ -103,7 +192,6 @@
           </div>
         </div>
 
-        <!-- Блок Мои отзывы -->
         <div class="block3" v-if="isCurrentPage === 'comments'">
           <h1>Мои отзывы</h1>
           <div v-if="loadingComments" class="is-Montserrat">
@@ -152,7 +240,15 @@ export default {
   data() {
     return {
       isCurrentPage: "orders",
+      currentIdOrder: null,
       orders: [],
+      orderDetails: null,
+      parsedProducts: null,
+      showModalComment: false,
+      hoverRating: 0,
+      selectedRating: 0,
+      commentsIds: [],
+      commentText: "",
       userData: {
         firstName: "",
         lastName: "",
@@ -162,6 +258,8 @@ export default {
       comments: [],
       loadingOrders: false,
       errorOrders: null,
+      loadingOrderDetails: false,
+      errorOrderDetails: null,
       loadingUser: false,
       errorUser: null,
       loadingComments: false,
@@ -194,6 +292,55 @@ export default {
         this.fetchUserData();
       } else if (this.isCurrentPage === "comments") {
         this.fetchComments();
+      } else if (this.isCurrentPage === "order" && this.currentIdOrder) {
+        this.fetchComments();
+        this.fetchOrderDetails(this.currentIdOrder);
+      }
+    },
+
+    async submitComment() {
+      if (this.selectedRating === 0) {
+        alert("Пожалуйста, выберите рейтинг.");
+        return;
+      }
+      if (this.myComment) return;
+
+      const commentData = {
+        productId: this.currentCommentId,
+        rating: this.selectedRating,
+        review_text: this.commentText,
+      };
+      let formData = new FormData();
+      formData.append("commentData", JSON.stringify(commentData));
+      try {
+        const response = await fetch(
+          "https://ce95524.tw1.ru/api/v1/addComment",
+          {
+            method: "POST",
+            credentials: "include",
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          this.showModalComment = false;
+          this.selectedRating = 0;
+          this.commentText = "";
+          fetch(
+            "https://ce95524.tw1.ru/api/v1/getCommentProductById/" +
+              this.currentCommentId
+          ).then((response) => {
+            return response.json().then((data) => {
+              this.comments = data.data;
+              this.myComment = true;
+            });
+          });
+        } else {
+          alert("Ошибка при отправке отзыва. Попробуйте снова.");
+        }
+      } catch (error) {
+        console.error("Ошибка:", error);
+        alert("Ошибка при отправке отзыва. Попробуйте снова.");
       }
     },
     isAuth() {
@@ -243,6 +390,90 @@ export default {
           this.loadingOrders = false;
         });
     },
+    fetchOrderDetails(orderId) {
+      this.loadingOrderDetails = true;
+      this.errorOrderDetails = null;
+      this.orderDetails = null;
+      this.parsedProducts = null;
+
+      fetch("https://ce95524.tw1.ru/api/v1/profile-orders", {
+        method: "POST",
+        credentials: "include",
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Ошибка загрузки деталей заказа");
+          return res.json();
+        })
+        .then((data) => {
+          // Находим заказ по ID
+          const order = data.data.find((order) => order.id === orderId);
+          if (!order) {
+            throw new Error("Заказ не найден");
+          }
+
+          this.orderDetails = order;
+          try {
+            // Безопасный способ очистки строки без использования управляющих символов в регулярном выражении
+            let cleanedJson = "";
+            if (order.products) {
+              // Проходим по каждому символу и оставляем только печатаемые символы
+              for (let i = 0; i < order.products.length; i++) {
+                const charCode = order.products.charCodeAt(i);
+                // Оставляем только печатаемые символы ASCII и расширенные символы
+                if (charCode > 31 && charCode !== 127) {
+                  cleanedJson += order.products[i];
+                }
+              }
+
+              // Дополнительная обработка для экранирования
+              cleanedJson = cleanedJson
+                .replace(/\\n/g, "\\n")
+                .replace(/\\r/g, "\\r")
+                .replace(/\\t/g, "\\t");
+            }
+
+            this.parsedProducts = JSON.parse(cleanedJson || '{"items":[]}');
+          } catch (e) {
+            console.error("Ошибка при парсинге товаров:", e);
+
+            // Попробуем альтернативный подход, если первый не сработал
+            try {
+              // Попытка использовать простую замену проблемных символов
+              const safeJson = order.products
+                ? order.products
+                    .replace(/\n/g, "")
+                    .replace(/\r/g, "")
+                    .replace(/\t/g, "")
+                    .replace(/\f/g, "")
+                    .replace(/\v/g, "")
+                : '{"items":[]}';
+
+              this.parsedProducts = JSON.parse(safeJson);
+            } catch (innerError) {
+              console.error("Вторая попытка парсинга не удалась:", innerError);
+
+              // Если у нас есть строка с продуктами, попробуем вывести её для диагностики
+              if (order.products) {
+                console.log(
+                  "Проблемная строка JSON (первые 200 символов):",
+                  order.products.substring(0, 200)
+                );
+              }
+
+              this.errorOrderDetails = "Ошибка при обработке данных о товарах";
+
+              // Создаем пустую структуру, чтобы избежать ошибок в шаблоне
+              this.parsedProducts = { items: [] };
+            }
+          }
+        })
+        .catch((err) => {
+          this.errorOrderDetails = err.message;
+        })
+        .finally(() => {
+          this.loadingOrderDetails = false;
+        });
+    },
     fetchUserData() {
       this.loadingUser = true;
       this.errorUser = null;
@@ -286,6 +517,9 @@ export default {
         })
         .then((data) => {
           this.comments = data.data;
+          data.data.forEach((element) => {
+            this.commentsIds.push(element.id);
+          });
         })
         .catch((err) => {
           this.errorComments = err.message;
@@ -343,6 +577,11 @@ export default {
     },
     $route() {
       this.updateCurrentPage();
+    },
+    currentIdOrder() {
+      if (this.isCurrentPage === "order" && this.currentIdOrder) {
+        this.fetchOrderDetails(this.currentIdOrder);
+      }
     },
   },
 };
