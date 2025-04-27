@@ -611,43 +611,45 @@ export default {
               return;
             });
           } else {
-            // Получаем текущие элементы корзины из localStorage
-            const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            return res.json().then((dataRes) => {
+              // Если ссылки нет, продолжаем стандартный процесс оформления заказа
+              // Получаем текущие элементы корзины из localStorage
+              const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
-            // Фильтруем элементы, которые не были выбраны для заказа
-            const remainingCartItems = cartItems.filter((cartItem) => {
-              // Проверяем, не входит ли этот элемент в выбранные для заказа
-              return !selectedItems.some((selectedItem) => {
-                if (typeof cartItem === "object") {
-                  return (
-                    cartItem.id === selectedItem.id &&
-                    cartItem.size === selectedItem.size &&
-                    cartItem.color === selectedItem.color
-                  );
-                }
-                return cartItem === selectedItem.id; // Для обратной совместимости
+              // Фильтруем элементы, которые не были выбраны для заказа
+              const remainingCartItems = cartItems.filter((cartItem) => {
+                // Проверяем, не входит ли этот элемент в выбранные для заказа
+                return !selectedItems.some((selectedItem) => {
+                  if (typeof cartItem === "object") {
+                    return (
+                      cartItem.id === selectedItem.id &&
+                      cartItem.size === selectedItem.size &&
+                      cartItem.color === selectedItem.color
+                    );
+                  }
+                  return cartItem === selectedItem.id; // Для обратной совместимости
+                });
               });
+
+              // Обновляем localStorage
+              localStorage.setItem("cart", JSON.stringify(remainingCartItems));
+
+              // Обновляем cartItems, оставляя только неоформленные товары
+              this.cartItems = this.cartItems.filter(
+                (item) => !item.selected || !item.IsAccess
+              );
+
+              // Закрываем форму оформления
+              this.showCheckoutForm = false;
+
+              // Сбрасываем форму
+              this.selectedStore = "";
+              this.selectedPaymentMethod = "";
+              this.promoCode = "";
+              this.discount = 0;
+
+              document.location.href = dataRes.link;
             });
-
-            // Обновляем localStorage
-            localStorage.setItem("cart", JSON.stringify(remainingCartItems));
-
-            // Обновляем cartItems, оставляя только неоформленные товары
-            this.cartItems = this.cartItems.filter(
-              (item) => !item.selected || !item.IsAccess
-            );
-
-            // Закрываем форму оформления
-            this.showCheckoutForm = false;
-
-            // Сбрасываем форму
-            this.selectedStore = "";
-            this.selectedPaymentMethod = "";
-            this.promoCode = "";
-            this.discount = 0;
-
-            alert("Заказ успешно создан!");
-            this.$router.push("/account/orders");
           }
         })
         .catch((err) => {

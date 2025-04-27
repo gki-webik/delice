@@ -274,8 +274,30 @@ export default {
   },
   mounted() {
     this.isAuth();
+    setTimeout(() => {
+      this.checkPay();
+    });
   },
   methods: {
+    checkPay() {
+      fetch("https://ce95524.tw1.ru/api/v1/checkPay", {
+        credentials: "include",
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Ошибка загрузки данных пользователя");
+          return res.json();
+        })
+        .then((data) => {
+          if (data && data.message) {
+            this.fetchData();
+          }
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.checkPay();
+          }, 1500);
+        });
+    },
     formatPrice(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },

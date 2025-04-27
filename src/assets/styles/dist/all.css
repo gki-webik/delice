@@ -117,6 +117,8 @@ nav.is-kroshki a.is-end {
   line-height: 100%;
   letter-spacing: 0%;
   vertical-align: middle;
+  margin-left: 10px;
+  padding-left: 0;
 }
 .box-modal.is-stores ol,
 .box-modal.is-stores ul {

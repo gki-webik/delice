@@ -21,7 +21,7 @@
         <li>ТЦ “РИО”, проспект Культуры, 1</li>
       </ol>
       <iframe
-        src="https://yandex.ru/map-widget/v1/?um=constructor%3A5052d3a53167b1e999acc06dd2a4bfe9d22c0847c68e1019ebc73dc997636131&amp;source=constructor"
+        src="https://yandex.ru/map-widget/v1/?um=constructor%3A82c6d26c77006c6b2d2312f707018451ad64bf1e87ebe6f4d9aff61bab0dca29&amp;source=constructor"
         width="100%"
         height="400"
         frameborder="0"
