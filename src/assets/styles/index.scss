@@ -64,14 +64,24 @@
     .items {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
       justify-content: space-between;
       @media screen and (max-width: 915px) {
-        flex-wrap: wrap;
         gap: 30px;
         justify-content: center;
       }
       .item {
+        flex: 0 0 calc(100% / 3 - 20px);
         position: relative;
+        margin-top: 50px;
+        @media screen and (max-width: 915px) {
+          gap: 30px;
+          flex: 0 0 calc(100% / 2 - 20px);
+          justify-content: center;
+        }
+        @media screen and (max-width: 665px) {
+          flex: 0 0 100%;
+        }
         img {
           width: 100%;
         }

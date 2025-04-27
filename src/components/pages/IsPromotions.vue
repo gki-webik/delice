@@ -37,10 +37,10 @@ export default {
     };
   },
   mounted() {
-    this.fetchPopularProducts();
+    this.fetchSalesProducts();
   },
   methods: {
-    fetchPopularProducts() {
+    fetchSalesProducts() {
       fetch("https://ce95524.tw1.ru/api/v1/getSales").then((response) => {
         return response.json().then((data) => {
           this.items = data.data;

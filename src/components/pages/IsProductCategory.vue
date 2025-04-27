@@ -28,6 +28,19 @@
       </form>
     </div>
   </div>
+  <div
+    class="box-modal is-stores is-centered"
+    v-if="showMagazines && stores && stores.length > 0"
+  >
+    <div class="modal">
+      <span class="is-close" @click="showMagazines = !showMagazines">×</span>
+      <ul>
+        <li v-for="(item, index) in stores" :key="index">
+          {{ item.name }} - {{ item.count }} шт.
+        </li>
+      </ul>
+    </div>
+  </div>
   <div class="box-modal" v-if="showModalSizes">
     <div class="modal">
       <h2>
@@ -212,7 +225,12 @@
               alt=""
             />
             <div class="text">
-              <span class="is-1">Забрать из <a href="">2 магазинов</a> </span>
+              <span class="is-1"
+                >Забрать из
+                <a role="button" @click="openListMagazines()"
+                  >{{ stores ? stores.length : 0 }} магазинов</a
+                >
+              </span>
               <span class="is-2">после предоплаты</span>
             </div>
           </div>
@@ -414,9 +432,11 @@ export default {
       myComment: false,
       selectedSize: "",
       selectedColor: "",
+      stores: [],
       parsedColorsImages: {},
       availableColors: [],
       isAuth: false,
+      showMagazines: false,
     };
   },
   computed: {
@@ -449,6 +469,9 @@ export default {
     window.removeEventListener("resize", this.calculateVisibleSlidesNew);
   },
   methods: {
+    openListMagazines() {
+      this.showMagazines = true;
+    },
     init() {
       this.isAuthFetch();
       this.calculateVisibleSlidesNew();
@@ -463,6 +486,7 @@ export default {
         this.cart = JSON.parse(savedCart);
       }
       this.fetchMyComments();
+      this.getStoresProduct(this.$route.params.product);
     },
     async submitComment() {
       if (this.selectedRating === 0) {
@@ -534,6 +558,25 @@ export default {
       } catch (error) {
         console.error("Ошибка при получении комментариев:", error);
         this.myComment = false; // На всякий случай
+      }
+    },
+    async getStoresProduct() {
+      try {
+        const response = await fetch(
+          "https://ce95524.tw1.ru/api/v1/getStoresProduct/" +
+            this.$route.params.product
+        );
+
+        if (!response.ok) {
+          throw new Error(`Ошибка сети: ${response.status}`);
+        }
+
+        const stores = await response.json();
+        // Предполагается, что response.data — массив комментариев
+        this.stores = stores.data;
+      } catch (error) {
+        console.error("Ошибка при получении комментариев:", error);
+        this.stores = null; // На всякий случай
       }
     },
 

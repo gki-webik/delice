@@ -7,18 +7,10 @@
           <img src="/media/images/Mask_group.png" class="is-1" alt="" />
         </div>
         <div class="block2">
-          <div class="items">
-            <div class="item">
-              <img src="/media/images/Mask_group2.png" alt="" />
-              <span>Скидка 15% на первый заказ</span>
-            </div>
-            <div class="item">
-              <img src="/media/images/Mask_group3.png" alt="" />
-              <span>1+1=3 на аксессуары</span>
-            </div>
-            <div class="item">
-              <img src="/media/images/Mask_group4.png" alt="" />
-              <span>Подарок при заказе на сумму от 5 000 ₽</span>
+          <div class="items" v-if="itemsSales && itemsSales.length > 0">
+            <div class="item" v-for="(item, index) in itemsSales" :key="index">
+              <img :src="item.image" alt="" />
+              <span>{{ item.title }}</span>
             </div>
           </div>
         </div>
@@ -294,6 +286,7 @@ export default {
       maxBlogSlides: 2,
       blogItemWidth: 0,
       blogItems: null,
+      itemsSales: null,
       currentBlogTitleIndex: 0,
     };
   },
@@ -326,6 +319,7 @@ export default {
     window.addEventListener("resize", this.calculateVisibleSlides);
     window.addEventListener("resize", this.calculateVisibleSlidesNew);
     window.addEventListener("resize", this.calculateBlogItemWidth);
+    this.fetchSalesProducts();
     this.fetchPopularProducts();
     this.fetchNewProducts();
     this.fetchBlogPosts();
@@ -459,6 +453,13 @@ export default {
     },
     formatPrice(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+    fetchSalesProducts() {
+      fetch("https://ce95524.tw1.ru/api/v1/getSales").then((response) => {
+        return response.json().then((data) => {
+          this.itemsSales = data.data;
+        });
+      });
     },
     fetchPopularProducts() {
       fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then(

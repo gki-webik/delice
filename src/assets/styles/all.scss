@@ -80,6 +80,36 @@ nav.is-kroshki {
   &.is-centered {
     align-items: center;
   }
+  &.is-stores {
+    span.is-close {
+      line-height: 0.5;
+      display: block;
+      width: 100%;
+      text-align: right;
+      font-size: 40px;
+      cursor: pointer;
+      transition: color 0.15s ease-in-out;
+      &:hover {
+        color: $color-2;
+      }
+    }
+    ul,
+    li,
+    ol {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 100%;
+      letter-spacing: 0%;
+      vertical-align: middle;
+    }
+    ol,
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
   &.is-comment {
     .modal {
       max-width: 500px;
