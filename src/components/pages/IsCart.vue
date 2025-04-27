@@ -648,7 +648,7 @@ export default {
               this.promoCode = "";
               this.discount = 0;
 
-              document.location.href = dataRes.link;
+              document.location.href = dataRes.data.link;
             });
           }
         })

@@ -85,8 +85,10 @@
                         ? "В процессе"
                         : order.status === "created"
                         ? "Создан"
-                        : order.status === "success"
+                        : order.status === "completed"
                         ? "Выполнен"
+                        : order.status === "success"
+                        ? "Оплачен"
                         : "Неизвестно"
                     }}
                   </td>
