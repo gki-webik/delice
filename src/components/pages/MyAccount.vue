@@ -133,6 +133,7 @@
                 class="item"
                 v-for="(item, index) in parsedProducts.items"
                 :key="index"
+                @click="$router.push('/catalog/product/' + item.id)"
               >
                 <img :src="item.image" alt="" />
                 <div class="content">
@@ -142,7 +143,7 @@
                   <button
                     type="button"
                     v-if="!commentsIds.includes(item.id)"
-                    @click="
+                    @click.stop="
                       currentCommentId = item.id;
                       showModalComment = true;
                     "
@@ -207,7 +208,12 @@
             У вас нет отзывов...
           </div>
           <div class="items" v-else>
-            <div class="item" v-for="comment in comments" :key="comment.id">
+            <div
+              class="item"
+              @click="$router.push('/catalog/product/' + comment.product_id)"
+              v-for="comment in comments"
+              :key="comment.id"
+            >
               <img :src="comment.product.image" alt="" />
               <div class="content">
                 <div class="name">{{ comment.product.name }}</div>

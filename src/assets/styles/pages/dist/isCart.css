@@ -7,6 +7,30 @@
     padding: 50px 10px;
   }
 }
+.boxMainCart .unavailable-products {
+  padding: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  margin-top: 20px;
+  background-color: #c9b297;
+}
+.boxMainCart .unavailable-products ul,
+.boxMainCart .unavailable-products ol {
+  margin-left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  padding-left: 10px;
+}
 .boxMainCart h1 {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;

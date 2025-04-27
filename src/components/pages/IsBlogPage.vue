@@ -3,7 +3,7 @@
     <div class="max-container">
       <nav class="is-kroshki" v-if="name">
         <router-link to="/">Главная</router-link>
-        <router-link to="/blog">Главная</router-link>
+        <router-link to="/blog">Блог</router-link>
         <a class="is-end">{{ name }}</a>
       </nav>
       <h1 v-if="name">{{ name }}</h1>

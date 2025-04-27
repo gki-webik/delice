@@ -63,7 +63,7 @@ export default {
 
               if (item.images && typeof item.images === "string") {
                 try {
-                  images = JSON.parse(item.images);
+                  images = JSON.parse(item.images).slice(0, 3);
                 } catch (e) {
                   images = [];
                 }

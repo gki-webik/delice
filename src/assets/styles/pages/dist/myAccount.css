@@ -295,6 +295,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  cursor: pointer;
   gap: 20px;
   background-color: #c9b297;
   -webkit-box-flex: 1;

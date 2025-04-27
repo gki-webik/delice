@@ -572,8 +572,8 @@ export default {
         }
 
         const stores = await response.json();
-        // Предполагается, что response.data — массив комментариев
         this.stores = stores.data;
+        this.stores = this.stores.filter((store) => store.count !== "0");
       } catch (error) {
         console.error("Ошибка при получении комментариев:", error);
         this.stores = null; // На всякий случай

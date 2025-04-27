@@ -134,7 +134,7 @@
             <button
               class="checkout-btn"
               :disabled="selectedAvailableItemsCount === 0"
-              @click="showCheckoutForm = true"
+              @click="proceedToCheckout"
             >
               К оформлению
             </button>
@@ -157,12 +157,29 @@
             <label for="pickup-store">Выберите магазин для самовывоза:</label>
             <select id="pickup-store" v-model="selectedStore">
               <option value="">Выберите магазин</option>
-              <option v-for="store in stores" :key="store.id" :value="store.id">
-                {{ store.name }} - {{ store.address }}
+              <option
+                v-for="store in availableStores"
+                :key="store.id"
+                :value="store.name"
+              >
+                {{ store.name }}
               </option>
             </select>
             <div class="error" v-if="formErrors.store">
               {{ formErrors.store }}
+            </div>
+            <div
+              v-if="unavailableProducts.length > 0"
+              class="unavailable-products"
+            >
+              <p>Некоторые товары отсутствуют в магазинах:</p>
+              <ul>
+                <li v-for="(item, index) in unavailableProducts" :key="index">
+                  {{ item.productName }} - доступен в:
+                  {{ item.availableStores.join(", ") }}
+                </li>
+              </ul>
+              <p>Оформите их по отдельности.</p>
             </div>
           </div>
           <div class="line-group">
@@ -220,17 +237,6 @@
 
 <style scoped>
 @import "../../assets/styles/pages/dist/min/isCart.min.css";
-
-.item-details {
-  font-size: 0.9em;
-  color: #666;
-  margin-top: 5px;
-}
-
-.cartResult .item-details {
-  margin-top: 8px;
-  font-size: 0.85em;
-}
 </style>
 
 <script>
@@ -248,11 +254,9 @@ export default {
         store: "",
         payment: "",
       },
-      stores: [
-        { id: 1, name: 'ТЦ "Галерея"', address: "Невский проспект, 65" },
-        { id: 2, name: 'ТЦ "Мега Дыбенко"', address: "проспект Дыбенко, 1" },
-        { id: 3, name: 'ТЦ "РИО"', address: "проспект Культуры, 1" },
-      ],
+      stores: [],
+      storesAvailability: {},
+      unavailableProducts: [],
       paymentMethods: [
         {
           id: "card",
@@ -343,6 +347,29 @@ export default {
       return this.cartItems
         .filter((item) => item.selected && item.IsAccess)
         .reduce((total, item) => total + Number(item.quantity), 0);
+    },
+    availableStores() {
+      if (
+        !this.storesAvailability ||
+        Object.keys(this.storesAvailability).length === 0
+      ) {
+        return [];
+      }
+
+      // Получаем ID выбранных товаров
+      const selectedProductIds = this.selectedItems.map((item) => item.id);
+
+      // Находим магазины, где есть все выбранные товары
+      const storesWithAllProducts = this.stores.filter((store) => {
+        return selectedProductIds.every((productId) => {
+          return (
+            this.storesAvailability[productId] &&
+            this.storesAvailability[productId].includes(store.name)
+          );
+        });
+      });
+
+      return storesWithAllProducts;
     },
   },
   methods: {
@@ -559,6 +586,8 @@ export default {
           quantity: Number(item.quantity),
           size: item.size,
           color: item.color,
+          nameStore: this.selectedStore,
+          paymentMethod: this.selectedPaymentMethod,
         })),
         totalBeforeDiscount: this.selectedAvailableItemsTotal,
         totalAfterDiscount: this.selectedAvailableItemsTotal - this.discount,
@@ -577,52 +606,54 @@ export default {
       })
         .then((res) => {
           if (!res.ok) {
-            alert("Ошибка");
-            return;
+            return res.json().then((dataRes) => {
+              alert(dataRes.message);
+              return;
+            });
+          } else {
+            // Получаем текущие элементы корзины из localStorage
+            const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+            // Фильтруем элементы, которые не были выбраны для заказа
+            const remainingCartItems = cartItems.filter((cartItem) => {
+              // Проверяем, не входит ли этот элемент в выбранные для заказа
+              return !selectedItems.some((selectedItem) => {
+                if (typeof cartItem === "object") {
+                  return (
+                    cartItem.id === selectedItem.id &&
+                    cartItem.size === selectedItem.size &&
+                    cartItem.color === selectedItem.color
+                  );
+                }
+                return cartItem === selectedItem.id; // Для обратной совместимости
+              });
+            });
+
+            // Обновляем localStorage
+            localStorage.setItem("cart", JSON.stringify(remainingCartItems));
+
+            // Обновляем cartItems, оставляя только неоформленные товары
+            this.cartItems = this.cartItems.filter(
+              (item) => !item.selected || !item.IsAccess
+            );
+
+            // Закрываем форму оформления
+            this.showCheckoutForm = false;
+
+            // Сбрасываем форму
+            this.selectedStore = "";
+            this.selectedPaymentMethod = "";
+            this.promoCode = "";
+            this.discount = 0;
+
+            alert("Заказ успешно создан!");
+            this.$router.push("/account/orders");
           }
         })
         .catch((err) => {
           alert(err.message);
+          return;
         });
-
-      // Получаем текущие элементы корзины из localStorage
-      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-      // Фильтруем элементы, которые не были выбраны для заказа
-      const remainingCartItems = cartItems.filter((cartItem) => {
-        // Проверяем, не входит ли этот элемент в выбранные для заказа
-        return !selectedItems.some((selectedItem) => {
-          if (typeof cartItem === "object") {
-            return (
-              cartItem.id === selectedItem.id &&
-              cartItem.size === selectedItem.size &&
-              cartItem.color === selectedItem.color
-            );
-          }
-          return cartItem === selectedItem.id; // Для обратной совместимости
-        });
-      });
-
-      // Обновляем localStorage
-      localStorage.setItem("cart", JSON.stringify(remainingCartItems));
-
-      // Обновляем cartItems, оставляя только неоформленные товары
-      this.cartItems = this.cartItems.filter(
-        (item) => !item.selected || !item.IsAccess
-      );
-
-      // Закрываем форму оформления
-      this.showCheckoutForm = false;
-
-      // Сбрасываем форму
-      this.selectedStore = "";
-      this.selectedPaymentMethod = "";
-      this.promoCode = "";
-      this.discount = 0;
-
-      // Можно добавить уведомление об успешном оформлении заказа
-      alert("Заказ успешно оформлен!");
-      this.$router.push("/account/orders");
     },
     isAuth() {
       fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
@@ -646,6 +677,76 @@ export default {
         .catch((err) => {
           console.error(err.message);
         });
+    },
+    async getStoresProduct(productId) {
+      try {
+        const response = await fetch(
+          "https://ce95524.tw1.ru/api/v1/getStoresProduct/" + productId
+        );
+
+        if (!response.ok) {
+          throw new Error(`Ошибка сети: ${response.status}`);
+        }
+
+        const result = await response.json();
+        return result.data.filter((store) => store.count !== "0");
+      } catch (error) {
+        console.error("Ошибка при получении данных о магазинах:", error);
+        return [];
+      }
+    },
+    async proceedToCheckout() {
+      this.showCheckoutForm = true;
+      this.stores = [];
+      this.storesAvailability = {};
+      this.unavailableProducts = [];
+
+      // Получаем выбранные товары
+      const selectedItems = this.selectedItems;
+
+      if (selectedItems.length === 0) {
+        return;
+      }
+
+      // Для каждого выбранного товара получаем список магазинов
+      for (const item of selectedItems) {
+        const storesWithProduct = await this.getStoresProduct(item.id);
+
+        // Если товар есть хотя бы в одном магазине
+        if (storesWithProduct.length > 0) {
+          // Сохраняем список магазинов для этого товара
+          this.storesAvailability[item.id] = storesWithProduct.map(
+            (store) => store.name
+          );
+
+          // Добавляем уникальные магазины в общий список
+          for (const store of storesWithProduct) {
+            if (!this.stores.some((s) => s.id === store.id)) {
+              this.stores.push({
+                id: store.id,
+                name: store.name,
+              });
+            }
+          }
+        } else {
+          // Если товара нет ни в одном магазине
+          this.storesAvailability[item.id] = [];
+        }
+      }
+
+      // Проверяем наличие товаров в магазинах
+      for (const item of selectedItems) {
+        const availableStores = this.storesAvailability[item.id] || [];
+
+        // Если товар отсутствует хотя бы в одном магазине
+        if (availableStores.length < this.stores.length) {
+          this.unavailableProducts.push({
+            productId: item.id,
+            productName: item.name,
+            availableStores: availableStores,
+          });
+        }
+      }
     },
   },
 };
