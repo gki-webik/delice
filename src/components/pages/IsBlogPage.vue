@@ -15,7 +15,6 @@
             <div v-html="texts[0]"></div>
           </div>
         </div>
-        <!-- Обновленный цикл для отображения пар изображений -->
         <div
           class="block"
           :class="{ 'is-right': index % 2 !== 0 }"

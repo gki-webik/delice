@@ -121,14 +121,20 @@
               <span>Товары ({{ selectedAvailableItemsCount }})</span>
               <span>{{ formatPrice(selectedAvailableItemsTotal) }}</span>
             </div>
-            <div class="summary-row">
+            <div class="summary-row" v-if="discount > 0">
               <span>Промокод</span>
-              <span>{{ formatPrice(discount) }}</span>
+              <span>-{{ formatPrice(discount) }}</span>
+            </div>
+            <div class="summary-row" v-if="freeItemDiscount > 0">
+              <span>Акция 1+1=3</span>
+              <span>-{{ formatPrice(freeItemDiscount) }}</span>
             </div>
             <div class="summary-row total">
               <span>Итого</span>
               <span>{{
-                formatPrice(selectedAvailableItemsTotal - discount)
+                formatPrice(
+                  selectedAvailableItemsTotal - freeItemDiscount - discount
+                )
               }}</span>
             </div>
             <button
@@ -146,6 +152,24 @@
                 class="promo-input"
               />
               <button @click="applyPromo">GO</button>
+            </div>
+            <!-- Промо-акции -->
+            <div class="promo-offers">
+              <div class="promo-offer">
+                <div v-if="accessoriesCount >= 2" class="promo-active">
+                  Акция «1+1=3 на аксессуары» применена! Вы экономите
+                  {{ formatPrice(freeItemDiscount) }}
+                </div>
+              </div>
+              <div
+                class="promo-offer"
+                v-if="selectedAvailableItemsTotal >= 5000 && isFirstOrder"
+              >
+                <p>
+                  Вы получите эксклюзивный подарок т.к. заказ оформлен на сумму
+                  >= 5000р!
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -201,8 +225,16 @@
           <div class="line-group total">
             <span>Итого</span>
             <span>{{
-              formatPrice(selectedAvailableItemsTotal - discount)
+              formatPrice(
+                selectedAvailableItemsTotal - freeItemDiscount - discount
+              )
             }}</span>
+          </div>
+          <div
+            class="gift-notification"
+            v-if="selectedAvailableItemsTotal >= 5000 && isFirstOrder"
+          >
+            <p>🎁 Вам положен подарок при получении заказа!</p>
           </div>
           <div class="form-actions">
             <button class="cancel-btn is-1" @click="showCheckoutForm = false">
@@ -243,10 +275,12 @@
 export default {
   data() {
     return {
+      isFirstOrder: null,
       selectAll: false,
       cartItems: null,
       promoCode: "",
       discount: 0,
+      freeItemDiscount: 0,
       showCheckoutForm: false,
       selectedStore: "",
       selectedPaymentMethod: "",
@@ -269,10 +303,12 @@ export default {
         },
       ],
       username: null,
+      hasGift: false,
     };
   },
   created() {
     this.isAuth();
+    this.firstOrder();
   },
   computed: {
     totalItems() {
@@ -359,8 +395,12 @@ export default {
       // Получаем ID выбранных товаров
       const selectedProductIds = this.selectedItems.map((item) => item.id);
 
+      if (selectedProductIds.length === 0) {
+        return [];
+      }
+
       // Находим магазины, где есть все выбранные товары
-      const storesWithAllProducts = this.stores.filter((store) => {
+      const commonStores = this.stores.filter((store) => {
         return selectedProductIds.every((productId) => {
           return (
             this.storesAvailability[productId] &&
@@ -369,7 +409,26 @@ export default {
         });
       });
 
-      return storesWithAllProducts;
+      // Возвращаем список магазинов, где доступны все выбранные товары
+      return commonStores;
+    },
+    // Подсчет аксессуаров для акции 1+1=3
+    accessoriesCount() {
+      if (!this.cartItems) return 0;
+      return this.cartItems
+        .filter(
+          (item) => item.selected && item.IsAccess && this.isAccessory(item)
+        )
+        .reduce((total, item) => total + Number(item.quantity), 0);
+    },
+  },
+  watch: {
+    selectedItems: {
+      handler() {
+        this.applyBuyTwoGetOneFreePromotion();
+        this.checkGiftEligibility();
+      },
+      deep: true,
     },
   },
   methods: {
@@ -404,17 +463,75 @@ export default {
           alert(err.message);
         });
     },
+    // Проверка, является ли пользователь новым
+
+    // Проверка, является ли товар аксессуаром
+    isAccessory(item) {
+      // Предположим, что у аксессуаров есть определенная категория или тег
+      // Здесь можно реализовать логику определения аксессуаров
+      // Для примера, считаем аксессуарами товары с ценой менее 2000 рублей
+      return (
+        item.categoryUrl === "men_accessories" ||
+        item.categoryUrl === "women_accessories"
+      );
+    },
+    // Применение акции 1+1=3 на аксессуары
+    // Применение акции 1+1=3 на аксессуары
+    applyBuyTwoGetOneFreePromotion() {
+      if (this.accessoriesCount >= 3) {
+        // Получаем все выбранные аксессуары
+        const accessories = [];
+
+        // Разворачиваем каждый аксессуар в соответствии с его количеством
+        this.cartItems
+          .filter(
+            (item) => item.selected && item.IsAccess && this.isAccessory(item)
+          )
+          .forEach((item) => {
+            for (let i = 0; i < item.quantity; i++) {
+              accessories.push({
+                id: item.id,
+                price: Number(item.price),
+              });
+            }
+          });
+
+        // Сортируем по возрастанию цены
+        accessories.sort((a, b) => a.price - b.price);
+
+        // Рассчитываем количество бесплатных товаров (каждый третий)
+        const freeItemsCount = Math.floor(accessories.length / 3);
+
+        // Суммируем стоимость самых дешевых товаров, которые будут бесплатными
+        let discount = 0;
+        for (let i = 0; i < freeItemsCount; i++) {
+          discount += accessories[i].price;
+        }
+
+        this.freeItemDiscount = discount;
+      } else {
+        this.freeItemDiscount = 0;
+      }
+    },
+    // Проверка права на подарок при заказе от 5000 рублей
+    checkGiftEligibility() {
+      this.hasGift = this.selectedAvailableItemsTotal >= 5000;
+    },
     increaseQuantity(index) {
       const item = this.cartItems[index];
       const maxCount = Number(item.count);
       if (item.IsAccess && item.quantity < maxCount) {
         item.quantity++;
+        this.applyBuyTwoGetOneFreePromotion();
+        this.checkGiftEligibility();
       }
     },
     decreaseQuantity(index) {
       const item = this.cartItems[index];
       if (item.IsAccess && item.quantity > 1) {
         item.quantity--;
+        this.applyBuyTwoGetOneFreePromotion();
+        this.checkGiftEligibility();
       }
     },
     toggleSelectAll() {
@@ -424,12 +541,16 @@ export default {
           item.selected = this.selectAll;
         }
       });
+      this.applyBuyTwoGetOneFreePromotion();
+      this.checkGiftEligibility();
     },
     updateSelectAll() {
       if (!this.cartItems) return;
       this.selectAll = this.cartItems.every(
         (item) => !item.IsAccess || item.selected
       );
+      this.applyBuyTwoGetOneFreePromotion();
+      this.checkGiftEligibility();
     },
     async fetchCartItems(cartItems) {
       this.cartItems = null;
@@ -485,6 +606,11 @@ export default {
       this.fetchCartItems(cartItems);
     },
     applyPromo() {
+      if (!this.promoCode) {
+        this.discount = 0;
+        return;
+      }
+
       let formData = new FormData();
       formData.append("promo", this.promoCode);
       fetch("https://ce95524.tw1.ru/api/v1/checkPromoCode", {
@@ -498,8 +624,12 @@ export default {
             return;
           } else {
             return res.json().then((data) => {
-              this.discount =
-                (this.selectedItemsTotal * Number(data.data)) / 100;
+              if (this.promoCode === "new2025" && !this.isFirstOrder) return;
+
+              // Применяем промокод к сумме после вычета скидки по акции 1+1=3
+              const baseAmount =
+                this.selectedAvailableItemsTotal - this.freeItemDiscount;
+              this.discount = (baseAmount * Number(data.data)) / 100;
             });
           }
         })
@@ -536,6 +666,8 @@ export default {
       }
 
       this.updateSelectAll();
+      this.applyBuyTwoGetOneFreePromotion();
+      this.checkGiftEligibility();
     },
     saveCartToLocalStorage() {
       // Преобразуем cartItems в формат для localStorage
@@ -590,11 +722,15 @@ export default {
           paymentMethod: this.selectedPaymentMethod,
         })),
         totalBeforeDiscount: this.selectedAvailableItemsTotal,
-        totalAfterDiscount: this.selectedAvailableItemsTotal - this.discount,
-        discount: this.discount,
+        totalAfterDiscount:
+          this.selectedAvailableItemsTotal -
+          this.freeItemDiscount -
+          this.discount,
+        discount: this.discount + this.freeItemDiscount,
         promoCode: this.promoCode,
         store: this.selectedStore,
         paymentMethod: this.selectedPaymentMethod,
+        hasGift: this.hasGift,
       };
 
       let formData = new FormData();
@@ -612,7 +748,8 @@ export default {
             });
           } else {
             return res.json().then((dataRes) => {
-              // Если ссылки нет, продолжаем стандартный процесс оформления заказа
+              console.log(dataRes);
+              /*  // Если ссылки нет, продолжаем стандартный процесс оформления заказа
               // Получаем текущие элементы корзины из localStorage
               const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -647,8 +784,14 @@ export default {
               this.selectedPaymentMethod = "";
               this.promoCode = "";
               this.discount = 0;
+              this.freeItemDiscount = 0;
 
-              document.location.href = dataRes.link;
+              // Если пользователь был новым, он больше не считается новым
+              if (this.isFirstOrder) {
+                this.isFirstOrder = false;
+              }
+
+              document.location.href = dataRes.link; */
             });
           }
         })
@@ -714,41 +857,61 @@ export default {
       for (const item of selectedItems) {
         const storesWithProduct = await this.getStoresProduct(item.id);
 
-        // Если товар есть хотя бы в одном магазине
-        if (storesWithProduct.length > 0) {
-          // Сохраняем список магазинов для этого товара
-          this.storesAvailability[item.id] = storesWithProduct.map(
-            (store) => store.name
-          );
+        // Сохраняем список магазинов для этого товара
+        this.storesAvailability[item.id] = storesWithProduct.map(
+          (store) => store.name
+        );
 
-          // Добавляем уникальные магазины в общий список
-          for (const store of storesWithProduct) {
-            if (!this.stores.some((s) => s.id === store.id)) {
-              this.stores.push({
-                id: store.id,
-                name: store.name,
-              });
-            }
+        // Добавляем магазины в общий список
+        for (const store of storesWithProduct) {
+          if (!this.stores.some((s) => s.id === store.id)) {
+            this.stores.push({
+              id: store.id,
+              name: store.name,
+            });
           }
-        } else {
-          // Если товара нет ни в одном магазине
-          this.storesAvailability[item.id] = [];
         }
       }
 
-      // Проверяем наличие товаров в магазинах
-      for (const item of selectedItems) {
-        const availableStores = this.storesAvailability[item.id] || [];
+      // Проверяем, есть ли хотя бы один магазин, где доступны все товары
+      const commonStores = this.stores.filter((store) => {
+        return selectedItems.every((item) => {
+          return (
+            this.storesAvailability[item.id] &&
+            this.storesAvailability[item.id].includes(store.name)
+          );
+        });
+      });
 
-        // Если товар отсутствует хотя бы в одном магазине
-        if (availableStores.length < this.stores.length) {
+      // Если нет общих магазинов, показываем предупреждение
+      if (commonStores.length === 0) {
+        for (const item of selectedItems) {
           this.unavailableProducts.push({
             productId: item.id,
             productName: item.name,
-            availableStores: availableStores,
+            availableStores: this.storesAvailability[item.id] || [],
           });
         }
       }
+    },
+    firstOrder() {
+      fetch("https://ce95524.tw1.ru/api/v1/firstOrder", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json().then(() => {
+              this.isFirstOrder = true;
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
     },
   },
 };

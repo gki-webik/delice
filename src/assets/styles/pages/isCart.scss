@@ -557,4 +557,24 @@
       }
     }
   }
+  .gift-notification {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: $color-2;
+  }
+  .promo-offer {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 0%;
+    margin-top: 10px;
+    vertical-align: middle;
+  }
 }
