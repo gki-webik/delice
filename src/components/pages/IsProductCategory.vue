@@ -187,15 +187,23 @@
           <div class="actions">
             <button
               type="button"
-              @click="isAuth ? toggleCart() : this.$emit('modal-auth')"
+              @click="
+                productCount !== 0
+                  ? isAuth
+                    ? toggleCart()
+                    : this.$emit('modal-auth')
+                  : null
+              "
               class="is-1"
-              :disabled="!selectedSize || !selectedColor"
+              :disabled="!selectedSize || !selectedColor || productCount === 0"
             >
               <img src="/media/images/cart__logo.svg" alt="" />
               {{
-                isInCart() && isAuth
-                  ? "Удалить из корзины"
-                  : "Добавить в корзину"
+                productCount !== 0
+                  ? isInCart() && isAuth
+                    ? "Удалить из корзины"
+                    : "Добавить в корзину"
+                  : "Товар закончился"
               }}
             </button>
             <button type="button" class="is-2" @click="toggleFavorite()">
@@ -398,6 +406,7 @@ export default {
       newItems: [],
       currentSlideNew: 0,
       visibleSlidesNew: 4,
+      productCount: 0,
       itemWidthNew: 200,
       sliderWidthNew: 0,
       showModalComment: false,
@@ -666,6 +675,8 @@ export default {
             this.product.characteristic = JSON.parse(
               this.product.characteristic
             );
+
+            this.productCount = Number(this.product.count);
 
             // Парсим доступные цвета
             this.availableColors = JSON.parse(this.product.availableColors);

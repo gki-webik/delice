@@ -175,8 +175,8 @@
               <p>Некоторые товары отсутствуют в магазинах:</p>
               <ul>
                 <li v-for="(item, index) in unavailableProducts" :key="index">
-                  {{ item.productName }} - доступен в:
-                  {{ item.availableStores.join(", ") }}
+                  <b>{{ item.productName }}</b> - доступен в:
+                  {{ item.availableStores.join("; ") }}
                 </li>
               </ul>
               <p>Оформите их по отдельности.</p>
@@ -648,7 +648,7 @@ export default {
               this.promoCode = "";
               this.discount = 0;
 
-              document.location.href = dataRes.data.link;
+              document.location.href = dataRes.link;
             });
           }
         })
