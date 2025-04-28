@@ -748,8 +748,7 @@ export default {
             });
           } else {
             return res.json().then((dataRes) => {
-              console.log(dataRes);
-              /*  // Если ссылки нет, продолжаем стандартный процесс оформления заказа
+              // Если ссылки нет, продолжаем стандартный процесс оформления заказа
               // Получаем текущие элементы корзины из localStorage
               const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -791,7 +790,7 @@ export default {
                 this.isFirstOrder = false;
               }
 
-              document.location.href = dataRes.link; */
+              document.location.href = dataRes.link;
             });
           }
         })
