@@ -462,13 +462,11 @@ export default {
       });
     },
     fetchPopularProducts() {
-      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then(
-        (response) => {
-          return response.json().then((data) => {
-            this.items = data.data;
-          });
-        }
-      );
+      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then((response) => {
+        return response.json().then((data) => {
+          this.items = data.data;
+        });
+      });
     },
     fetchNewProducts() {
       fetch("https://ce95524.tw1.ru/api/v1/newProducts").then((response) => {
