@@ -156,6 +156,7 @@
           </div>
         </div>
         <div class="right">
+          <small>ID {{ product.id }}</small>
           <h1>{{ product.name }}</h1>
           <div class="cost" v-if="product.price">
             {{ formatPrice(product.price) }} ₽
@@ -686,14 +687,12 @@ export default {
 
             // Устанавливаем начальные значения для размера и цвета
             if (this.product.sizes && this.product.sizes.length > 0) {
-              this.selectedSize = this.product.sizes[0];
+              this.selectedSize = this.product.size;
             }
 
             if (this.availableColors && this.availableColors.length > 0) {
-              this.selectedColor = this.availableColors[0];
+              this.selectedColor = this.product.color;
             }
-
-            // Проверяем, есть ли этот товар в корзине и устанавливаем выбранные параметры
             this.checkCartForProduct(id);
           });
         }

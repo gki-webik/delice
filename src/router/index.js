@@ -11,6 +11,13 @@ import IsBlog from '../components/pages/IsBlog.vue'
 import IsBlogPage from '../components/pages/IsBlogPage.vue'
 import IsFavourites from '../components/pages/IsFavourites.vue'
 import IsCart from '../components/pages/IsCart.vue'
+import IsHomeAdmin from '../components/pages/admin/IsHome.vue'
+import IsPanelAdmin from '../components/pages/admin/IsPanel.vue'
+import IsPanelAdminAED from '../components/pages/admin/products/IsAED.vue'
+import IsPanelAdminIEE from '../components/pages/admin/products/IsIEE.vue'
+import IsPanelAdminMainOrders from '../components/pages/admin/orders/IsMain.vue'
+import IsPanelAdminUsersList from '../components/pages/admin/users/IsList.vue'
+import IsPanelAdminUsersMessages from '../components/pages/admin/users/IsMessages.vue'
 
 const routes = [
     {
@@ -68,6 +75,34 @@ const routes = [
     {
         path: '/search',
         component: IsCatalog
+    },
+    {
+        path: '/admin',
+        component: IsHomeAdmin
+    },
+    {
+        path: '/admin/panel',
+        component: IsPanelAdmin
+    },
+    {
+        path: '/admin/panel/products/aed',
+        component: IsPanelAdminAED
+    },
+    {
+        path: '/admin/panel/products/iee',
+        component: IsPanelAdminIEE
+    },
+    {
+        path: '/admin/panel/orders',
+        component: IsPanelAdminMainOrders
+    },
+    {
+        path: '/admin/panel/users/list',
+        component: IsPanelAdminUsersList
+    },
+    {
+        path: '/admin/panel/users/messages',
+        component: IsPanelAdminUsersMessages
     }
 ]
 

@@ -1,0 +1,588 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.boxMainAdminPanelAED {
+  padding: 40px 20px 20px 20px;
+  /* Стили для блока с изображениями цветов */
+}
+.boxMainAdminPanelAED * {
+  font-family: "Montserrat", sans-serif;
+}
+.boxMainAdminPanelAED .is-kroshki {
+  padding: 20px 0;
+}
+.boxMainAdminPanelAED h1 {
+  margin-top: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+@media screen and (max-width: 550px) {
+  .boxMainAdminPanelAED h1 {
+    font-size: 1.5rem;
+  }
+}
+.boxMainAdminPanelAED p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.boxMainAdminPanelAED a {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.boxMainAdminPanelAED .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 10px;
+}
+.boxMainAdminPanelAED .buttons button {
+  padding: 15px 10px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  color: #ffebd4;
+  max-width: 200px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  border-radius: 5px;
+  background-color: #26436c;
+  border: none;
+  opacity: 1;
+  -webkit-transition: opacity 0.1s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
+}
+.boxMainAdminPanelAED .buttons button:hover {
+  opacity: 0.9;
+}
+.boxMainAdminPanelAED .faqIdProduct {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.boxMainAdminPanelAED form {
+  margin-top: 10px;
+  max-width: 550px;
+  background-color: #c9b297;
+  padding: 10px;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+}
+.boxMainAdminPanelAED form a {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  text-align: center;
+  margin: 7px 0;
+  text-decoration: underline;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.boxMainAdminPanelAED form input {
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  background-color: #ffebd4;
+  color: #26436c;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.boxMainAdminPanelAED form button {
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  background-color: #ffebd4;
+  color: #26436c;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  -webkit-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+}
+.boxMainAdminPanelAED form button:hover {
+  color: #ffebd4;
+  background-color: #26436c;
+}
+.boxMainAdminPanelAED .product_item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  padding: 20px;
+  background: #c9b297;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.boxMainAdminPanelAED .product_images {
+  width: 40%;
+}
+.boxMainAdminPanelAED .main_image img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.boxMainAdminPanelAED .additional_images {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.boxMainAdminPanelAED .additional_images img {
+  width: calc(50% - 5px);
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+}
+.boxMainAdminPanelAED .additional_images img:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+.boxMainAdminPanelAED .product_info {
+  width: 60%;
+}
+.boxMainAdminPanelAED .product_info h2 {
+  margin-top: 0;
+  color: #333;
+}
+.boxMainAdminPanelAED .price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #26436c;
+  margin: 10px 0;
+}
+.boxMainAdminPanelAED .characteristics,
+.boxMainAdminPanelAED .product_care {
+  margin: 20px 0;
+  padding: 15px;
+  background: #ffebd4;
+  border-radius: 8px;
+}
+.boxMainAdminPanelAED .characteristics h3,
+.boxMainAdminPanelAED .product_care h3 {
+  margin-top: 0;
+}
+.boxMainAdminPanelAED ul {
+  padding-left: 20px;
+}
+.boxMainAdminPanelAED li {
+  margin-bottom: 5px;
+}
+.boxMainAdminPanelAED .product_actions {
+  margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+}
+.boxMainAdminPanelAED .edit_btn,
+.boxMainAdminPanelAED .delete_btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.boxMainAdminPanelAED .edit_btn {
+  background-color: #42b983;
+  color: white;
+}
+.boxMainAdminPanelAED .edit_btn:hover {
+  background-color: #369f6e;
+}
+.boxMainAdminPanelAED .delete_btn {
+  background-color: #e53935;
+  color: white;
+}
+.boxMainAdminPanelAED .delete_btn:hover {
+  background-color: #c62828;
+}
+.boxMainAdminPanelAED .edit-container {
+  margin-top: 30px;
+  background: #c9b297;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.boxMainAdminPanelAED .edit-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+  background: #26436c;
+  border-bottom: 1px solid #e1e5eb;
+}
+.boxMainAdminPanelAED .edit-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ffebd4;
+}
+.boxMainAdminPanelAED .edit-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+}
+.boxMainAdminPanelAED .save-btn,
+.boxMainAdminPanelAED .cancel-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.boxMainAdminPanelAED .save-btn {
+  background-color: #42b983;
+  color: white;
+  border: none;
+}
+.boxMainAdminPanelAED .save-btn:hover {
+  background-color: #369f6e;
+  -webkit-transform: translateY(-1px);
+          transform: translateY(-1px);
+}
+.boxMainAdminPanelAED .cancel-btn {
+  background-color: transparent;
+  color: #ffebd4;
+  border: 1px solid #ffebd4;
+}
+.boxMainAdminPanelAED .cancel-btn:hover {
+  background-color: #c9b297;
+}
+.boxMainAdminPanelAED .edit-content {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.boxMainAdminPanelAED .edit-main-info {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.boxMainAdminPanelAED .edit-images,
+.boxMainAdminPanelAED .edit-details {
+  grid-column: span 1;
+}
+.boxMainAdminPanelAED .form-section {
+  margin-bottom: 30px;
+}
+.boxMainAdminPanelAED .form-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e1e5eb;
+  color: #2c3e50;
+}
+.boxMainAdminPanelAED .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.boxMainAdminPanelAED .form-group {
+  margin-bottom: 20px;
+}
+.boxMainAdminPanelAED .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #495057;
+}
+.boxMainAdminPanelAED .form-group input,
+.boxMainAdminPanelAED .form-group textarea,
+.boxMainAdminPanelAED .form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #26436c;
+  background-color: #ffebd4;
+  border-radius: 4px;
+  font-size: 14px;
+  -webkit-transition: border-color 0.2s;
+  transition: border-color 0.2s;
+}
+.boxMainAdminPanelAED .form-group input:focus,
+.boxMainAdminPanelAED .form-group textarea:focus,
+.boxMainAdminPanelAED .form-group select:focus {
+  outline: none;
+  -webkit-box-shadow: 0 0 0 2px #26436c;
+          box-shadow: 0 0 0 2px #26436c;
+}
+.boxMainAdminPanelAED .tags-preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.boxMainAdminPanelAED .tag {
+  background: #e9ecef;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #495057;
+}
+.boxMainAdminPanelAED .sizes-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+.boxMainAdminPanelAED .size-option {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 5px;
+}
+.boxMainAdminPanelAED .size-option input[type=checkbox] {
+  width: auto;
+}
+.boxMainAdminPanelAED .image-preview {
+  max-width: 100%;
+  max-height: 200px;
+  margin-top: 10px;
+  border-radius: 4px;
+  border: 1px solid #e1e5eb;
+}
+.boxMainAdminPanelAED .images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+.boxMainAdminPanelAED .image-preview-container {
+  position: relative;
+}
+.boxMainAdminPanelAED .thumbnail {
+  width: 100%;
+  height: 120px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #e1e5eb;
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+}
+.boxMainAdminPanelAED .thumbnail:hover {
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
+}
+.boxMainAdminPanelAED .image-index {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 5px;
+}
+.boxMainAdminPanelAED .textarea-container {
+  position: relative;
+}
+.boxMainAdminPanelAED .hint {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 4px;
+}
+.boxMainAdminPanelAED .preview-list {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style-type: disc;
+  color: #495057;
+}
+.boxMainAdminPanelAED .preview-list li {
+  margin-bottom: 4px;
+}
+.boxMainAdminPanelAED .image-input-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.boxMainAdminPanelAED .image-input-group input {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.boxMainAdminPanelAED .remove-image-btn {
+  background: #e53935;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 40px;
+  cursor: pointer;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.boxMainAdminPanelAED .remove-image-btn:hover {
+  background: #c62828;
+}
+.boxMainAdminPanelAED .add-image-btn {
+  background: #42b983;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-top: 5px;
+  cursor: pointer;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.boxMainAdminPanelAED .add-image-btn:hover {
+  background: #369f6e;
+}
+@media (max-width: 1200px) {
+  .boxMainAdminPanelAED .edit-content {
+    grid-template-columns: 1fr;
+  }
+  .boxMainAdminPanelAED .edit-main-info {
+    grid-column: span 1;
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .boxMainAdminPanelAED .form-row {
+    grid-template-columns: 1fr;
+  }
+  .boxMainAdminPanelAED .edit-header {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    gap: 15px;
+  }
+  .boxMainAdminPanelAED .edit-actions {
+    width: 100%;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+  .boxMainAdminPanelAED .product_item {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .boxMainAdminPanelAED .product_images,
+  .boxMainAdminPanelAED .product_info {
+    width: 100%;
+  }
+}
+.boxMainAdminPanelAED .color-images-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+}
+.boxMainAdminPanelAED .color-image-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #ffebd4;
+}
+.boxMainAdminPanelAED .color-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+.boxMainAdminPanelAED .color-image-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 8px;
+}
+.boxMainAdminPanelAED .color-image-preview {
+  max-width: 100px;
+  max-height: 100px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 3px;
+  background-color: white;
+}
+.boxMainAdminPanelAED .tags-preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.boxMainAdminPanelAED .tag {
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  padding: 4px 10px;
+  font-size: 0.9em;
+  color: #333;
+}

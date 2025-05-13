@@ -59,6 +59,12 @@
     }
     .right {
       width: 100%;
+      small {
+        display: block;
+        margin-top: -30px;
+        padding-bottom: 10px;
+        font-family: "Montserrat", sans-serif;
+      }
       h1 {
         font-family: "Montserrat", sans-serif;
         font-weight: 600;

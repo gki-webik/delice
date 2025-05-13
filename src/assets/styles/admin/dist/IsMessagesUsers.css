@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.boxMainAdminPanelMassMailing {
+  padding: 40px 20px 20px 20px;
+}
+.boxMainAdminPanelMassMailing * {
+  font-family: "Montserrat", sans-serif;
+}
+.boxMainAdminPanelMassMailing .is-kroshki {
+  padding: 20px 0;
+}
+.boxMainAdminPanelMassMailing h1 {
+  margin-top: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+@media screen and (max-width: 550px) {
+  .boxMainAdminPanelMassMailing h1 {
+    font-size: 1.5rem;
+  }
+}
+.boxMainAdminPanelMassMailing a {
+  text-decoration: none;
+  color: blue;
+  padding: 5px 0;
+}
+.boxMainAdminPanelMassMailing a:hover {
+  text-decoration: underline;
+}
+.boxMainAdminPanelMassMailing input,
+.boxMainAdminPanelMassMailing textarea,
+.boxMainAdminPanelMassMailing select {
+  background-color: #ffebd4;
+}
+.boxMainAdminPanelMassMailing .mass-mailing-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+.boxMainAdminPanelMassMailing .mailing-form {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  background: #c9b297;
+  padding: 20px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.boxMainAdminPanelMassMailing .stats-panel {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background: #c9b297;
+  padding: 20px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.boxMainAdminPanelMassMailing .form-group {
+  margin-bottom: 20px;
+}
+.boxMainAdminPanelMassMailing .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.boxMainAdminPanelMassMailing .form-group input[type=text],
+.boxMainAdminPanelMassMailing .form-group input[type=email],
+.boxMainAdminPanelMassMailing .form-group select,
+.boxMainAdminPanelMassMailing .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.boxMainAdminPanelMassMailing .form-group textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+.boxMainAdminPanelMassMailing .users-selector {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.boxMainAdminPanelMassMailing .users-list {
+  margin-top: 10px;
+}
+.boxMainAdminPanelMassMailing .user-checkbox {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.boxMainAdminPanelMassMailing .user-checkbox:last-child {
+  border-bottom: none;
+}
+.boxMainAdminPanelMassMailing .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.boxMainAdminPanelMassMailing .send-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.boxMainAdminPanelMassMailing .preview-button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.boxMainAdminPanelMassMailing .stats-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+.boxMainAdminPanelMassMailing .recent-mailings {
+  margin-top: 30px;
+}
+.boxMainAdminPanelMassMailing .mailing-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.boxMainAdminPanelMassMailing .mailing-date {
+  font-size: 12px;
+  color: #666;
+}
+.boxMainAdminPanelMassMailing .mailing-subject {
+  font-weight: 500;
+  margin: 5px 0;
+}
+.boxMainAdminPanelMassMailing .mailing-recipients {
+  font-size: 12px;
+  color: #666;
+}
+.boxMainAdminPanelMassMailing .preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 1000;
+}
+.boxMainAdminPanelMassMailing .modal-content {
+  background: #c9b297;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.boxMainAdminPanelMassMailing .preview-header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+.boxMainAdminPanelMassMailing .preview-body {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background: #c9b297;
+  min-height: 200px;
+}
+.boxMainAdminPanelMassMailing .modal-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+.boxMainAdminPanelMassMailing .close-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}

@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.boxMainAdminPanel {
+  padding: 40px 20px 20px 20px;
+}
+.boxMainAdminPanel .is-kroshki {
+  padding: 20px 0;
+}
+.boxMainAdminPanel h1 {
+  margin-top: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+@media screen and (max-width: 550px) {
+  .boxMainAdminPanel h1 {
+    font-size: 1.5rem;
+  }
+}
+.boxMainAdminPanel p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.boxMainAdminPanel details,
+.boxMainAdminPanel summary,
+.boxMainAdminPanel nav,
+.boxMainAdminPanel a {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.boxMainAdminPanel details {
+  margin: 10px 0;
+}
+.boxMainAdminPanel details summary {
+  cursor: pointer;
+}
+.boxMainAdminPanel details nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 5px;
+  padding: 15px;
+  background-color: #c9b297;
+  margin: 10px 0;
+  border-radius: 15px;
+}
+.boxMainAdminPanel details nav a {
+  text-decoration: none;
+  color: #26436c;
+  padding: 5px 0;
+}
+.boxMainAdminPanel details nav a:hover {
+  text-decoration: underline;
+}

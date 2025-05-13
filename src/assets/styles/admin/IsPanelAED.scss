@@ -1,0 +1,560 @@
+@import "../variables";
+.boxMainAdminPanelAED {
+  padding: 40px 20px 20px 20px;
+  * {
+    font-family: "Montserrat", sans-serif;
+  }
+  .is-kroshki {
+    padding: 20px 0;
+  }
+  h1 {
+    margin-top: 0;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    @media screen and (max-width: 550px) {
+      font-size: 1.5rem;
+    }
+  }
+  p {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+  }
+  a {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+  }
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    button {
+      padding: 15px 10px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 100%;
+      color: $color-1;
+      max-width: 200px;
+      letter-spacing: 0%;
+      vertical-align: middle;
+      border-radius: 5px;
+      background-color: $color-3;
+      border: none;
+      opacity: 1;
+      transition: opacity 0.1s ease-in-out;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+  .faqIdProduct {
+    user-select: none;
+  }
+  form {
+    margin-top: 10px;
+    max-width: 550px;
+    background-color: $color-2;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    a {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      text-align: center;
+      margin: 7px 0;
+      text-decoration: underline;
+      cursor: pointer;
+      user-select: none;
+    }
+    input {
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 5px;
+      background-color: $color-1;
+      color: $color-3;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+    }
+    button {
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 5px;
+      background-color: $color-1;
+      color: $color-3;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+      &:hover {
+        color: $color-1;
+        background-color: $color-3;
+      }
+    }
+  }
+  .product_item {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+    padding: 20px;
+    background: $color-2;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .product_images {
+    width: 40%;
+  }
+
+  .main_image img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .additional_images {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .additional_images img {
+    width: calc(50% - 5px);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .additional_images img:hover {
+    transform: scale(1.05);
+  }
+
+  .product_info {
+    width: 60%;
+  }
+
+  .product_info h2 {
+    margin-top: 0;
+    color: #333;
+  }
+
+  .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: $color-3;
+    margin: 10px 0;
+  }
+
+  .characteristics,
+  .product_care {
+    margin: 20px 0;
+    padding: 15px;
+    background: $color-1;
+    border-radius: 8px;
+  }
+
+  .characteristics h3,
+  .product_care h3 {
+    margin-top: 0;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 5px;
+  }
+
+  .product_actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+  }
+
+  .edit_btn,
+  .delete_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+
+  .edit_btn {
+    background-color: #42b983;
+    color: white;
+  }
+
+  .edit_btn:hover {
+    background-color: #369f6e;
+  }
+
+  .delete_btn {
+    background-color: #e53935;
+    color: white;
+  }
+
+  .delete_btn:hover {
+    background-color: #c62828;
+  }
+
+  .edit-container {
+    margin-top: 30px;
+    background: $color-2;
+    border-radius: 8px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: $color-3;
+    border-bottom: 1px solid #e1e5eb;
+  }
+
+  .edit-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: $color-1;
+  }
+
+  .edit-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+
+  .save-btn {
+    background-color: #42b983;
+    color: white;
+    border: none;
+  }
+
+  .save-btn:hover {
+    background-color: #369f6e;
+    transform: translateY(-1px);
+  }
+
+  .cancel-btn {
+    background-color: transparent;
+    color: $color-1;
+    border: 1px solid $color-1;
+  }
+
+  .cancel-btn:hover {
+    background-color: $color-2;
+  }
+
+  .edit-content {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .edit-main-info {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .edit-images,
+  .edit-details {
+    grid-column: span 1;
+  }
+
+  .form-section {
+    margin-bottom: 30px;
+  }
+
+  .form-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e1e5eb;
+    color: #2c3e50;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid $color-3;
+    background-color: $color-1;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px $color-3;
+  }
+
+  .tags-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .tag {
+    background: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #495057;
+  }
+
+  .sizes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .size-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .size-option input[type="checkbox"] {
+    width: auto;
+  }
+
+  .image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #e1e5eb;
+  }
+
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .image-preview-container {
+    position: relative;
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #e1e5eb;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .thumbnail:hover {
+    transform: scale(1.03);
+  }
+
+  .image-index {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 5px;
+  }
+
+  .textarea-container {
+    position: relative;
+  }
+
+  .hint {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 4px;
+  }
+
+  .preview-list {
+    margin-top: 10px;
+    padding-left: 20px;
+    list-style-type: disc;
+    color: #495057;
+  }
+
+  .preview-list li {
+    margin-bottom: 4px;
+  }
+
+  .image-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .image-input-group input {
+    flex: 1;
+  }
+
+  .remove-image-btn {
+    background: #e53935;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 40px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .remove-image-btn:hover {
+    background: #c62828;
+  }
+
+  .add-image-btn {
+    background: #42b983;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .add-image-btn:hover {
+    background: #369f6e;
+  }
+
+  @media (max-width: 1200px) {
+    .edit-content {
+      grid-template-columns: 1fr;
+    }
+
+    .edit-main-info {
+      grid-column: span 1;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .edit-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .edit-actions {
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .product_item {
+      flex-direction: column;
+    }
+
+    .product_images,
+    .product_info {
+      width: 100%;
+    }
+  }
+  /* Стили для блока с изображениями цветов */
+  .color-images-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .color-image-item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: $color-1;
+  }
+
+  .color-name {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  .color-image-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .color-image-preview {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 3px;
+    background-color: white;
+  }
+
+  .tags-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .tag {
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    padding: 4px 10px;
+    font-size: 0.9em;
+    color: #333;
+  }
+}

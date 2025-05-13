@@ -1,0 +1,207 @@
+@import "../variables";
+.boxMainAdminPanelOrders {
+  padding: 40px 20px 20px 20px;
+  * {
+    font-family: "Montserrat", sans-serif;
+  }
+  .is-kroshki {
+    padding: 20px 0;
+  }
+  h1 {
+    margin-top: 0;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    @media screen and (max-width: 550px) {
+      font-size: 1.5rem;
+    }
+  }
+  a {
+    text-decoration: none;
+    color: blue;
+    padding: 5px 0;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  select {
+    padding: 10px;
+    max-width: 270px;
+    width: 100%;
+    background-color: $color-2;
+    border-radius: 5px;
+    margin: 10px 0 30px 0;
+    font-size: 15px;
+    color: $color-3;
+  }
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .content {
+    background-color: $color-2;
+    border-radius: 10px;
+  }
+  .order-details {
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+  }
+
+  .order-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+      select {
+        background-color: $color-1;
+        margin: 0;
+      }
+    }
+    button {
+      padding: 10px 30px;
+      margin-top: 10px;
+      border: none;
+      font-size: 14px;
+      border-radius: 10px;
+      background-color: $color-3;
+      color: $color-1;
+      transition: opacity 0.1s ease-in-out;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .order-header h2 {
+    margin: 0;
+    color: $color-3;
+  }
+
+  .order-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: $color-3;
+  }
+
+  .customer-info,
+  .order-products,
+  .order-summary,
+  .order-extra {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  h3 {
+    margin: 0 0 15px 0;
+    color: $color-3;
+
+    font-size: 18px;
+  }
+
+  .product-list {
+    display: grid;
+    gap: 15px;
+  }
+
+  .product-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: $color-1;
+    border-radius: 4px;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid $color-1;
+  }
+
+  .product-details {
+    flex: 1;
+  }
+
+  .product-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+  }
+
+  .product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+    color: $color-3;
+  }
+
+  .product-meta span {
+    white-space: nowrap;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 5px 0;
+  }
+
+  .summary-row.total {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+
+  .extra-row {
+    display: flex;
+    margin-bottom: 8px;
+    padding: 5px 0;
+  }
+
+  .extra-row span:first-child {
+    font-weight: bold;
+    min-width: 150px;
+    color: $color-3;
+  }
+
+  .extra-row.promo {
+    font-style: italic;
+    padding: 10px;
+    background: $color-1;
+    border-radius: 4px;
+    font-size: 15px;
+  }
+
+  @media (max-width: 600px) {
+    .order-meta {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .product-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .product-image {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+    }
+  }
+}

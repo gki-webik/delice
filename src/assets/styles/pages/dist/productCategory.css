@@ -95,6 +95,12 @@
 .boxMainProductCategory .block1 .right {
   width: 100%;
 }
+.boxMainProductCategory .block1 .right small {
+  display: block;
+  margin-top: -30px;
+  padding-bottom: 10px;
+  font-family: "Montserrat", sans-serif;
+}
 .boxMainProductCategory .block1 .right h1 {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;

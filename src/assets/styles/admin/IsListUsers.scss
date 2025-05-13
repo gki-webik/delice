@@ -1,0 +1,167 @@
+@import "../variables";
+.boxMainAdminPanelUsersList {
+  padding: 40px 20px 20px 20px;
+  * {
+    font-family: "Montserrat", sans-serif;
+  }
+  .is-kroshki {
+    padding: 20px 0;
+  }
+  h1 {
+    margin-top: 0;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    @media screen and (max-width: 550px) {
+      font-size: 1.5rem;
+    }
+  }
+  a {
+    text-decoration: none;
+    color: blue;
+    padding: 5px 0;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  input {
+    padding: 10px;
+    max-width: 270px;
+    width: 100%;
+    background-color: $color-2;
+    border-radius: 5px;
+    margin: 10px 0 30px 0;
+    font-size: 15px;
+    color: $color-3;
+    border: 1px solid $color-2;
+  }
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .user-orders {
+    margin-top: 20px;
+  }
+
+  .back-button {
+    background: none;
+    border: none;
+    color: #0066cc;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+
+  .back-button:hover {
+    text-decoration: underline;
+  }
+
+  .orders-list {
+    margin-top: 20px;
+  }
+
+  .order-item {
+    border: 1px solid #ddd;
+    background-color: $color-2;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .order-products {
+    margin-top: 10px;
+  }
+
+  .product-item {
+    margin-top: 10px;
+    padding-left: 15px;
+    border-left: 2px solid $color-3;
+  }
+  .user-details {
+    margin-top: 20px;
+    padding: 20px;
+    background: $color-2;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .back-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+
+  .user-info p {
+    margin: 10px 0;
+  }
+
+  .edit-button,
+  .orders-button,
+  .save-button,
+  .cancel-button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .edit-button {
+    background: #4caf50;
+    color: white;
+  }
+
+  .orders-button {
+    background: #2196f3;
+    color: white;
+  }
+
+  .save-button {
+    background: #4caf50;
+    color: white;
+  }
+
+  .cancel-button {
+    background: #f44336;
+    color: white;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    max-width: 300px;
+    width: 100%;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: $color-1;
+    margin: 10px 0 0 0;
+    max-width: 300px;
+  }
+
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: $color-1;
+    margin: 10px 0 0 0;
+    max-width: 300px;
+  }
+
+  .form-actions {
+    margin-top: 20px;
+  }
+}
