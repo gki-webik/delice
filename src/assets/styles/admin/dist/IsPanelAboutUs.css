@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.boxMainAdminPanelAboutUs {
+  padding: 40px 20px 20px 20px;
+}
+.boxMainAdminPanelAboutUs * {
+  font-family: "Montserrat", sans-serif;
+}
+.boxMainAdminPanelAboutUs .is-kroshki {
+  padding: 20px 0;
+}
+.boxMainAdminPanelAboutUs h1 {
+  margin-top: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+@media screen and (max-width: 550px) {
+  .boxMainAdminPanelAboutUs h1 {
+    font-size: 1.5rem;
+  }
+}
+.boxMainAdminPanelAboutUs p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.boxMainAdminPanelAboutUs a {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.boxMainAdminPanelAboutUs .editor-container {
+  margin-top: 30px;
+  padding: 20px;
+  background: #c9b297;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+.boxMainAdminPanelAboutUs .formatting-tools {
+  margin-bottom: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.boxMainAdminPanelAboutUs .formatting-tools button {
+  padding: 5px 10px;
+  background: #ffebd4;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.boxMainAdminPanelAboutUs .formatting-tools button:hover {
+  background: #d0d0d0;
+}
+.boxMainAdminPanelAboutUs .content-block {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 6px;
+  background: #ffebd4;
+}
+.boxMainAdminPanelAboutUs .block-type-select {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.boxMainAdminPanelAboutUs .content-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+.boxMainAdminPanelAboutUs .block-actions {
+  margin-top: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+}
+.boxMainAdminPanelAboutUs .controls {
+  margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.boxMainAdminPanelAboutUs button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+.boxMainAdminPanelAboutUs .add-btn {
+  background-color: #4caf50;
+  color: white;
+}
+.boxMainAdminPanelAboutUs .add-btn:hover {
+  background-color: #45a049;
+}
+.boxMainAdminPanelAboutUs .save-btn {
+  background-color: #2196f3;
+  color: white;
+}
+.boxMainAdminPanelAboutUs .save-btn:hover {
+  background-color: #0b7dda;
+}
+.boxMainAdminPanelAboutUs .preview-btn {
+  background-color: #ff9800;
+  color: white;
+}
+.boxMainAdminPanelAboutUs .preview-btn:hover {
+  background-color: #e68a00;
+}
+.boxMainAdminPanelAboutUs .remove-btn {
+  background-color: #f44336;
+  color: white;
+}
+.boxMainAdminPanelAboutUs .remove-btn:hover {
+  background-color: #da190b;
+}
+.boxMainAdminPanelAboutUs .move-btn {
+  background-color: #9e9e9e;
+  color: white;
+  padding: 5px 10px;
+}
+.boxMainAdminPanelAboutUs .move-btn:hover:not(:disabled) {
+  background-color: #7e7e7e;
+}
+.boxMainAdminPanelAboutUs .move-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.boxMainAdminPanelAboutUs .loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+}
+.boxMainAdminPanelAboutUs .preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 100000000000000000000;
+}
+.boxMainAdminPanelAboutUs .preview-content {
+  background: #ffebd4;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 1200px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+.boxMainAdminPanelAboutUs .preview-html {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+.boxMainAdminPanelAboutUs .close-preview {
+  margin-top: 20px;
+  background: #333;
+  color: white;
+}
+.boxMainAdminPanelAboutUs .close-preview:hover {
+  background: #555;
+}

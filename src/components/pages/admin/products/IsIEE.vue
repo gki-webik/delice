@@ -12,12 +12,7 @@
         method="post"
         enctype="multipart/form-data"
       >
-        <input
-          type="submit"
-          name="export"
-          @click="showText = true"
-          value="Экспорт товаров в Excel"
-        />
+        <input type="submit" name="export" value="Экспорт товаров в Excel" />
         <small>// Экспорт может начаться не сразу</small>
       </form>
       <form
@@ -32,10 +27,38 @@
   </main>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style scoped>
 @import "../../../../assets/styles/admin/dist/min/IsPanelAED.min.css";
 </style>
+
+<script>
+export default {
+  created() {
+    this.isAuth();
+  },
+  methods: {
+    isAuth() {
+      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            this.$router.replace("/");
+            throw new Error("Ошибка аутентификации");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          this.userAdmin = data.type === "admin" || false;
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    },
+  },
+};
+</script>

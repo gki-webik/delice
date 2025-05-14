@@ -1,0 +1,396 @@
+@import "../variables";
+.boxMainAdminPanelContacts {
+  padding: 40px 20px 20px 20px;
+  * {
+    font-family: "Montserrat", sans-serif;
+  }
+  .is-kroshki {
+    padding: 20px 0;
+  }
+  h1 {
+    margin-top: 0;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    @media screen and (max-width: 550px) {
+      font-size: 1.5rem;
+    }
+  }
+  p {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+  }
+  a {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+  }
+  .admin-contacts-form {
+    background: $color-2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .form-group input[type="text"]:focus,
+  .form-group input[type="email"]:focus,
+  .form-group textarea:focus {
+    border-color: #4caf50;
+    outline: none;
+  }
+
+  .text-hint {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+    font-style: italic;
+  }
+
+  .form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .save-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  .save-btn:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+
+  .save-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .cancel-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  .cancel-btn:hover:not(:disabled) {
+    background-color: #d32f2f;
+  }
+
+  .cancel-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .error-message {
+    color: #f44336;
+    font-size: 0.8em;
+    margin-top: 5px;
+    display: block;
+  }
+
+  .loading-indicator {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #666;
+  }
+
+  /* Стили для абзацев */
+  .paragraph-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .paragraph-input {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .add-paragraph-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: flex-end;
+  }
+
+  .add-paragraph-btn:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+
+  .add-paragraph-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .paragraphs-list {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .no-paragraphs {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+  }
+
+  .paragraph-item {
+    padding: 15px;
+    background-color: $color-1;
+    border-bottom: 1px solid #eee;
+  }
+
+  .paragraph-item:last-child {
+    border-bottom: none;
+  }
+
+  .paragraph-text {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .paragraph-actions {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+  }
+
+  .edit-paragraph-btn,
+  .delete-paragraph-btn,
+  .move-up-btn,
+  .move-down-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+
+  .edit-paragraph-btn:hover,
+  .delete-paragraph-btn:hover,
+  .move-up-btn:hover:not(:disabled),
+  .move-down-btn:hover:not(:disabled) {
+    background-color: $color-1;
+  }
+
+  .edit-paragraph-btn:disabled,
+  .delete-paragraph-btn:disabled,
+  .move-up-btn:disabled,
+  .move-down-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Стили для магазинов */
+  .store-add-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .store-input {
+    flex: 1;
+  }
+
+  .add-store-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .add-store-btn:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+
+  .add-store-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .stores-list {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .no-stores {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+  }
+
+  .store-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: $color-1;
+    border-bottom: 1px solid #eee;
+  }
+
+  .store-item:last-child {
+    border-bottom: none;
+  }
+
+  .store-text {
+    flex: 1;
+  }
+
+  .store-actions {
+    display: flex;
+    gap: 5px;
+  }
+
+  .edit-store-btn,
+  .delete-store-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+
+  .edit-store-btn:hover,
+  .delete-store-btn:hover {
+    background-color: #f0f0f0;
+  }
+  input,
+  textarea {
+    background-color: $color-1;
+  }
+  textarea {
+    background-color: $color-1;
+    width: 100%;
+  }
+  .stores-count {
+    font-size: 0.9em;
+    margin-top: 20px;
+  }
+  .delete-store-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+
+  .edit-store-btn:hover,
+  .delete-store-btn:hover {
+    background-color: #f0f0f0;
+  }
+
+  /* Стили для модального окна редактирования */
+  .edit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999999999999;
+  }
+
+  .edit-modal {
+    background-color: $color-1;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .edit-modal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+
+  .edit-store-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .edit-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .save-edit-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .cancel-edit-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

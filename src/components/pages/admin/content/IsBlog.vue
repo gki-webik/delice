@@ -185,7 +185,32 @@ export default {
   async mounted() {
     await this.fetchPosts();
   },
+  created() {
+    this.isAuth();
+  },
   methods: {
+    isAuth() {
+      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            this.$router.replace("/");
+            throw new Error("Ошибка аутентификации");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          this.userAdmin = data.type === "admin" || false;
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    },
     async fetchPosts() {
       try {
         const response = await fetch(this.apiBaseUrl + "/blogPosts", {

@@ -6,7 +6,7 @@
         <a class="is-end">Админ-панель</a>
       </nav>
       <h1>Админ-панель</h1>
-      <details>
+      <details v-if="userAdmin">
         <summary>Управление товарами</summary>
         <nav>
           <router-link to="/admin/panel/products/aed"
@@ -17,7 +17,7 @@
           >
         </nav>
       </details>
-      <details>
+      <details :open="!userAdmin">
         <summary>Управление заказами</summary>
         <nav>
           <router-link to="/admin/panel/orders"
@@ -25,7 +25,7 @@
           >
         </nav>
       </details>
-      <details>
+      <details v-if="userAdmin">
         <summary>Управление пользователями</summary>
         <nav>
           <router-link to="/admin/panel/users/list"
@@ -36,7 +36,7 @@
           >
         </nav>
       </details>
-      <details>
+      <details v-if="userAdmin">
         <summary>Управление контентом</summary>
         <nav>
           <router-link to="/admin/panel/content/about-us">О Нас</router-link>
@@ -45,9 +45,11 @@
           <router-link to="/admin/panel/content/promotions">Акции</router-link>
         </nav>
       </details>
-      <details>
+      <details v-if="userAdmin">
         <summary>Аналитика и отчеты</summary>
-        <p>Находится в разработке</p>
+        <nav>
+          <router-link to="/admin/panel/report">Отчет по продажам</router-link>
+        </nav>
       </details>
     </div>
   </main>
@@ -55,6 +57,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      userAdmin: false,
+    };
+  },
   created() {
     this.isAuth();
   },
@@ -74,7 +81,9 @@ export default {
           }
           return res.json();
         })
-        .then(() => {})
+        .then((data) => {
+          this.userAdmin = data.type === "admin" || false;
+        })
         .catch((err) => {
           console.error(err.message);
         });

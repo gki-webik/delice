@@ -10,32 +10,32 @@
         <div class="left">
           <div class="items">
             <div class="item">
-              <img src="/media/images/phone.svg" alt="" /> +7 961 333 94 44
+              <img src="/media/images/phone.svg" alt="" />
+              {{ contactData.phone }}
             </div>
             <div class="item">
-              <img src="/media/images/email.svg" alt="" /> Info@delice.ru
+              <img src="/media/images/email.svg" alt="" />
+              {{ contactData.email }}
             </div>
             <div class="item">
               <img
                 src="/media/images/reshot-icon-location-marker-ZE5Y87KGQF 1.svg"
                 alt=""
               />
-              г. Санкт-Петербург
+              {{ contactData.address }}
             </div>
             <div class="item">
               <ul>
-                <li>ТЦ “Галерея”, Невский проспект, 65</li>
-                <li>ТЦ “Мега Дыбенко”, проспект Дыбенко, 1</li>
-                <li>ТЦ “РИО”, проспект Культуры, 1</li>
+                <li v-for="(store, index) in contactData.stores" :key="index">
+                  {{ store }}
+                </li>
               </ul>
             </div>
           </div>
         </div>
         <div class="right">
           <p>
-            Мы всегда рады услышать от вас! Если у вас есть вопросы, предложения
-            или комментарии, не стесняйтесь обращаться к нам. Мы здесь, чтобы
-            помочь вам!
+            {{ contactData.text_one[0] }}
           </p>
           <iframe
             src="https://yandex.ru/map-widget/v1/?um=constructor%3A82c6d26c77006c6b2d2312f707018451ad64bf1e87ebe6f4d9aff61bab0dca29&amp;source=constructor"
@@ -49,9 +49,7 @@
       <div class="block2">
         <h2>Форма обратной связи</h2>
         <p>
-          Мы ценим ваше мнение и хотели бы узнать, как мы можем улучшить наш
-          сервис. Пожалуйста, заполните форму ниже, и мы свяжемся с вами в
-          ближайшее время.
+          {{ contactData.text_two[0] }}
         </p>
         <form @submit.prevent="submitFormMail">
           <div>
@@ -90,6 +88,14 @@ export default {
       email: "",
       text: "",
       theme: "",
+      contactData: {
+        text_one: [""],
+        text_two: [""],
+        phone: "",
+        email: "",
+        address: "",
+        stores: [],
+      },
     };
   },
   methods: {
@@ -128,6 +134,29 @@ export default {
         });
       });
     },
+    fetchContacts() {
+      fetch("https://ce95524.tw1.ru/api/v1/getContacts")
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.data && data.data.length > 0) {
+            const contact = data.data[0];
+            this.contactData = {
+              text_one: JSON.parse(contact.text_one),
+              text_two: JSON.parse(contact.text_two),
+              phone: contact.phone,
+              email: contact.email,
+              address: contact.address,
+              stores: JSON.parse(contact.stores),
+            };
+          }
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке контактов:", error);
+        });
+    },
+  },
+  mounted() {
+    this.fetchContacts();
   },
 };
 </script>

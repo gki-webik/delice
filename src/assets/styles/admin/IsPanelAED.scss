@@ -47,6 +47,9 @@
       }
     }
   }
+  input[type="submit"] {
+    cursor: pointer;
+  }
   .faqIdProduct {
     user-select: none;
   }

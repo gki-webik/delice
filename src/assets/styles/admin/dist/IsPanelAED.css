@@ -56,6 +56,9 @@
 .boxMainAdminPanelAED .buttons button:hover {
   opacity: 0.9;
 }
+.boxMainAdminPanelAED input[type=submit] {
+  cursor: pointer;
+}
 .boxMainAdminPanelAED .faqIdProduct {
   -webkit-user-select: none;
      -moz-user-select: none;
