@@ -18,6 +18,10 @@ import IsPanelAdminIEE from '../components/pages/admin/products/IsIEE.vue'
 import IsPanelAdminMainOrders from '../components/pages/admin/orders/IsMain.vue'
 import IsPanelAdminUsersList from '../components/pages/admin/users/IsList.vue'
 import IsPanelAdminUsersMessages from '../components/pages/admin/users/IsMessages.vue'
+import IsPanelAdminContentAboutUs from '../components/pages/admin/content/IsAboutUs.vue'
+import IsPanelAdminContentBlog from '../components/pages/admin/content/IsBlog.vue'
+import IsPanelAdminContentContacts from '../components/pages/admin/content/IsContacts.vue'
+import IsPanelAdminContentPromotions from '../components/pages/admin/content/IsPromotions.vue'
 
 const routes = [
     {
@@ -103,6 +107,22 @@ const routes = [
     {
         path: '/admin/panel/users/messages',
         component: IsPanelAdminUsersMessages
+    },
+    {
+        path: '/admin/panel/content/about-us',
+        component: IsPanelAdminContentAboutUs
+    },
+    {
+        path: '/admin/panel/content/blog',
+        component: IsPanelAdminContentBlog
+    },
+    {
+        path: '/admin/panel/content/contacts',
+        component: IsPanelAdminContentContacts
+    },
+    {
+        path: '/admin/panel/content/promotions',
+        component: IsPanelAdminContentPromotions
     }
 ]
 

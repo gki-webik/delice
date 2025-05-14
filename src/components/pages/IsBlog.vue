@@ -23,9 +23,11 @@
               </div>
             </div>
             <div class="right">
-              <p v-for="(text, indexText) in item.texts" :key="indexText">
-                {{ text }}
-              </p>
+              <p
+                v-for="(text, indexText) in item.texts"
+                v-html="text"
+                :key="indexText"
+              ></p>
               <router-link :to="'/blog/' + item.id">
                 Читать полностью
               </router-link>

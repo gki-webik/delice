@@ -39,6 +39,12 @@
       <details>
         <summary>Управление контентом</summary>
         <p>Находится в разработке</p>
+        <nav>
+          <router-link to="/admin/panel/content/about-us">О Нас</router-link>
+          <router-link to="/admin/panel/content/contacts">Контакты</router-link>
+          <router-link to="/admin/panel/content/blog">Блог</router-link>
+          <router-link to="/admin/panel/content/promotions">Акции</router-link>
+        </nav>
       </details>
       <details>
         <summary>Аналитика и отчеты</summary>

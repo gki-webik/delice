@@ -387,14 +387,16 @@
           <p>
             <strong>Доступные размеры:</strong> {{ product.sizes.join(", ") }}
           </p>
-          <p><strong>Общее количество на складе:</strong> {{ product.totalCount }}</p>
-          <p><strong>Количество на складах:</strong>
-            <ul class="store-quantities">
-              <li v-for="(store, index) in storeLocations" :key="index">
-                {{ store.name }} - {{ product.storeQuantities[index] }}
-              </li>
-            </ul>
+          <p>
+            <strong>Общее количество на складе:</strong>
+            {{ product.totalCount }}
           </p>
+          <p><strong>Количество на складах:</strong></p>
+          <ul class="store-quantities">
+            <li v-for="(store, index) in storeLocations" :key="index">
+              {{ store.name }} - {{ product.storeQuantities[index] }}
+            </li>
+          </ul>
           <p><strong>Заказов:</strong> {{ product.orders }}</p>
           <p><strong>Дата добавления:</strong> {{ product.date }}</p>
 
