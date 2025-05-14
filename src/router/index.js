@@ -22,6 +22,7 @@ import IsPanelAdminContentAboutUs from '../components/pages/admin/content/IsAbou
 import IsPanelAdminContentBlog from '../components/pages/admin/content/IsBlog.vue'
 import IsPanelAdminContentContacts from '../components/pages/admin/content/IsContacts.vue'
 import IsPanelAdminContentPromotions from '../components/pages/admin/content/IsPromotions.vue'
+import IsPanelAdminReport from '../components/pages/admin/report/IsReport.vue'
 
 const routes = [
     {
@@ -123,6 +124,10 @@ const routes = [
     {
         path: '/admin/panel/content/promotions',
         component: IsPanelAdminContentPromotions
+    },
+    {
+        path: '/admin/panel/report',
+        component: IsPanelAdminReport
     }
 ]
 

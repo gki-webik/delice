@@ -413,3 +413,17 @@ nav.is-kroshki a.is-end {
 input {
   color: #26436c;
 }
+
+@media print {
+  .no-print,
+  header,
+  footer {
+    display: none !important;
+  }
+  main {
+    margin-top: 10px;
+  }
+  .max-container {
+    max-width: 1400px;
+  }
+}

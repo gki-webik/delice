@@ -237,7 +237,7 @@ export default {
       });
     },
     getUserDetails(user) {
-      if (Number(user.id) === 1) {
+      if (Number(user.id) === 1 || Number(user.id) === 0) {
         alert("Редактирование этого пользователя запрещено");
         return;
       }
@@ -291,7 +291,10 @@ export default {
       }
     },
     async deleteUser() {
-      if (Number(this.selectedUser.id) === 1) {
+      if (
+        Number(this.selectedUser.id) === 1 ||
+        Number(this.selectedUser.id) === 0
+      ) {
         alert("Редактирование этого пользователя запрещено");
         return;
       }

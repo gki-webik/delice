@@ -1,5 +1,5 @@
 <template>
-  <div class="boxHeader">
+  <div class="boxHeader no-print">
     <div class="box-modal is-centered" v-if="showModalLogin">
       <div class="modal">
         <span class="is-close" @click="showModalLogin = !showModalLogin"
@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <div class="boxHeader">
+  <div class="boxHeader no-print">
     <div class="box-modal is-centered" v-if="showModalNewPassword">
       <div class="modal">
         <span
