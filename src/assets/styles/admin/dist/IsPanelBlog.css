@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 .boxMainAdminPanelBlog {
   padding: 40px 20px 20px 20px;
-  /* Список постов */
   /* Модальное окно */
 }
 .boxMainAdminPanelBlog * {
@@ -29,6 +28,19 @@
 .boxMainAdminPanelBlog a:hover {
   text-decoration: underline;
 }
+.boxMainAdminPanelBlog .btn-primary {
+  padding: 10px;
+  border: none;
+  font-size: 15px;
+  background-color: #26436c;
+  color: #ffebd4;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.boxMainAdminPanelBlog input,
+.boxMainAdminPanelBlog textarea {
+  background-color: #ffebd4;
+}
 .boxMainAdminPanelBlog .blog-posts-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -46,6 +58,9 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  background-color: #ffebd4;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.116);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.116);
 }
 .boxMainAdminPanelBlog .post-preview {
   height: 200px;
@@ -125,7 +140,7 @@
   z-index: 1000000000000000000000;
 }
 .boxMainAdminPanelBlog .modal-content {
-  background-color: white;
+  background-color: #c9b297;
   padding: 30px;
   border-radius: 8px;
   width: 90%;
