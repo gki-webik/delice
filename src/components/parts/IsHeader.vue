@@ -1,95 +1,93 @@
 <template>
-  <div class="boxHeader no-print">
-    <div class="box-modal is-centered" v-if="showModalLogin">
-      <div class="modal">
-        <span class="is-close" @click="showModalLogin = !showModalLogin"
-          >×</span
-        >
-        <form @submit.prevent="submitFormLogin">
-          <label>
-            <span>E-mail</span>
-            <input type="email" v-model="form_email" />
-          </label>
-          <label>
-            <span>Пароль</span>
-            <input type="password" v-model="form_password" />
-          </label>
-          <a role="button" @click="showModalRecover = true">Забыли пароль?</a>
-          <button type="submit">Войти</button>
-          <a role="button" @click="showModalSignUp = true">Регистрация</a>
-          <span class="is-error" v-if="modalError">{{ modalError }}</span>
-        </form>
-      </div>
+  <div class="box-modal is-centered" v-if="showModalLogin">
+    <div class="modal">
+      <span class="is-close" @click="showModalLogin = !showModalLogin">×</span>
+      <form @submit.prevent="submitFormLogin">
+        <label>
+          <span>E-mail</span>
+          <input type="email" v-model="form_email" />
+        </label>
+        <label>
+          <span>Пароль</span>
+          <input type="password" v-model="form_password" />
+        </label>
+        <a role="button" @click="showModalRecover = true">Забыли пароль?</a>
+        <button type="submit">Войти</button>
+        <a role="button" @click="showModalSignUp = true">Регистрация</a>
+        <span class="is-error" v-if="modalError">{{ modalError }}</span>
+      </form>
     </div>
   </div>
+
+  <div class="box-modal is-centered" v-if="showModalNewPassword">
+    <div class="modal">
+      <span
+        class="is-close"
+        @click="showModalNewPassword = !showModalNewPassword"
+        >×</span
+      >
+      <form @submit.prevent="submitFormNewPassword">
+        <label>
+          <span>Новый пароль</span>
+          <input type="password" v-model="form_password" />
+        </label>
+        <button type="submit">Восстановить</button>
+        <span class="is-error" v-if="modalError4">{{ modalError4 }}</span>
+      </form>
+    </div>
+  </div>
+  <div class="box-modal" v-if="showModalSignUp">
+    <div class="modal">
+      <span class="is-close" @click="showModalSignUp = !showModalSignUp"
+        >×</span
+      >
+      <form @submit.prevent="submitFormSignUp">
+        <label>
+          <span>Имя</span>
+          <input type="text" v-model="form_first_name" />
+        </label>
+        <label>
+          <span>Фамилия</span>
+          <input type="text" v-model="form_last_name" />
+        </label>
+        <label>
+          <span>E-mail</span>
+          <input type="email" v-model="form_email" />
+        </label>
+        <label>
+          <span>Пароль</span>
+          <input type="password" v-model="form_password" />
+        </label>
+        <label>
+          <span>Повторите пароль</span>
+          <input type="password" v-model="form_password2" />
+        </label>
+        <button type="submit">Регистрация</button>
+        <span class="is-error" v-if="modalError2">{{ modalError2 }}</span>
+      </form>
+    </div>
+  </div>
+  <div class="box-modal is-centered" v-if="showModalRecover">
+    <div class="modal">
+      <span class="is-close" @click="showModalRecover = !showModalRecover"
+        >×</span
+      >
+      <form @submit.prevent="submitFormRecover">
+        <p>
+          Введите свой e-mail, который вы указывали при регистрации. На него мы
+          вышлем ссылку на восстановление
+        </p>
+        <label>
+          <span>E-mail</span>
+          <input type="email" v-model="form_email" />
+        </label>
+        <button type="submit">Отправить</button>
+        <span class="is-error" v-if="modalError3">{{ modalError3 }}</span>
+      </form>
+    </div>
+  </div>
+  <div class="boxHeader no-print"></div>
   <div class="boxHeader no-print">
-    <div class="box-modal is-centered" v-if="showModalNewPassword">
-      <div class="modal">
-        <span
-          class="is-close"
-          @click="showModalNewPassword = !showModalNewPassword"
-          >×</span
-        >
-        <form @submit.prevent="submitFormNewPassword">
-          <label>
-            <span>Новый пароль</span>
-            <input type="password" v-model="form_password" />
-          </label>
-          <button type="submit">Восстановить</button>
-          <span class="is-error" v-if="modalError4">{{ modalError4 }}</span>
-        </form>
-      </div>
-    </div>
-    <div class="box-modal is-centered" v-if="showModalSignUp">
-      <div class="modal">
-        <span class="is-close" @click="showModalSignUp = !showModalSignUp"
-          >×</span
-        >
-        <form @submit.prevent="submitFormSignUp">
-          <label>
-            <span>Имя</span>
-            <input type="text" v-model="form_first_name" />
-          </label>
-          <label>
-            <span>Фамилия</span>
-            <input type="text" v-model="form_last_name" />
-          </label>
-          <label>
-            <span>E-mail</span>
-            <input type="email" v-model="form_email" />
-          </label>
-          <label>
-            <span>Пароль</span>
-            <input type="password" v-model="form_password" />
-          </label>
-          <label>
-            <span>Повторите пароль</span>
-            <input type="password" v-model="form_password2" />
-          </label>
-          <button type="submit">Регистрация</button>
-          <span class="is-error" v-if="modalError2">{{ modalError2 }}</span>
-        </form>
-      </div>
-    </div>
-    <div class="box-modal is-centered" v-if="showModalRecover">
-      <div class="modal">
-        <span class="is-close" @click="showModalRecover = !showModalRecover"
-          >×</span
-        >
-        <form @submit.prevent="submitFormRecover">
-          <p>
-            Введите свой e-mail, который вы указывали при регистрации. На него
-            мы вышлем ссылку на восстановление
-          </p>
-          <label>
-            <span>E-mail</span>
-            <input type="email" v-model="form_email" />
-          </label>
-          <button type="submit">Отправить</button>
-          <span class="is-error" v-if="modalError3">{{ modalError3 }}</span>
-        </form>
-      </div>
-    </div>
     <div class="topLine">• tu le mérites •</div>
     <header>
       <h1 @click="$router.push('/')">DÉLICE</h1>

@@ -289,13 +289,13 @@
         </div>
         <button
           type="button"
-          v-if="!myComment"
+          v-if="!myComment && isAuth"
           @click="showModalComment = !showModalComment"
         >
           Написать отзыв
         </button>
         <p class="is-Montserrat" v-if="!comments || comments.length === 0">
-          Отзывов пока нет. Оставь его первым!
+          Отзывов пока нет. <span v-if="isAuth">Оставь его первым!</span>
         </p>
         <hr />
         <div class="items" v-if="comments && comments.length">

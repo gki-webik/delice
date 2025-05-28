@@ -489,11 +489,12 @@
   background-color: #c9b297;
   color: #26436c;
 }
-.boxHeader .box-modal .modal {
+
+.box-modal .modal {
   max-width: 400px;
   width: 100%;
 }
-.boxHeader .box-modal .modal span.is-close {
+.box-modal .modal span.is-close {
   width: 100%;
   text-align: right;
   line-height: 0.5;
@@ -503,10 +504,10 @@
   -webkit-transition: color 0.15s ease-in-out;
   transition: color 0.15s ease-in-out;
 }
-.boxHeader .box-modal .modal span.is-close:hover {
+.box-modal .modal span.is-close:hover {
   color: #c9b297;
 }
-.boxHeader .box-modal .modal form {
+.box-modal .modal form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -519,7 +520,7 @@
   margin-top: 20px;
   width: 100%;
 }
-.boxHeader .box-modal .modal form a {
+.box-modal .modal form a {
   text-align: center;
   color: #26436c;
   font-family: "Montserrat", sans-serif;
@@ -535,7 +536,7 @@
   -webkit-text-decoration-skip: ink;
           text-decoration-skip-ink: auto;
 }
-.boxHeader .box-modal .modal form button {
+.box-modal .modal form button {
   padding: 15px 30px;
   width: 100%;
   max-width: 220px;
@@ -549,11 +550,11 @@
   -webkit-transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
-.boxHeader .box-modal .modal form button:hover {
+.box-modal .modal form button:hover {
   background-color: #c9b297;
   color: #26436c;
 }
-.boxHeader .box-modal .modal form label {
+.box-modal .modal form label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -565,7 +566,7 @@
   max-width: 400px;
   width: 100%;
 }
-.boxHeader .box-modal .modal form label span {
+.box-modal .modal form label span {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
   font-size: 17px;
@@ -573,7 +574,7 @@
   letter-spacing: 0%;
   vertical-align: middle;
 }
-.boxHeader .box-modal .modal form label input {
+.box-modal .modal form label input {
   padding: 13px;
   border-radius: 5px;
   background-color: #c9b297;
@@ -582,7 +583,7 @@
   font-size: 17px;
   color: #26436c;
 }
-.boxHeader .box-modal .modal .is-error {
+.box-modal .modal .is-error {
   color: red;
   text-align: center;
   margin: 5px 0;

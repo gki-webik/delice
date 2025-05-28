@@ -380,97 +380,96 @@
       }
     }
   }
-  .box-modal {
-    .modal {
-      max-width: 400px;
+}
+.box-modal {
+  .modal {
+    max-width: 400px;
+    width: 100%;
+    span.is-close {
       width: 100%;
-      span.is-close {
+      text-align: right;
+      line-height: 0.5;
+      display: block;
+      font-size: 40px;
+      cursor: pointer;
+      transition: color 0.15s ease-in-out;
+      &:hover {
+        color: $color-2;
+      }
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      max-width: 400px;
+      margin-top: 20px;
+      width: 100%;
+      a {
+        text-align: center;
+        color: $color-3;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        text-align: center;
+        vertical-align: middle;
+        text-decoration: underline;
+        text-decoration-style: solid;
+        text-decoration-thickness: 0%;
+        text-decoration-skip-ink: auto;
+      }
+      button {
+        padding: 15px 30px;
         width: 100%;
-        text-align: right;
-        line-height: 0.5;
-        display: block;
-        font-size: 40px;
-        cursor: pointer;
-        transition: color 0.15s ease-in-out;
+        max-width: 220px;
+        margin: 0 auto;
+        border-radius: 5px;
+        background-color: $color-3;
+        border: none;
+        outline: none;
+        font-size: 17px;
+        color: $color-1;
+        transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
         &:hover {
-          color: $color-2;
+          background-color: $color-2;
+          color: $color-3;
         }
       }
-      form {
+      label {
         display: flex;
         flex-direction: column;
-        gap: 30px;
+        gap: 5px;
         max-width: 400px;
-        margin-top: 20px;
         width: 100%;
-        a {
-          text-align: center;
-          color: $color-3;
+        span {
           font-family: "Montserrat", sans-serif;
           font-weight: 500;
-          font-size: 16px;
+          font-size: 17px;
           line-height: 100%;
           letter-spacing: 0%;
-          text-align: center;
           vertical-align: middle;
-          text-decoration: underline;
-          text-decoration-style: solid;
-          text-decoration-thickness: 0%;
-          text-decoration-skip-ink: auto;
         }
-        button {
-          padding: 15px 30px;
-          width: 100%;
-          max-width: 220px;
-          margin: 0 auto;
+        input {
+          padding: 13px;
           border-radius: 5px;
-          background-color: $color-3;
+          background-color: $color-2;
           border: none;
           outline: none;
           font-size: 17px;
-          color: $color-1;
-          transition: background-color 0.15s ease-in-out,
-            color 0.15s ease-in-out;
-          &:hover {
-            background-color: $color-2;
-            color: $color-3;
-          }
-        }
-        label {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          max-width: 400px;
-          width: 100%;
-          span {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 500;
-            font-size: 17px;
-            line-height: 100%;
-            letter-spacing: 0%;
-            vertical-align: middle;
-          }
-          input {
-            padding: 13px;
-            border-radius: 5px;
-            background-color: $color-2;
-            border: none;
-            outline: none;
-            font-size: 17px;
-            color: $color-3;
-          }
+          color: $color-3;
         }
       }
-      .is-error {
-        color: red;
-        text-align: center;
-        margin: 5px 0;
-        background-color: #ffcece;
-        padding: 13px;
-        font-family: "Montserrat", sans-serif;
-        font-weight: 500;
-        font-size: 17px;
-      }
+    }
+    .is-error {
+      color: red;
+      text-align: center;
+      margin: 5px 0;
+      background-color: #ffcece;
+      padding: 13px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      font-size: 17px;
     }
   }
 }
