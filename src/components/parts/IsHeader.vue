@@ -1,5 +1,5 @@
 <template>
-  <div class="box-modal is-centered" v-if="showModalLogin">
+  <div class="box-modal is-centered is-400" v-if="showModalLogin">
     <div class="modal">
       <span class="is-close" @click="showModalLogin = !showModalLogin">×</span>
       <form @submit.prevent="submitFormLogin">
@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="box-modal is-centered" v-if="showModalNewPassword">
+  <div class="box-modal is-centered is-400" v-if="showModalNewPassword">
     <div class="modal">
       <span
         class="is-close"
@@ -36,7 +36,7 @@
       </form>
     </div>
   </div>
-  <div class="box-modal" v-if="showModalSignUp">
+  <div class="box-modal is-400" v-if="showModalSignUp">
     <div class="modal">
       <span class="is-close" @click="showModalSignUp = !showModalSignUp"
         >×</span
@@ -67,7 +67,7 @@
       </form>
     </div>
   </div>
-  <div class="box-modal is-centered" v-if="showModalRecover">
+  <div class="box-modal is-centered is-400" v-if="showModalRecover">
     <div class="modal">
       <span class="is-close" @click="showModalRecover = !showModalRecover"
         >×</span

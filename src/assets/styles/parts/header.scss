@@ -382,8 +382,10 @@
   }
 }
 .box-modal {
+  h2 {
+    white-space: nowrap;
+  }
   .modal {
-    max-width: 400px;
     width: 100%;
     span.is-close {
       width: 100%;

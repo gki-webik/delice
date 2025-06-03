@@ -15,6 +15,7 @@ import IsHomeAdmin from '../components/pages/admin/IsHome.vue'
 import IsPanelAdmin from '../components/pages/admin/IsPanel.vue'
 import IsPanelAdminAED from '../components/pages/admin/products/IsAED.vue'
 import IsPanelAdminIEE from '../components/pages/admin/products/IsIEE.vue'
+import IsPanelAdminPromoCode from '../components/pages/admin/products/IsPromoCode.vue'
 import IsPanelAdminMainOrders from '../components/pages/admin/orders/IsMain.vue'
 import IsPanelAdminUsersList from '../components/pages/admin/users/IsList.vue'
 import IsPanelAdminUsersMessages from '../components/pages/admin/users/IsMessages.vue'
@@ -96,6 +97,10 @@ const routes = [
     {
         path: '/admin/panel/products/iee',
         component: IsPanelAdminIEE
+    },
+    {
+        path: '/admin/panel/products/promo',
+        component: IsPanelAdminPromoCode
     },
     {
         path: '/admin/panel/orders',

@@ -348,7 +348,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  z-index: 10000000000000000;
+  z-index: 9999999999999;
 }
 .boxMainAdminPanelContacts .edit-modal {
   background-color: #ffebd4;

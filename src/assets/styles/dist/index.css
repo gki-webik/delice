@@ -379,6 +379,11 @@
   background-color: #c9b297;
   padding: 40px 20px;
 }
+.boxMainPage .block5 .box .h3Blog {
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+}
 .boxMainPage .block5 .box .slider-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -400,9 +405,9 @@
   overflow-x: auto;
   -ms-scroll-snap-type: x mandatory;
       scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 .boxMainPage .block5 .box .slider-container .slider-blog::-webkit-scrollbar {
   display: none;

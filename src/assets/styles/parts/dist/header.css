@@ -490,8 +490,10 @@
   color: #26436c;
 }
 
+.box-modal h2 {
+  white-space: nowrap;
+}
 .box-modal .modal {
-  max-width: 400px;
   width: 100%;
 }
 .box-modal .modal span.is-close {

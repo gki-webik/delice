@@ -1,3 +1,5 @@
+Я изменю код так, чтобы изображения можно было загружать, а не вставлять ссылки на них. Вот полный исправленный код:
+
 <template>
   <main class="boxMainAdminPanelAED">
     <div class="max-container">
@@ -174,16 +176,15 @@
                     <div class="color-name">{{ color }}</div>
                     <div class="color-image-input">
                       <input
-                        type="text"
-                        v-model="addData.colorsImages[color]"
-                        placeholder="URL изображения для цвета"
+                        type="file"
+                        @change="handleAddColorImageUpload($event, color)"
+                        accept="image/*"
                         required
                       />
                       <img
-                        v-if="addData.colorsImages[color]"
-                        :src="addData.colorsImages[color]"
+                        v-if="addData.colorsImagesPreview[color]"
+                        :src="addData.colorsImagesPreview[color]"
                         class="color-image-preview"
-                        @error="handleAddColorImageError(color)"
                         alt="Превью изображения цвета"
                       />
                     </div>
@@ -212,13 +213,17 @@
             <div class="form-section">
               <h3>Изображения</h3>
               <div class="form-group">
-                <label>Основное изображение (URL)*</label>
-                <input type="text" v-model="addData.image" required />
+                <label>Основное изображение*</label>
+                <input
+                  type="file"
+                  @change="handleAddMainImageUpload"
+                  accept="image/*"
+                  required
+                />
                 <img
-                  :src="addData.image"
+                  v-if="addData.imagePreview"
+                  :src="addData.imagePreview"
                   class="image-preview"
-                  v-if="addData.image"
-                  @error="handleAddImageError('main')"
                   alt="Превью основного изображения"
                 />
               </div>
@@ -226,15 +231,14 @@
               <div class="form-group">
                 <label>Дополнительные изображения</label>
                 <div
-                  v-for="(img, index) in addData.images"
+                  v-for="(img, index) in addData.imagesPreview"
                   :key="index"
                   class="image-input-group"
                 >
                   <input
-                    type="text"
-                    v-model="addData.images[index]"
-                    placeholder="URL изображения"
-                    @input="validateAddImageUrl(index)"
+                    type="file"
+                    @change="(e) => handleAddAdditionalImageUpload(e, index)"
+                    accept="image/*"
                   />
                   <button
                     type="button"
@@ -253,14 +257,13 @@
                 </button>
                 <div class="images-grid">
                   <div
-                    v-for="(img, index) in addData.images"
+                    v-for="(img, index) in addData.imagesPreview"
                     :key="index"
                     class="image-preview-container"
                   >
                     <img
                       :src="img"
                       class="thumbnail"
-                      @error="handleAddImageError(index)"
                       alt="Превью дополнительного изображения"
                       v-if="img"
                     />
@@ -573,16 +576,15 @@
                     <div class="color-name">{{ color }}</div>
                     <div class="color-image-input">
                       <input
-                        type="text"
-                        v-model="editData.colorsImages[color]"
-                        placeholder="URL изображения для цвета"
+                        type="file"
+                        @change="(e) => handleColorImageUpload(e, color)"
+                        accept="image/*"
                         required
                       />
                       <img
-                        v-if="editData.colorsImages[color]"
-                        :src="editData.colorsImages[color]"
+                        v-if="editData.colorsImagesPreview[color]"
+                        :src="editData.colorsImagesPreview[color]"
                         class="color-image-preview"
-                        @error="handleColorImageError(color)"
                         alt="Превью изображения цвета"
                       />
                     </div>
@@ -611,13 +613,17 @@
             <div class="form-section">
               <h3>Изображения</h3>
               <div class="form-group">
-                <label>Основное изображение (URL)*</label>
-                <input type="text" v-model="editData.image" required />
+                <label>Основное изображение*</label>
+                <input
+                  type="file"
+                  @change="handleMainImageUpload"
+                  accept="image/*"
+                  required
+                />
                 <img
-                  :src="editData.image"
+                  v-if="editData.imagePreview"
+                  :src="editData.imagePreview"
                   class="image-preview"
-                  v-if="editData.image"
-                  @error="handleImageError('main')"
                   alt="Превью основного изображения"
                 />
               </div>
@@ -625,15 +631,14 @@
               <div class="form-group">
                 <label>Дополнительные изображения</label>
                 <div
-                  v-for="(img, index) in editData.images"
+                  v-for="(img, index) in editData.imagesPreview"
                   :key="index"
                   class="image-input-group"
                 >
                   <input
-                    type="text"
-                    v-model="editData.images[index]"
-                    placeholder="URL изображения"
-                    @input="validateImageUrl(index)"
+                    type="file"
+                    @change="(e) => handleAdditionalImageUpload(e, index)"
+                    accept="image/*"
                   />
                   <button
                     type="button"
@@ -652,14 +657,13 @@
                 </button>
                 <div class="images-grid">
                   <div
-                    v-for="(img, index) in editData.images"
+                    v-for="(img, index) in editData.imagesPreview"
                     :key="index"
                     class="image-preview-container"
                   >
                     <img
                       :src="img"
                       class="thumbnail"
-                      @error="handleImageError(index)"
                       alt="Превью дополнительного изображения"
                       v-if="img"
                     />
@@ -823,9 +827,12 @@ export default {
         selectedSizes: [],
         storeQuantities: [0, 0, 0],
         totalCount: 0,
-        image: "",
+        image: null,
+        imagePreview: "",
         images: [],
+        imagesPreview: [],
         colorsImages: {},
+        colorsImagesPreview: {},
         characteristicStr: "",
         product_careStr: "",
       },
@@ -840,9 +847,12 @@ export default {
         selectedSizes: [],
         storeQuantities: [0, 0, 0],
         totalCount: 0,
-        image: "",
+        image: null,
+        imagePreview: "",
         images: [],
+        imagesPreview: [],
         colorsImages: {},
+        colorsImagesPreview: {},
         characteristicStr: "",
         product_careStr: "",
       },
@@ -1008,8 +1018,10 @@ export default {
       }
 
       const colorsImages = {};
+      const colorsImagesPreview = {};
       this.product.availableColors.forEach((color) => {
-        colorsImages[color] = this.product.colorsImages[color] || "";
+        colorsImages[color] = null;
+        colorsImagesPreview[color] = this.product.colorsImages[color] || "";
       });
 
       this.editData = {
@@ -1027,58 +1039,108 @@ export default {
             Array(this.storeLocations.length).fill(0)),
         ],
         totalCount: this.product.totalCount || 0,
-        image: this.product.image,
-        images: [...this.product.images],
+        image: null,
+        imagePreview: this.product.image,
+        images: [],
+        imagesPreview: [...this.product.images],
         colorsImages: colorsImages,
+        colorsImagesPreview: colorsImagesPreview,
         characteristicStr: this.product.characteristic.join("\n"),
         product_careStr: this.product.product_care.join("\n"),
       };
 
       this.updateSubcategories();
     },
+    handleMainImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      this.editData.image = file;
+      this.editData.imagePreview = URL.createObjectURL(file);
+    },
+
+    handleAddMainImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      this.addData.image = file;
+      this.addData.imagePreview = URL.createObjectURL(file);
+    },
+
+    handleAdditionalImageUpload(event, index) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      this.editData.images[index] = file;
+      this.editData.imagesPreview[index] = URL.createObjectURL(file);
+    },
+
+    handleAddAdditionalImageUpload(event, index) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      this.addData.images[index] = file;
+      this.addData.imagesPreview[index] = URL.createObjectURL(file);
+    },
+
+    handleColorImageUpload(event, color) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      this.editData.colorsImages[color] = file;
+      this.editData.colorsImagesPreview[color] = URL.createObjectURL(file);
+    },
+
+    handleAddColorImageUpload(event, color) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      this.addData.colorsImages[color] = file;
+      this.addData.colorsImagesPreview[color] = URL.createObjectURL(file);
+    },
     updateColorImages() {
       const colors = this.availableColorsArray;
       const newColorsImages = { ...this.editData.colorsImages };
+      const newColorsImagesPreview = { ...this.editData.colorsImagesPreview };
 
       colors.forEach((color) => {
         if (!newColorsImages[color]) {
-          newColorsImages[color] = "";
+          newColorsImages[color] = null;
+          newColorsImagesPreview[color] = "";
         }
       });
 
       Object.keys(newColorsImages).forEach((color) => {
         if (!colors.includes(color)) {
           delete newColorsImages[color];
+          delete newColorsImagesPreview[color];
         }
       });
 
       this.editData.colorsImages = newColorsImages;
+      this.editData.colorsImagesPreview = newColorsImagesPreview;
     },
     updateAddColorImages() {
       const colors = this.addAvailableColorsArray;
       const newColorsImages = { ...this.addData.colorsImages };
+      const newColorsImagesPreview = { ...this.addData.colorsImagesPreview };
 
       colors.forEach((color) => {
         if (!newColorsImages[color]) {
-          newColorsImages[color] = "";
+          newColorsImages[color] = null;
+          newColorsImagesPreview[color] = "";
         }
       });
 
       Object.keys(newColorsImages).forEach((color) => {
         if (!colors.includes(color)) {
           delete newColorsImages[color];
+          delete newColorsImagesPreview[color];
         }
       });
 
       this.addData.colorsImages = newColorsImages;
-    },
-    handleColorImageError(color) {
-      this.editData.colorsImages[color] = "";
-      alert(`Изображение для цвета "${color}" не найдено. Проверьте URL.`);
-    },
-    handleAddColorImageError(color) {
-      this.addData.colorsImages[color] = "";
-      alert(`Изображение для цвета "${color}" не найдено. Проверьте URL.`);
+      this.addData.colorsImagesPreview = newColorsImagesPreview;
     },
     updateSubcategories() {
       const categoryMap = {
@@ -1153,67 +1215,39 @@ export default {
         selectedSizes: [],
         storeQuantities: [0, 0, 0],
         totalCount: 0,
-        image: "",
+        image: null,
+        imagePreview: "",
         images: [],
+        imagesPreview: [],
         colorsImages: {},
+        colorsImagesPreview: {},
         characteristicStr: "",
         product_careStr: "",
       };
     },
     addImageField() {
-      this.editData.images.push("");
+      this.editData.images.push(null);
+      this.editData.imagesPreview.push("");
     },
     addAddImageField() {
-      this.addData.images.push("");
+      this.addData.images.push(null);
+      this.addData.imagesPreview.push("");
     },
     removeImage(index) {
       this.editData.images.splice(index, 1);
+      this.editData.imagesPreview.splice(index, 1);
     },
     removeAddImage(index) {
       this.addData.images.splice(index, 1);
-    },
-    handleImageError(type) {
-      if (type === "main") {
-        this.editData.image = "";
-        alert("Не удалось загрузить основное изображение. Проверьте URL.");
-      } else if (typeof type === "number") {
-        this.editData.images[type] = "";
-        alert(`Изображение по индексу ${type + 1} не найдено. Проверьте URL.`);
-      }
-    },
-    handleAddImageError(type) {
-      if (type === "main") {
-        this.addData.image = "";
-        alert("Не удалось загрузить основное изображение. Проверьте URL.");
-      } else if (typeof type === "number") {
-        this.addData.images[type] = "";
-        alert(`Изображение по индексу ${type + 1} не найдено. Проверьте URL.`);
-      }
-    },
-    validateImageUrl(index) {
-      if (!this.editData.images[index]) return;
-
-      const img = new Image();
-      img.onerror = () => {
-        this.editData.images[index] = "";
-        alert(`Изображение по индексу ${index + 1} не найдено. Проверьте URL.`);
-      };
-      img.src = this.editData.images[index];
-    },
-    validateAddImageUrl(index) {
-      if (!this.addData.images[index]) return;
-
-      const img = new Image();
-      img.onerror = () => {
-        this.addData.images[index] = "";
-        alert(`Изображение по индексу ${index + 1} не найдено. Проверьте URL.`);
-      };
-      img.src = this.addData.images[index];
+      this.addData.imagesPreview.splice(index, 1);
     },
     submitEdit() {
       const colors = this.availableColorsArray;
       for (const color of colors) {
-        if (!this.editData.colorsImages[color]) {
+        if (
+          !this.editData.colorsImagesPreview[color] &&
+          !this.editData.colorsImages[color]
+        ) {
           alert(`Пожалуйста, добавьте изображение для цвета "${color}"`);
           return;
         }
@@ -1233,11 +1267,6 @@ export default {
         formData.append("availableColors[]", color);
       });
 
-      formData.append(
-        "colorsImages",
-        JSON.stringify(this.editData.colorsImages)
-      );
-
       formData.append("size", this.editData.size);
 
       const sizes = this.editData.selectedSizes;
@@ -1256,12 +1285,36 @@ export default {
 
       if (this.editData.image) {
         formData.append("image", this.editData.image);
+      } else if (this.editData.imagePreview) {
+        formData.append("image", this.editData.imagePreview);
       }
 
-      const images = this.editData.images.filter((img) => img.trim() !== "");
-      images.forEach((img) => {
-        formData.append("images[]", img);
+      const images = this.editData.images.filter((img) => img !== null);
+      images.forEach((img, index) => {
+        formData.append(`images[${index}]`, img);
       });
+
+      // Если есть изображения, которые не изменились, добавляем их URL
+      this.editData.imagesPreview.forEach((preview, index) => {
+        if (preview && !this.editData.images[index]) {
+          formData.append(`imagesUrls[${index}]`, preview);
+        }
+      });
+
+      // Обработка изображений для цветов
+      for (const color of colors) {
+        if (this.editData.colorsImages[color]) {
+          formData.append(
+            `colorsImages[${color}]`,
+            this.editData.colorsImages[color]
+          );
+        } else if (this.editData.colorsImagesPreview[color]) {
+          formData.append(
+            `colorsImagesUrls[${color}]`,
+            this.editData.colorsImagesPreview[color]
+          );
+        }
+      }
 
       const characteristics = this.editData.characteristicStr
         .split("\n")
@@ -1313,8 +1366,12 @@ export default {
         }
       }
 
-      const formData = new FormData();
+      if (!this.addData.image) {
+        alert("Пожалуйста, загрузите основное изображение товара");
+        return;
+      }
 
+      const formData = new FormData();
       formData.append("name", this.addData.name);
       formData.append("price", Number(this.addData.price));
       formData.append("categoryUrl", this.addData.categoryUrl);
@@ -1326,11 +1383,6 @@ export default {
       availableColors.forEach((color) => {
         formData.append("availableColors[]", color);
       });
-
-      formData.append(
-        "colorsImages",
-        JSON.stringify(this.addData.colorsImages)
-      );
 
       formData.append("size", this.addData.size);
 
@@ -1348,14 +1400,24 @@ export default {
         formData.append("storeQuantities[]", qty);
       });
 
-      if (this.addData.image) {
-        formData.append("image", this.addData.image);
-      }
+      // Добавляем основное изображение
+      formData.append("image", this.addData.image);
 
-      const images = this.addData.images.filter((img) => img.trim() !== "");
-      images.forEach((img) => {
-        formData.append("images[]", img);
+      // Добавляем дополнительные изображения
+      const images = this.addData.images.filter((img) => img !== null);
+      images.forEach((img, index) => {
+        formData.append(`images[${index}]`, img);
       });
+
+      // Добавляем изображения для цветов
+      for (const color of colors) {
+        if (this.addData.colorsImages[color]) {
+          formData.append(
+            `colorsImages[${color}]`,
+            this.addData.colorsImages[color]
+          );
+        }
+      }
 
       const characteristics = this.addData.characteristicStr
         .split("\n")

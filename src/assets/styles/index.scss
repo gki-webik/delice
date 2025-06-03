@@ -286,6 +286,11 @@
       background-color: $color-2;
       padding: 40px 20px;
 
+      .h3Blog {
+        transition: opacity 0.3s ease;
+        will-change: opacity;
+      }
+
       .slider-container {
         display: flex;
         align-items: center;
@@ -301,9 +306,9 @@
           display: flex;
           overflow-x: auto;
           scroll-snap-type: x mandatory;
-          scroll-behavior: smooth;
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
+          scroll-behavior: smooth;
           &::-webkit-scrollbar {
             display: none;
           }

@@ -209,6 +209,11 @@ nav.is-kroshki {
       padding: 10px;
     }
   }
+  &.is-400 {
+    .modal {
+      max-width: 400px !important;
+    }
+  }
   h2 {
     font-family: "Montserrat", sans-serif;
     font-weight: 600;

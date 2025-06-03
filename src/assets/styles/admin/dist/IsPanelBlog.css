@@ -137,7 +137,7 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  z-index: 1000000000000000000000;
+  z-index: 999999;
 }
 .boxMainAdminPanelBlog .modal-content {
   background-color: #c9b297;

@@ -67,10 +67,10 @@
         <img src="/media/images/new__logo.svg" alt="" />Новинки
       </router-link>
     </div>
-    <div class="listItem">
+    <!-- <div class="listItem">
       <router-link :to="{ path: '/catalog/sale' }" @click="$emit('close-menu')">
         <img src="/media/images/sale__logo.svg" alt="" />Скидки до 50%
       </router-link>
-    </div>
+    </div> -->
   </div>
 </template>

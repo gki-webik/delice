@@ -218,7 +218,7 @@
       </div>
 
       <h1 v-if="!showCheckoutForm">
-        Корзина <span>{{ totalItems }} {{ pluralizeGoods }}</span>
+        Избранное <span>{{ totalItems }} {{ pluralizeGoods }}</span>
       </h1>
       <div v-if="loading" class="loading">
         <p>Загрузка избранных товаров...</p>

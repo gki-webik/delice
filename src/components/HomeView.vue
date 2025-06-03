@@ -176,7 +176,7 @@
         </div>
         <div class="box">
           <div class="max-container">
-            <h3>{{ currentBlogTitle }}</h3>
+            <h3 class="h3Blog">{{ currentBlogTitle }}</h3>
           </div>
           <div class="slider-container">
             <button
@@ -272,6 +272,7 @@ import IsHeaderCategory from "./parts/IsHeaderCategory.vue";
 export default {
   data() {
     return {
+      debounceTimeout: null,
       items: [],
       newItems: [],
       currentSlide: 0,
@@ -283,7 +284,7 @@ export default {
       sliderWidth: 0,
       sliderWidthNew: 0,
       currentBlogSlide: 0,
-      maxBlogSlides: 2,
+      maxBlogSlides: 0,
       blogItemWidth: 0,
       blogItems: null,
       itemsSales: null,
@@ -366,11 +367,24 @@ export default {
       }
     },
     handleScrollBlog() {
-      const index = Math.round(
-        this.$refs.sliderBlog.scrollLeft / this.blogItemWidth
-      );
-      this.currentBlogSlide = index;
-      this.currentBlogTitleIndex = index % this.blogTitles.length;
+      if (this.debounceTimeout) {
+        clearTimeout(this.debounceTimeout);
+      }
+
+      this.debounceTimeout = setTimeout(() => {
+        const scrollLeft = this.$refs.sliderBlog.scrollLeft;
+        const itemWidth = this.blogItemWidth;
+
+        const index = Math.floor((scrollLeft + itemWidth / 2) / itemWidth);
+
+        const clampedIndex = Math.max(
+          0,
+          Math.min(index, this.maxBlogSlides - 1)
+        );
+
+        this.currentBlogSlide = clampedIndex;
+        this.currentBlogTitleIndex = clampedIndex % this.blogTitles.length;
+      }, 50);
     },
     calculateVisibleSlides() {
       this.$nextTick(() => {
@@ -462,11 +476,13 @@ export default {
       });
     },
     fetchPopularProducts() {
-      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then((response) => {
-        return response.json().then((data) => {
-          this.items = data.data;
-        });
-      });
+      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then(
+        (response) => {
+          return response.json().then((data) => {
+            this.items = data.data;
+          });
+        }
+      );
     },
     fetchNewProducts() {
       fetch("https://ce95524.tw1.ru/api/v1/newProducts").then((response) => {
@@ -508,6 +524,7 @@ export default {
               short_text,
             };
           });
+          this.maxBlogSlides = this.blogItems.length;
         })
         .catch((error) => {
           console.error("Error fetching blog posts:", error);

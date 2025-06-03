@@ -15,6 +15,9 @@
           <router-link to="/admin/panel/products/iee"
             >Импорт/экспорт товаров (Excel)</router-link
           >
+          <router-link to="/admin/panel/products/promo"
+            >Управление промокодами</router-link
+          >
         </nav>
       </details>
       <details :open="!userAdmin">
