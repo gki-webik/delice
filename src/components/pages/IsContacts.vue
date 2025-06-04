@@ -121,7 +121,7 @@ export default {
       formData.append("email", this.email);
       formData.append("text", this.text);
       formData.append("theme", this.theme);
-      fetch("https://ce95524.tw1.ru/api/v1/mailHelp", {
+      fetch("https://delice-spb.ru/api/v1/mailHelp", {
         method: "POST",
         body: formData,
       }).then((response) => {
@@ -135,7 +135,7 @@ export default {
       });
     },
     fetchContacts() {
-      fetch("https://ce95524.tw1.ru/api/v1/getContacts")
+      fetch("https://delice-spb.ru/api/v1/getContacts")
         .then((response) => response.json())
         .then((data) => {
           if (data.data && data.data.length > 0) {

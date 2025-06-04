@@ -8,7 +8,7 @@
       </nav>
       <h1>Импорт/Экспорт</h1>
       <form
-        action="https://ce95524.tw1.ru/api/components/admin/import-export.php"
+        action="https://delice-spb.ru/api/components/admin/import-export.php"
         method="post"
         enctype="multipart/form-data"
       >
@@ -16,7 +16,7 @@
         <small>// Экспорт может начаться не сразу</small>
       </form>
       <form
-        action="https://ce95524.tw1.ru/api/components/admin/import-export.php"
+        action="https://delice-spb.ru/api/components/admin/import-export.php"
         method="post"
         enctype="multipart/form-data"
       >
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {

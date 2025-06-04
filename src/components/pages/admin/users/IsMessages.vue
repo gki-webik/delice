@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -204,7 +204,7 @@ export default {
         });
     },
     loadAllUsers() {
-      fetch("https://ce95524.tw1.ru/api/v2/getAllUsers", {
+      fetch("https://delice-spb.ru/api/v2/getAllUsers", {
         method: "GET",
         credentials: "include",
       })
@@ -218,7 +218,7 @@ export default {
     },
     loadRecentMailings() {
       // Загрузка последних рассылок с сервера
-      fetch("https://ce95524.tw1.ru/api/v2/getRecentMailings", {
+      fetch("https://delice-spb.ru/api/v2/getRecentMailings", {
         method: "GET",
         credentials: "include",
       })
@@ -268,7 +268,7 @@ export default {
 
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v2/sendMassMailing",
+          "https://delice-spb.ru/api/v2/sendMassMailing",
           {
             method: "POST",
             credentials: "include",

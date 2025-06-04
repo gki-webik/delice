@@ -282,7 +282,7 @@ export default {
   },
   methods: {
     checkPay() {
-      fetch("https://ce95524.tw1.ru/api/v1/checkPay", {
+      fetch("https://delice-spb.ru/api/v1/checkPay", {
         credentials: "include",
       })
         .then((res) => {
@@ -344,7 +344,7 @@ export default {
       formData.append("commentData", JSON.stringify(commentData));
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/addComment",
+          "https://delice-spb.ru/api/v1/addComment",
           {
             method: "POST",
             credentials: "include",
@@ -357,7 +357,7 @@ export default {
           this.selectedRating = 0;
           this.commentText = "";
           fetch(
-            "https://ce95524.tw1.ru/api/v1/getCommentProductById/" +
+            "https://delice-spb.ru/api/v1/getCommentProductById/" +
               this.currentCommentId
           ).then((response) => {
             return response.json().then((data) => {
@@ -374,7 +374,7 @@ export default {
       }
     },
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
+      fetch("https://delice-spb.ru/api/v1/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -399,7 +399,7 @@ export default {
     fetchOrders() {
       this.loadingOrders = true;
       this.errorOrders = null;
-      fetch("https://ce95524.tw1.ru/api/v1/profile-orders", {
+      fetch("https://delice-spb.ru/api/v1/profile-orders", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -426,7 +426,7 @@ export default {
       this.orderDetails = null;
       this.parsedProducts = null;
 
-      fetch("https://ce95524.tw1.ru/api/v1/profile-orders", {
+      fetch("https://delice-spb.ru/api/v1/profile-orders", {
         method: "POST",
         credentials: "include",
       })
@@ -507,7 +507,7 @@ export default {
     fetchUserData() {
       this.loadingUser = true;
       this.errorUser = null;
-      fetch("https://ce95524.tw1.ru/api/v1/profile-user", {
+      fetch("https://delice-spb.ru/api/v1/profile-user", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -534,7 +534,7 @@ export default {
     fetchComments() {
       this.loadingComments = true;
       this.errorComments = null;
-      fetch("https://ce95524.tw1.ru/api/v1/profile-comments", {
+      fetch("https://delice-spb.ru/api/v1/profile-comments", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -561,7 +561,7 @@ export default {
     saveUserData() {
       let formData = new FormData();
       formData.append("userData", JSON.stringify(this.userData));
-      fetch("https://ce95524.tw1.ru/api/v1/profile-user", {
+      fetch("https://delice-spb.ru/api/v1/profile-user", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -575,7 +575,7 @@ export default {
         });
     },
     fetchAccountExit() {
-      fetch("https://ce95524.tw1.ru/api/v1/profile-exit", {
+      fetch("https://delice-spb.ru/api/v1/profile-exit", {
         method: "POST",
         credentials: "include",
       })
@@ -588,7 +588,7 @@ export default {
         });
     },
     fetchAccountDelete() {
-      fetch("https://ce95524.tw1.ru/api/v1/profile-delete", {
+      fetch("https://delice-spb.ru/api/v1/profile-delete", {
         method: "DELETE",
         credentials: "include",
       })

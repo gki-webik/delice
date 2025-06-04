@@ -191,7 +191,7 @@ export default {
       }
       const formData = new FormData();
       formData.append("email", this.email);
-      fetch("https://ce95524.tw1.ru/api/v1/mailing", {
+      fetch("https://delice-spb.ru/api/v1/mailing", {
         method: "POST",
         body: formData,
       }).then((response) => {

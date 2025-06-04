@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {

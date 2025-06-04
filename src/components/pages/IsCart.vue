@@ -445,7 +445,7 @@ export default {
     fetchUserData() {
       this.loadingUser = true;
       this.errorUser = null;
-      fetch("https://ce95524.tw1.ru/api/v1/profile-user", {
+      fetch("https://delice-spb.ru/api/v1/profile-user", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -557,7 +557,7 @@ export default {
       try {
         const requests = cartItems.map((item) => {
           const id = typeof item === "object" ? item.id : item;
-          return fetch(`https://ce95524.tw1.ru/api/v1/getProductById/${id}`)
+          return fetch(`https://delice-spb.ru/api/v1/getProductById/${id}`)
             .then((response) => response.json())
             .then((data) => {
               const productData = data.data[0];
@@ -613,7 +613,7 @@ export default {
 
       let formData = new FormData();
       formData.append("promo", this.promoCode);
-      fetch("https://ce95524.tw1.ru/api/v1/checkPromoCode", {
+      fetch("https://delice-spb.ru/api/v1/checkPromoCode", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -735,7 +735,7 @@ export default {
 
       let formData = new FormData();
       formData.append("orderData", JSON.stringify(orderData));
-      fetch("https://ce95524.tw1.ru/api/v1/cartBuy", {
+      fetch("https://delice-spb.ru/api/v1/cartBuy", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -800,7 +800,7 @@ export default {
         });
     },
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
+      fetch("https://delice-spb.ru/api/v1/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -825,7 +825,7 @@ export default {
     async getStoresProduct(productId) {
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/getStoresProduct/" + productId
+          "https://delice-spb.ru/api/v1/getStoresProduct/" + productId
         );
 
         if (!response.ok) {
@@ -894,7 +894,7 @@ export default {
       }
     },
     firstOrder() {
-      fetch("https://ce95524.tw1.ru/api/v1/firstOrder", {
+      fetch("https://delice-spb.ru/api/v1/firstOrder", {
         method: "POST",
         credentials: "include",
         headers: {

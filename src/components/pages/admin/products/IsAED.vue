@@ -888,7 +888,7 @@ export default {
       return categoryMap[e] || "";
     },
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -910,7 +910,7 @@ export default {
     fetchProduct() {
       this.cancelEditing();
       fetch(
-        "https://ce95524.tw1.ru/api/v2/getProductById/" +
+        "https://delice-spb.ru/api/v2/getProductById/" +
           this.currentGetProduct,
         {
           credentials: "include",
@@ -962,7 +962,7 @@ export default {
     },
     fetchStoreQuantities(productId) {
       return fetch(
-        "https://ce95524.tw1.ru/api/v1/getStoresProduct/" + productId
+        "https://delice-spb.ru/api/v1/getStoresProduct/" + productId
       )
         .then((response) => {
           if (response.status === 200) {
@@ -1330,7 +1330,7 @@ export default {
         formData.append("product_care[]", care);
       });
 
-      fetch(`https://ce95524.tw1.ru/api/v2/updateProduct/${this.product.id}`, {
+      fetch(`https://delice-spb.ru/api/v2/updateProduct/${this.product.id}`, {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -1433,7 +1433,7 @@ export default {
         formData.append("product_care[]", care);
       });
 
-      fetch("https://ce95524.tw1.ru/api/v2/addProduct", {
+      fetch("https://delice-spb.ru/api/v2/addProduct", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -1474,7 +1474,7 @@ export default {
         );
       });
       return fetch(
-        `https://ce95524.tw1.ru/api/v2/updateStoreQuantities/${productId}`,
+        `https://delice-spb.ru/api/v2/updateStoreQuantities/${productId}`,
         {
           method: "POST",
           credentials: "include",
@@ -1494,7 +1494,7 @@ export default {
     deleteProduct() {
       if (confirm("Вы уверены, что хотите удалить этот товар?")) {
         fetch(
-          "https://ce95524.tw1.ru/api/v2/deleteProduct/" + this.product.id,
+          "https://delice-spb.ru/api/v2/deleteProduct/" + this.product.id,
           {
             method: "DELETE",
             credentials: "include",

@@ -469,14 +469,14 @@ export default {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     fetchSalesProducts() {
-      fetch("https://ce95524.tw1.ru/api/v1/getSales").then((response) => {
+      fetch("https://delice-spb.ru/api/v1/getSales").then((response) => {
         return response.json().then((data) => {
           this.itemsSales = data.data;
         });
       });
     },
     fetchPopularProducts() {
-      fetch("https://ce95524.tw1.ru/api/v1/popularProducts").then(
+      fetch("https://delice-spb.ru/api/v1/popularProducts").then(
         (response) => {
           return response.json().then((data) => {
             this.items = data.data;
@@ -485,14 +485,14 @@ export default {
       );
     },
     fetchNewProducts() {
-      fetch("https://ce95524.tw1.ru/api/v1/newProducts").then((response) => {
+      fetch("https://delice-spb.ru/api/v1/newProducts").then((response) => {
         return response.json().then((data) => {
           this.newItems = data.data;
         });
       });
     },
     fetchBlogPosts() {
-      fetch("https://ce95524.tw1.ru/api/v1/blogPosts")
+      fetch("https://delice-spb.ru/api/v1/blogPosts")
         .then((response) => response.json())
         .then((data) => {
           this.blogItems = data.data.map((item) => {

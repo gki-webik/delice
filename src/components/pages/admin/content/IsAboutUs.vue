@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -139,7 +139,7 @@ export default {
     async fetchContent() {
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/getAboutUs",
+          "https://delice-spb.ru/api/v1/getAboutUs",
           {
             credentials: "include",
           }
@@ -565,7 +565,7 @@ export default {
 
         // Отправляем на сервер
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v2/updateAboutUs",
+          "https://delice-spb.ru/api/v2/updateAboutUs",
           {
             method: "POST",
             credentials: "include",

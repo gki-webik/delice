@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     fetchItems() {
-      fetch("https://ce95524.tw1.ru/api/v1/getAboutUs")
+      fetch("https://delice-spb.ru/api/v1/getAboutUs")
         .then((response) => response.json())
         .then((data) => {
           if (data && data.data) {

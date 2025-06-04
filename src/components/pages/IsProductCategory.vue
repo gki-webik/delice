@@ -514,7 +514,7 @@ export default {
       formData.append("commentData", JSON.stringify(commentData));
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/addComment",
+          "https://delice-spb.ru/api/v1/addComment",
           {
             method: "POST",
             credentials: "include",
@@ -528,7 +528,7 @@ export default {
           this.commentText = "";
 
           fetch(
-            "https://ce95524.tw1.ru/api/v1/getCommentProductById/" +
+            "https://delice-spb.ru/api/v1/getCommentProductById/" +
               this.$route.params.product
           ).then((response) => {
             return response.json().then((data) => {
@@ -547,7 +547,7 @@ export default {
     async fetchMyComments() {
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/getComment/" +
+          "https://delice-spb.ru/api/v1/getComment/" +
             this.$route.params.product,
           {
             method: "POST",
@@ -573,7 +573,7 @@ export default {
     async getStoresProduct() {
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/getStoresProduct/" +
+          "https://delice-spb.ru/api/v1/getStoresProduct/" +
             this.$route.params.product
         );
 
@@ -665,7 +665,7 @@ export default {
     },
 
     fetchProduct(id) {
-      fetch("https://ce95524.tw1.ru/api/v1/getProductById/" + id).then(
+      fetch("https://delice-spb.ru/api/v1/getProductById/" + id).then(
         (response) => {
           return response.json().then((data) => {
             this.product = data.data[0];
@@ -697,14 +697,14 @@ export default {
           });
         }
       );
-      fetch("https://ce95524.tw1.ru/api/v1/getCommentProductById/" + id).then(
+      fetch("https://delice-spb.ru/api/v1/getCommentProductById/" + id).then(
         (response) => {
           return response.json().then((data) => {
             this.comments = data.data;
           });
         }
       );
-      fetch("https://ce95524.tw1.ru/api/v1/similarProducts/" + id).then(
+      fetch("https://delice-spb.ru/api/v1/similarProducts/" + id).then(
         (response) => {
           return response.json().then((data) => {
             this.newItems = data.data;
@@ -713,7 +713,7 @@ export default {
       );
     },
     isAuthFetch() {
-      fetch("https://ce95524.tw1.ru/api/v1/checkAuth", {
+      fetch("https://delice-spb.ru/api/v1/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {

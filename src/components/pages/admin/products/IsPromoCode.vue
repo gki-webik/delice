@@ -199,7 +199,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -229,7 +229,7 @@ export default {
 
     fetchPromoCodes() {
       this.loading = true;
-      fetch("https://ce95524.tw1.ru/api/v2/getPromoCodes", {
+      fetch("https://delice-spb.ru/api/v2/getPromoCodes", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -258,7 +258,7 @@ export default {
       formData.append("name", this.newPromo.name);
       formData.append("sale", this.newPromo.sale);
 
-      fetch("https://ce95524.tw1.ru/api/v2/addPromoCode", {
+      fetch("https://delice-spb.ru/api/v2/addPromoCode", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -292,7 +292,7 @@ export default {
       const formData = new FormData();
       formData.append("id", id);
 
-      fetch("https://ce95524.tw1.ru/api/v2/deletePromoCode", {
+      fetch("https://delice-spb.ru/api/v2/deletePromoCode", {
         method: "POST",
         credentials: "include",
         body: formData,

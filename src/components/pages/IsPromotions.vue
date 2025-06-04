@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     fetchSalesProducts() {
-      fetch("https://ce95524.tw1.ru/api/v1/getSales").then((response) => {
+      fetch("https://delice-spb.ru/api/v1/getSales").then((response) => {
         return response.json().then((data) => {
           this.items = data.data;
         });

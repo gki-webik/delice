@@ -176,7 +176,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -196,7 +196,7 @@ export default {
         });
     },
     getAllUsers() {
-      fetch("https://ce95524.tw1.ru/api/v2/getAllUsers", {
+      fetch("https://delice-spb.ru/api/v2/getAllUsers", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -262,7 +262,7 @@ export default {
         }
 
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v2/updateUser/" + this.selectedUser.id,
+          "https://delice-spb.ru/api/v2/updateUser/" + this.selectedUser.id,
           {
             method: "POST",
             credentials: "include",
@@ -317,7 +317,7 @@ export default {
 
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v2/deleteUser/" + this.selectedUser.id,
+          "https://delice-spb.ru/api/v2/deleteUser/" + this.selectedUser.id,
           {
             method: "DELETE",
             credentials: "include",
@@ -357,7 +357,7 @@ export default {
       this.selectedUser = user;
       try {
         const response = await fetch(
-          `https://ce95524.tw1.ru/api/v2/getUserOrders/${user.id}`,
+          `https://delice-spb.ru/api/v2/getUserOrders/${user.id}`,
           {
             method: "GET",
             credentials: "include",

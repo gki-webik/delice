@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     fetchBlogPosts() {
-      fetch("https://ce95524.tw1.ru/api/v1/blogPosts")
+      fetch("https://delice-spb.ru/api/v1/blogPosts")
         .then((response) => response.json())
         .then((data) => {
           if (data && data.data) {

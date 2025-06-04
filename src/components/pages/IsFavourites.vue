@@ -500,7 +500,7 @@ export default {
 
       try {
         const requests = this.favorites.map((id) =>
-          fetch(`https://ce95524.tw1.ru/api/v1/getProductById/${id}`)
+          fetch(`https://delice-spb.ru/api/v1/getProductById/${id}`)
             .then((response) => response.json())
             .then((data) => data.data[0])
         );

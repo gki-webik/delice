@@ -360,7 +360,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -389,7 +389,7 @@ export default {
     loadReport() {
       this.loading = true;
 
-      let url = "https://ce95524.tw1.ru/api/v2/report?type=" + this.reportType;
+      let url = "https://delice-spb.ru/api/v2/report?type=" + this.reportType;
 
       if (this.reportType !== "general") {
         url += `&start_date=${this.startDate}&end_date=${this.endDate}`;

@@ -208,7 +208,7 @@ export default {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -228,7 +228,7 @@ export default {
         });
     },
     getAllOrders() {
-      fetch("https://ce95524.tw1.ru/api/v2/getAllOrders", {
+      fetch("https://delice-spb.ru/api/v2/getAllOrders", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -252,7 +252,7 @@ export default {
     fetchUpdateStatusOrder(data, id) {
       const formData = new FormData();
       formData.append("status", data.target.value);
-      fetch("https://ce95524.tw1.ru/api/v2/updateStatusOrder/" + id, {
+      fetch("https://delice-spb.ru/api/v2/updateStatusOrder/" + id, {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -339,7 +339,7 @@ export default {
     fetchOrderDetails(orderId) {
       this.loadingOrderDetails = true;
       this.showDetails = true;
-      fetch("https://ce95524.tw1.ru/api/v2/fetchOrderDetails/" + orderId, {
+      fetch("https://delice-spb.ru/api/v2/fetchOrderDetails/" + orderId, {
         method: "GET",
         credentials: "include",
       })

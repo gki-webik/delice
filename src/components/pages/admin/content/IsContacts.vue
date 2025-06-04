@@ -353,7 +353,7 @@ export default {
   },
   methods: {
     isAuth() {
-      fetch("https://ce95524.tw1.ru/api/v2/checkAuth", {
+      fetch("https://delice-spb.ru/api/v2/checkAuth", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -513,7 +513,7 @@ export default {
       this.loading = true;
       try {
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v1/getContacts",
+          "https://delice-spb.ru/api/v1/getContacts",
           {
             credentials: "include",
           }
@@ -617,7 +617,7 @@ export default {
         };
 
         const response = await fetch(
-          "https://ce95524.tw1.ru/api/v2/updateContacts",
+          "https://delice-spb.ru/api/v2/updateContacts",
           {
             method: "POST",
             credentials: "include",
