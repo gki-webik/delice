@@ -205,7 +205,7 @@
                   <input
                     type="number"
                     v-model.number="minPrice"
-                    @change="applyFilters"
+                    @change="handlePriceChange"
                     :min="0"
                     :max="maxPriceLimit"
                   />
@@ -216,7 +216,7 @@
                   <input
                     type="number"
                     v-model.number="maxPrice"
-                    @change="applyFilters"
+                    @change="handlePriceChange"
                     :min="minPrice"
                     :max="maxPriceLimit"
                   />
@@ -319,6 +319,7 @@
 export default {
   data() {
     return {
+      currentCategoryUrl: null,
       showFilters: true,
       showFiltersMobile: false,
       showCategoryDropdown: false,
@@ -556,45 +557,6 @@ export default {
         this.applyFilters();
       }
     },
-    handleCategoryFromUrl(categoryName) {
-      let categoryToSelect = "";
-
-      const categoryMap = {
-        women_clothing: "ЖЕНСКАЯ ОДЕЖДА",
-        men_clothing: "МУЖСКАЯ ОДЕЖДА",
-        women_shoes: "ЖЕНСКАЯ ОБУВЬ",
-        men_shoes: "МУЖСКАЯ ОБУВЬ",
-        women_accessories: "АКСЕССУАРЫ",
-        men_accessories: "АКСЕССУАРЫ",
-      };
-
-      if (categoryMap[categoryName]) {
-        categoryToSelect = categoryMap[categoryName];
-        this.openSubcategories = [categoryToSelect];
-
-        if (this.categories[categoryToSelect]) {
-          this.selectedCategories = [...this.categories[categoryToSelect]];
-        }
-      } else {
-        for (const [category, subcategories] of Object.entries(
-          this.categories
-        )) {
-          if (subcategories.includes(categoryName)) {
-            categoryToSelect = categoryName;
-            this.openSubcategories = [category];
-            break;
-          }
-        }
-
-        if (categoryToSelect) {
-          this.selectedCategories = [categoryToSelect];
-        } else if (["popular", "new", "sale"].includes(categoryName)) {
-          this.selectedCategories = [];
-        }
-      }
-
-      this.applyFilters();
-    },
     loadProducts() {
       this.loading = true;
       setTimeout(() => {
@@ -653,53 +615,150 @@ export default {
         this.openSubcategories.push(category);
       }
     },
-    performSearch() {
-      this.loading = true;
+    handleCategoryFromUrl(categoryName) {
+      // Сбрасываем предыдущие фильтры
+      this.selectedColors = [];
+      this.selectedSizes = [];
+      this.minPrice = 0;
+      this.maxPrice = this.maxPriceLimit;
+      this.selectedCategories = [];
 
-      setTimeout(() => {
-        let filtered = this.products.filter((product) => {
-          const matchesQuery = this.searchQuery
-            ? product.name
-                .toLowerCase()
-                .includes(this.searchQuery.toLowerCase())
-            : true;
+      // Проверяем, является ли категория специальной (popular или new)
+      if (categoryName === "popular") {
+        this.currentCategoryUrl = categoryName;
+        this.fetchPopularProducts();
+        return; // Важно: прерываем выполнение метода здесь
+      }
 
-          let matchesCategory = true;
-          if (this.selectedCategories.length > 0) {
-            matchesCategory = this.selectedCategories.includes(
-              product.category
-            );
+      if (categoryName === "new") {
+        this.currentCategoryUrl = categoryName;
+        this.fetchNewProducts();
+        return; // Важно: прерываем выполнение метода здесь
+      }
+
+      // Если это одна из основных категорий (women_clothing, men_clothing и т.д.)
+      if (this.categoryUrlMap[categoryName]) {
+        const categoryToSelect = this.categoryUrlMap[categoryName];
+        this.openSubcategories = [categoryToSelect];
+
+        if (this.categories[categoryToSelect]) {
+          this.selectedCategories = [...this.categories[categoryToSelect]];
+        }
+
+        // Сохраняем текущую категорию URL для фильтрации
+        this.currentCategoryUrl = categoryName;
+      } else {
+        // Если это подкатегория
+        let foundCategory = false;
+        for (const [category, subcategories] of Object.entries(
+          this.categories
+        )) {
+          if (subcategories.includes(categoryName)) {
+            this.openSubcategories = [category];
+            this.selectedCategories = [categoryName];
+            foundCategory = true;
+            break;
           }
+        }
 
-          const matchesColor =
-            this.selectedColors.length > 0
-              ? this.selectedColors.includes(product.color)
-              : true;
+        if (!foundCategory && ["sale"].includes(categoryName)) {
+          this.selectedCategories = [];
+          this.currentCategoryUrl = categoryName;
+        } else {
+          this.currentCategoryUrl = null;
+        }
+      }
 
-          const matchesSize =
-            this.selectedSizes.length > 0
-              ? this.selectedSizes.includes(product.size)
-              : true;
-
-          const matchesPrice =
-            product.price >= this.minPrice && product.price <= this.maxPrice;
-
-          return (
-            matchesQuery &&
-            matchesCategory &&
-            matchesColor &&
-            matchesSize &&
-            matchesPrice
-          );
+      // Загружаем обычные товары и применяем фильтры
+      this.fetchProducts();
+      this.applyFilters();
+    },
+    fetchPopularProducts() {
+      this.loading = true;
+      fetch("https://delice-spb.ru/api/v1/popularProductsAll")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Получены популярные товары:", data);
+          this.products = data.data || [];
+          this.filteredProductsCache = [...this.products];
+          this.currentPage = 1;
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке популярных товаров:", error);
+          this.loading = false;
         });
+    },
 
-        this.sortProductsList(filtered);
-        this.filteredProductsCache = filtered;
-        this.currentPage = 1;
-        this.loading = false;
-      }, 300);
+    fetchNewProducts() {
+      this.loading = true;
+      fetch("https://delice-spb.ru/api/v1/newProductsAll")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Получены новые товары:", data);
+          this.products = data.data || [];
+          this.filteredProductsCache = [...this.products];
+          this.currentPage = 1;
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке новых товаров:", error);
+          this.loading = false;
+        });
+    },
+    applyAdditionalFilters() {
+      let filtered = this.products.filter((product) => {
+        if (
+          this.selectedCategories.length > 0 &&
+          !this.selectedCategories.includes(product.category)
+        ) {
+          return false;
+        }
+        // Фильтр по цвету
+        if (
+          this.selectedColors.length > 0 &&
+          !this.selectedColors.includes(product.color)
+        ) {
+          return false;
+        }
+
+        // Фильтр по размеру
+        if (
+          this.selectedSizes.length > 0 &&
+          !this.selectedSizes.includes(product.size)
+        ) {
+          return false;
+        }
+
+        // Фильтр по цене
+        if (product.price < this.minPrice || product.price > this.maxPrice) {
+          return false;
+        }
+
+        return true;
+      });
+
+      this.sortProductsList(filtered);
+      this.filteredProductsCache = filtered;
     },
     applyFilters() {
+      if (
+        this.currentCategoryUrl === "popular" ||
+        this.currentCategoryUrl === "new"
+      ) {
+        this.applyAdditionalFilters();
+        return;
+      }
       if (this.searchQuery) {
         this.performSearch();
       } else {
@@ -707,12 +766,21 @@ export default {
 
         setTimeout(() => {
           let filtered = this.products.filter((product) => {
+            // Проверка на соответствие categoryUrl, если установлен
+            if (this.$route.params.name && this.currentCategoryUrl) {
+              if (product.categoryUrl !== this.currentCategoryUrl) {
+                return false;
+              }
+            }
+
+            // Проверка на соответствие выбранным категориям
             if (this.selectedCategories.length > 0) {
               if (!this.selectedCategories.includes(product.category)) {
                 return false;
               }
             }
 
+            // Остальные фильтры без изменений
             if (
               this.selectedColors.length > 0 &&
               !this.selectedColors.includes(product.color)
@@ -741,6 +809,60 @@ export default {
         }, 300);
       }
     },
+
+    // Также модифицируем метод performSearch
+    performSearch() {
+      this.loading = true;
+
+      setTimeout(() => {
+        let filtered = this.products.filter((product) => {
+          const matchesQuery = this.searchQuery
+            ? product.name
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase())
+            : true;
+
+          // Проверка на соответствие categoryUrl, если установлен
+          const matchesCategoryUrl = this.currentCategoryUrl
+            ? product.categoryUrl === this.currentCategoryUrl
+            : true;
+
+          let matchesCategory = true;
+          if (this.selectedCategories.length > 0) {
+            matchesCategory = this.selectedCategories.includes(
+              product.category
+            );
+          }
+
+          const matchesColor =
+            this.selectedColors.length > 0
+              ? this.selectedColors.includes(product.color)
+              : true;
+
+          const matchesSize =
+            this.selectedSizes.length > 0
+              ? this.selectedSizes.includes(product.size)
+              : true;
+
+          const matchesPrice =
+            product.price >= this.minPrice && product.price <= this.maxPrice;
+
+          return (
+            matchesQuery &&
+            matchesCategoryUrl &&
+            matchesCategory &&
+            matchesColor &&
+            matchesSize &&
+            matchesPrice
+          );
+        });
+
+        this.sortProductsList(filtered);
+        this.filteredProductsCache = filtered;
+        this.currentPage = 1;
+        this.loading = false;
+      }, 300);
+    },
     resetSearch() {
       this.searchQuery = "";
       this.$router.push({
@@ -755,6 +877,7 @@ export default {
       this.selectedSizes = [];
       this.minPrice = 0;
       this.maxPrice = this.maxPriceLimit;
+      this.currentCategoryUrl = null;
       this.applyFilters();
     },
     sortProducts() {
@@ -774,6 +897,16 @@ export default {
         case "nameDesc":
           productsList.sort((a, b) => b.name.localeCompare(a.name));
           break;
+      }
+    },
+    handlePriceChange() {
+      if (
+        this.currentCategoryUrl === "popular" ||
+        this.currentCategoryUrl === "new"
+      ) {
+        this.applyAdditionalFilters();
+      } else {
+        this.applyFilters();
       }
     },
     changePage(page) {
@@ -801,11 +934,23 @@ export default {
       return this.colorCodes[colorName] || "#cccccc";
     },
     fetchProducts() {
-      fetch("https://delice-spb.ru/api/v1/products").then((response) => {
-        return response.json().then((data) => {
-          this.products = data.data;
+      this.loading = true;
+      fetch("https://delice-spb.ru/api/v1/products")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          this.products = data.data || [];
+          this.applyFilters(); // Применяем фильтры после загрузки
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке товаров:", error);
+          this.loading = false;
         });
-      });
     },
   },
 };

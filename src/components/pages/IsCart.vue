@@ -292,10 +292,10 @@ export default {
       storesAvailability: {},
       unavailableProducts: [],
       paymentMethods: [
-        {
-          id: "card",
-          name: "Банковская карта",
-        },
+        // {
+        //   id: "card",
+        //   name: "Банковская карта",
+        // },
         { id: "cash", name: "Наличные" },
         {
           id: "online",
@@ -309,6 +309,7 @@ export default {
   created() {
     this.isAuth();
     this.firstOrder();
+    this.loadCartFromLocalStorage();
   },
   computed: {
     totalItems() {
@@ -423,6 +424,14 @@ export default {
     },
   },
   watch: {
+    cartItems: {
+      handler(newVal) {
+        if (newVal) {
+          this.saveCartToLocalStorage();
+        }
+      },
+      deep: true,
+    },
     selectedItems: {
       handler() {
         this.applyBuyTwoGetOneFreePromotion();
@@ -571,8 +580,8 @@ export default {
                   ...productData,
                   size: item.size,
                   color: item.color,
-                  selected: false,
-                  quantity: 1,
+                  selected: item.selected || false, // Сохраняем состояние выбора
+                  quantity: item.quantity || 1, // Сохраняем количество
                   IsAccess: countNumber > 0,
                 };
               } else {
@@ -598,12 +607,24 @@ export default {
       }
     },
     loadCartFromLocalStorage() {
-      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      if (cartItems.length === 0) {
-        this.cartItems = [];
-        return;
+      const cartData = JSON.parse(localStorage.getItem("cartData")) || {};
+
+      if (cartData.items && cartData.items.length > 0) {
+        // Если есть сохраненные данные корзины, загружаем их
+        this.cartItems = cartData.items;
+        this.promoCode = cartData.promoCode || "";
+        this.discount = cartData.discount || 0;
+        this.freeItemDiscount = cartData.freeItemDiscount || 0;
+        this.selectAll = cartData.selectAll || false;
+      } else {
+        // Иначе загружаем стандартным способом
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        if (cartItems.length === 0) {
+          this.cartItems = [];
+          return;
+        }
+        this.fetchCartItems(cartItems);
       }
-      this.fetchCartItems(cartItems);
     },
     applyPromo() {
       if (!this.promoCode) {
@@ -670,11 +691,24 @@ export default {
       this.checkGiftEligibility();
     },
     saveCartToLocalStorage() {
-      // Преобразуем cartItems в формат для localStorage
+      // Сохраняем не только список товаров, но и все связанные данные
+      const cartData = {
+        items: this.cartItems,
+        promoCode: this.promoCode,
+        discount: this.discount,
+        freeItemDiscount: this.freeItemDiscount,
+        selectAll: this.selectAll,
+      };
+
+      localStorage.setItem("cartData", JSON.stringify(cartData));
+
+      // Также сохраняем минимальные данные для совместимости
       const cartItems = this.cartItems.map((item) => ({
         id: item.id,
         size: item.size,
         color: item.color,
+        quantity: item.quantity,
+        selected: item.selected,
       }));
 
       localStorage.setItem("cart", JSON.stringify(cartItems));

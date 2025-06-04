@@ -628,6 +628,8 @@ export default {
         id: this.$route.params.product,
         size: this.selectedSize,
         color: this.selectedColor,
+        quantity: 1, // Добавляем количество
+        selected: false, // Добавляем состояние выбора для корзины
       };
 
       // Проверяем, есть ли уже такой товар в корзине
@@ -652,6 +654,9 @@ export default {
 
       // Обновляем localStorage
       localStorage.setItem("cart", JSON.stringify(this.cart));
+
+      // Очищаем сохраненные данные корзины, чтобы они перезагрузились
+      localStorage.removeItem("cartData");
     },
 
     // Выбор размера
