@@ -393,7 +393,9 @@
             </svg>
           </button>
         </div>
-        <button type="button">Смотреть всё</button>
+        <button type="button" @click="$router.push('/catalog')">
+          Смотреть всё
+        </button>
       </div>
     </div>
   </main>

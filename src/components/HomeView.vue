@@ -91,7 +91,9 @@
               </svg>
             </button>
           </div>
-          <button type="button">Смотреть всё</button>
+          <button type="button" @click="$router.push('/catalog/popular')">
+            Смотреть всё
+          </button>
         </div>
         <div class="block4">
           <h2>НОВИНКИ</h2>
@@ -167,7 +169,9 @@
               </svg>
             </button>
           </div>
-          <button type="button">Смотреть всё</button>
+          <button type="button" @click="$router.push('/catalog/new')">
+            Смотреть всё
+          </button>
         </div>
       </div>
       <div class="block5" v-if="blogItems && blogItems.length">
@@ -476,13 +480,11 @@ export default {
       });
     },
     fetchPopularProducts() {
-      fetch("https://delice-spb.ru/api/v1/popularProducts").then(
-        (response) => {
-          return response.json().then((data) => {
-            this.items = data.data;
-          });
-        }
-      );
+      fetch("https://delice-spb.ru/api/v1/popularProducts").then((response) => {
+        return response.json().then((data) => {
+          this.items = data.data;
+        });
+      });
     },
     fetchNewProducts() {
       fetch("https://delice-spb.ru/api/v1/newProducts").then((response) => {
