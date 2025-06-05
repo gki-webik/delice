@@ -240,12 +240,9 @@ export default {
       immediate: true,
     },
     $route(to) {
-      // Проверяем, что мы на главной странице
       if (to.path === "/") {
-        // Находим элемент с классом IsHeaderCategory
         const headerCategory = document.querySelector(".IsHeaderCategory");
         if (headerCategory && headerCategory.classList.contains("active")) {
-          // Удаляем класс active
           headerCategory.classList.remove("active");
         }
       }
@@ -253,12 +250,16 @@ export default {
   },
   methods: {
     cartProducts() {
+      if (!this.isAuth) {
+        this.isCountCart = 0;
+        return;
+      }
       this.isCountCart = localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart")).length
         : 0;
     },
     cartAmount() {
-      if (!localStorage.getItem("cart")) {
+      if (!localStorage.getItem("cart") || !this.isAuth) {
         this.isAmountCart = 0;
         return;
       }
@@ -280,7 +281,6 @@ export default {
     },
     performSearch() {
       if (!this.searchQuery.trim()) {
-        // Можно сбросить фильтр или оставить как есть
         return;
       }
       this.$router.push({
