@@ -217,7 +217,7 @@ export default {
         { value: "men_accessories", label: "Мужские аксессуары" },
         { value: "popular", label: "Популярные товары" },
         { value: "new", label: "Новинки" },
-        { value: "sale", label: "Скидки до 50%" },
+        // { value: "sale", label: "Скидки до 50%" },
       ],
     };
   },

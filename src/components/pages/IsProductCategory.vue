@@ -172,8 +172,25 @@
               @click="selectColor(colorName)"
             />
           </div>
-          <h3>Размер</h3>
-          <div class="sizes">
+          <h3
+            v-if="
+              product.sizes &&
+              product.sizes.length > 0 &&
+              product.categoryUrl !== 'women_accessories' &&
+              product.categoryUrl !== 'men_accessories'
+            "
+          >
+            Размер
+          </h3>
+          <div
+            class="sizes"
+            v-if="
+              product.sizes &&
+              product.sizes.length > 0 &&
+              product.categoryUrl !== 'women_accessories' &&
+              product.categoryUrl !== 'men_accessories'
+            "
+          >
             <span
               v-for="(size, index) in product.sizes"
               :key="index"
@@ -196,7 +213,7 @@
                   : null
               "
               class="is-1"
-              :disabled="!selectedSize || !selectedColor || productCount === 0"
+              :disabled="!selectedColor || productCount === 0"
             >
               <img src="/media/images/cart__logo.svg" alt="" />
               {{
@@ -620,7 +637,7 @@ export default {
 
     // Добавление/удаление товара из корзины с учетом размера и цвета
     toggleCart() {
-      if (!this.selectedSize || !this.selectedColor) {
+      if (!this.selectedColor) {
         alert("Пожалуйста, выберите размер и цвет товара");
         return;
       }
@@ -628,10 +645,10 @@ export default {
       // Создаем объект товара с выбранными параметрами
       const productItem = {
         id: this.$route.params.product,
-        size: this.selectedSize,
+        size: this.selectedSize ?? "default",
         color: this.selectedColor,
-        quantity: 1, // Добавляем количество
-        selected: false, // Добавляем состояние выбора для корзины
+        quantity: 1,
+        selected: false,
       };
 
       // Проверяем, есть ли уже такой товар в корзине
